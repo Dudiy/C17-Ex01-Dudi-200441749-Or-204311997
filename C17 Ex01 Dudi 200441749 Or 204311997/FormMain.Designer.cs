@@ -30,8 +30,16 @@
         {
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPageAboutMe = new System.Windows.Forms.TabPage();
+            this.labelPhone = new System.Windows.Forms.Label();
+            this.labelSite = new System.Windows.Forms.Label();
+            this.buttonClearFriendDetails = new System.Windows.Forms.Button();
+            this.labelPhoneTitle = new System.Windows.Forms.Label();
+            this.labelSiteTitle = new System.Windows.Forms.Label();
+            this.labelBirthday = new System.Windows.Forms.Label();
+            this.labelBithdayTitle = new System.Windows.Forms.Label();
+            this.labelMail = new System.Windows.Forms.Label();
+            this.labelMailTitle = new System.Windows.Forms.Label();
             this.labelFriendName = new System.Windows.Forms.Label();
-            this.textBoxPageName = new System.Windows.Forms.TextBox();
             this.labelLikedPages = new System.Windows.Forms.Label();
             this.labelFriends = new System.Windows.Forms.Label();
             this.pictureBoxPage = new System.Windows.Forms.PictureBox();
@@ -46,17 +54,24 @@
             this.button1 = new System.Windows.Forms.Button();
             this.buttonLogout = new System.Windows.Forms.Button();
             this.buttonExit = new System.Windows.Forms.Button();
-            this.textBoxBirthdate = new System.Windows.Forms.TextBox();
-            this.labelMailTitle = new System.Windows.Forms.Label();
-            this.labelMail = new System.Windows.Forms.Label();
-            this.labelBirthdate = new System.Windows.Forms.Label();
-            this.labelBithdateTitle = new System.Windows.Forms.Label();
+            this.buttonClearPageDetails = new System.Windows.Forms.Button();
+            this.labelMyBirthdayTitle = new System.Windows.Forms.Label();
+            this.buttonClearEventDetails = new System.Windows.Forms.Button();
+            this.labelEventWhere = new System.Windows.Forms.Label();
+            this.labelEventWhereTitle = new System.Windows.Forms.Label();
+            this.labelEventWhen = new System.Windows.Forms.Label();
+            this.labelEventWhenTitle = new System.Windows.Forms.Label();
+            this.labelEventName = new System.Windows.Forms.Label();
+            this.pictureBoxEvent = new System.Windows.Forms.PictureBox();
+            this.listBoxEvents = new System.Windows.Forms.ListBox();
+            this.labelPageName = new System.Windows.Forms.Label();
             this.tabControl.SuspendLayout();
             this.tabPageAboutMe.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFriend)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProfilePicture)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCoverPhoto)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxEvent)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl
@@ -71,13 +86,27 @@
             // 
             // tabPageAboutMe
             // 
-            this.tabPageAboutMe.Controls.Add(this.labelBirthdate);
-            this.tabPageAboutMe.Controls.Add(this.labelBithdateTitle);
+            this.tabPageAboutMe.Controls.Add(this.labelPageName);
+            this.tabPageAboutMe.Controls.Add(this.buttonClearEventDetails);
+            this.tabPageAboutMe.Controls.Add(this.labelEventWhere);
+            this.tabPageAboutMe.Controls.Add(this.labelEventWhereTitle);
+            this.tabPageAboutMe.Controls.Add(this.labelEventWhen);
+            this.tabPageAboutMe.Controls.Add(this.labelEventWhenTitle);
+            this.tabPageAboutMe.Controls.Add(this.labelEventName);
+            this.tabPageAboutMe.Controls.Add(this.pictureBoxEvent);
+            this.tabPageAboutMe.Controls.Add(this.listBoxEvents);
+            this.tabPageAboutMe.Controls.Add(this.labelMyBirthdayTitle);
+            this.tabPageAboutMe.Controls.Add(this.buttonClearPageDetails);
+            this.tabPageAboutMe.Controls.Add(this.labelPhone);
+            this.tabPageAboutMe.Controls.Add(this.labelSite);
+            this.tabPageAboutMe.Controls.Add(this.buttonClearFriendDetails);
+            this.tabPageAboutMe.Controls.Add(this.labelPhoneTitle);
+            this.tabPageAboutMe.Controls.Add(this.labelSiteTitle);
+            this.tabPageAboutMe.Controls.Add(this.labelBirthday);
+            this.tabPageAboutMe.Controls.Add(this.labelBithdayTitle);
             this.tabPageAboutMe.Controls.Add(this.labelMail);
             this.tabPageAboutMe.Controls.Add(this.labelMailTitle);
-            this.tabPageAboutMe.Controls.Add(this.textBoxBirthdate);
             this.tabPageAboutMe.Controls.Add(this.labelFriendName);
-            this.tabPageAboutMe.Controls.Add(this.textBoxPageName);
             this.tabPageAboutMe.Controls.Add(this.labelLikedPages);
             this.tabPageAboutMe.Controls.Add(this.labelFriends);
             this.tabPageAboutMe.Controls.Add(this.pictureBoxPage);
@@ -92,6 +121,97 @@
             this.tabPageAboutMe.Text = "About Me";
             this.tabPageAboutMe.UseVisualStyleBackColor = true;
             // 
+            // labelPhone
+            // 
+            this.labelPhone.AutoSize = true;
+            this.labelPhone.Location = new System.Drawing.Point(765, 249);
+            this.labelPhone.Name = "labelPhone";
+            this.labelPhone.Size = new System.Drawing.Size(70, 13);
+            this.labelPhone.TabIndex = 21;
+            this.labelPhone.Text = "050-0000000";
+            this.labelPhone.Visible = false;
+            // 
+            // labelSite
+            // 
+            this.labelSite.AutoSize = true;
+            this.labelSite.Location = new System.Drawing.Point(765, 224);
+            this.labelSite.Name = "labelSite";
+            this.labelSite.Size = new System.Drawing.Size(83, 13);
+            this.labelSite.TabIndex = 20;
+            this.labelSite.Text = "www.name.com";
+            this.labelSite.Visible = false;
+            // 
+            // buttonClearFriendDetails
+            // 
+            this.buttonClearFriendDetails.Location = new System.Drawing.Point(243, 283);
+            this.buttonClearFriendDetails.Name = "buttonClearFriendDetails";
+            this.buttonClearFriendDetails.Size = new System.Drawing.Size(80, 30);
+            this.buttonClearFriendDetails.TabIndex = 19;
+            this.buttonClearFriendDetails.Text = "Clear Details";
+            this.buttonClearFriendDetails.UseVisualStyleBackColor = true;
+            this.buttonClearFriendDetails.Visible = false;
+            this.buttonClearFriendDetails.Click += new System.EventHandler(this.buttonClearFriendDetails_Click);
+            // 
+            // labelPhoneTitle
+            // 
+            this.labelPhoneTitle.AutoSize = true;
+            this.labelPhoneTitle.Location = new System.Drawing.Point(698, 249);
+            this.labelPhoneTitle.Name = "labelPhoneTitle";
+            this.labelPhoneTitle.Size = new System.Drawing.Size(41, 13);
+            this.labelPhoneTitle.TabIndex = 18;
+            this.labelPhoneTitle.Text = "Phone:";
+            this.labelPhoneTitle.Visible = false;
+            // 
+            // labelSiteTitle
+            // 
+            this.labelSiteTitle.AutoSize = true;
+            this.labelSiteTitle.Location = new System.Drawing.Point(698, 224);
+            this.labelSiteTitle.Name = "labelSiteTitle";
+            this.labelSiteTitle.Size = new System.Drawing.Size(28, 13);
+            this.labelSiteTitle.TabIndex = 17;
+            this.labelSiteTitle.Text = "Site:";
+            this.labelSiteTitle.Visible = false;
+            // 
+            // labelBirthday
+            // 
+            this.labelBirthday.AutoSize = true;
+            this.labelBirthday.Location = new System.Drawing.Point(310, 234);
+            this.labelBirthday.Name = "labelBirthday";
+            this.labelBirthday.Size = new System.Drawing.Size(53, 13);
+            this.labelBirthday.TabIndex = 16;
+            this.labelBirthday.Text = "1/1/1970";
+            this.labelBirthday.Visible = false;
+            // 
+            // labelBithdayTitle
+            // 
+            this.labelBithdayTitle.AutoSize = true;
+            this.labelBithdayTitle.Location = new System.Drawing.Point(240, 234);
+            this.labelBithdayTitle.Name = "labelBithdayTitle";
+            this.labelBithdayTitle.Size = new System.Drawing.Size(48, 13);
+            this.labelBithdayTitle.TabIndex = 15;
+            this.labelBithdayTitle.Text = "Birthday:";
+            this.labelBithdayTitle.Visible = false;
+            // 
+            // labelMail
+            // 
+            this.labelMail.AutoSize = true;
+            this.labelMail.Location = new System.Drawing.Point(310, 209);
+            this.labelMail.Name = "labelMail";
+            this.labelMail.Size = new System.Drawing.Size(85, 13);
+            this.labelMail.TabIndex = 14;
+            this.labelMail.Text = "name@mail.com";
+            this.labelMail.Visible = false;
+            // 
+            // labelMailTitle
+            // 
+            this.labelMailTitle.AutoSize = true;
+            this.labelMailTitle.Location = new System.Drawing.Point(240, 209);
+            this.labelMailTitle.Name = "labelMailTitle";
+            this.labelMailTitle.Size = new System.Drawing.Size(29, 13);
+            this.labelMailTitle.TabIndex = 13;
+            this.labelMailTitle.Text = "Mail:";
+            this.labelMailTitle.Visible = false;
+            // 
             // labelFriendName
             // 
             this.labelFriendName.AutoSize = true;
@@ -101,13 +221,6 @@
             this.labelFriendName.TabIndex = 11;
             this.labelFriendName.Text = "Friend Name";
             this.labelFriendName.Visible = false;
-            // 
-            // textBoxPageName
-            // 
-            this.textBoxPageName.Location = new System.Drawing.Point(701, 202);
-            this.textBoxPageName.Name = "textBoxPageName";
-            this.textBoxPageName.Size = new System.Drawing.Size(159, 20);
-            this.textBoxPageName.TabIndex = 7;
             // 
             // labelLikedPages
             // 
@@ -135,6 +248,7 @@
             this.pictureBoxPage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxPage.TabIndex = 3;
             this.pictureBoxPage.TabStop = false;
+            this.pictureBoxPage.Visible = false;
             // 
             // listBoxLikedPages
             // 
@@ -153,6 +267,7 @@
             this.pictureBoxFriend.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxFriend.TabIndex = 1;
             this.pictureBoxFriend.TabStop = false;
+            this.pictureBoxFriend.Visible = false;
             // 
             // listBoxFriends
             // 
@@ -239,52 +354,116 @@
             this.buttonExit.UseVisualStyleBackColor = true;
             this.buttonExit.Click += new System.EventHandler(this.buttonExit_Click);
             // 
-            // textBoxBirthdate
+            // buttonClearPageDetails
             // 
-            this.textBoxBirthdate.Location = new System.Drawing.Point(30, 388);
-            this.textBoxBirthdate.Name = "textBoxBirthdate";
-            this.textBoxBirthdate.Size = new System.Drawing.Size(156, 20);
-            this.textBoxBirthdate.TabIndex = 12;
+            this.buttonClearPageDetails.Location = new System.Drawing.Point(701, 283);
+            this.buttonClearPageDetails.Name = "buttonClearPageDetails";
+            this.buttonClearPageDetails.Size = new System.Drawing.Size(80, 30);
+            this.buttonClearPageDetails.TabIndex = 22;
+            this.buttonClearPageDetails.Text = "Clear Details";
+            this.buttonClearPageDetails.UseVisualStyleBackColor = true;
+            this.buttonClearPageDetails.Visible = false;
+            this.buttonClearPageDetails.Click += new System.EventHandler(this.buttonClearPageDetails_Click);
             // 
-            // labelMailTitle
+            // labelMyBirthdayTitle
             // 
-            this.labelMailTitle.AutoSize = true;
-            this.labelMailTitle.Location = new System.Drawing.Point(240, 209);
-            this.labelMailTitle.Name = "labelMailTitle";
-            this.labelMailTitle.Size = new System.Drawing.Size(29, 13);
-            this.labelMailTitle.TabIndex = 13;
-            this.labelMailTitle.Text = "Mail:";
-            this.labelMailTitle.Visible = false;
+            this.labelMyBirthdayTitle.AutoSize = true;
+            this.labelMyBirthdayTitle.Location = new System.Drawing.Point(500, 344);
+            this.labelMyBirthdayTitle.Name = "labelMyBirthdayTitle";
+            this.labelMyBirthdayTitle.Size = new System.Drawing.Size(112, 13);
+            this.labelMyBirthdayTitle.TabIndex = 23;
+            this.labelMyBirthdayTitle.Text = "My birthday in ?? days";
             // 
-            // labelMail
+            // buttonClearEventDetails
             // 
-            this.labelMail.AutoSize = true;
-            this.labelMail.Location = new System.Drawing.Point(298, 209);
-            this.labelMail.Name = "labelMail";
-            this.labelMail.Size = new System.Drawing.Size(85, 13);
-            this.labelMail.TabIndex = 14;
-            this.labelMail.Text = "name@mail.com";
-            this.labelMail.Visible = false;
+            this.buttonClearEventDetails.Location = new System.Drawing.Point(243, 578);
+            this.buttonClearEventDetails.Name = "buttonClearEventDetails";
+            this.buttonClearEventDetails.Size = new System.Drawing.Size(80, 30);
+            this.buttonClearEventDetails.TabIndex = 31;
+            this.buttonClearEventDetails.Text = "Clear Details";
+            this.buttonClearEventDetails.UseVisualStyleBackColor = true;
+            this.buttonClearEventDetails.Visible = false;
+            this.buttonClearEventDetails.Click += new System.EventHandler(this.buttonClearEventDetails_Click);
             // 
-            // labelBirthdate
+            // labelEventWhere
             // 
-            this.labelBirthdate.AutoSize = true;
-            this.labelBirthdate.Location = new System.Drawing.Point(298, 234);
-            this.labelBirthdate.Name = "labelBirthdate";
-            this.labelBirthdate.Size = new System.Drawing.Size(53, 13);
-            this.labelBirthdate.TabIndex = 16;
-            this.labelBirthdate.Text = "1/1/1970";
-            this.labelBirthdate.Visible = false;
+            this.labelEventWhere.AutoSize = true;
+            this.labelEventWhere.Location = new System.Drawing.Point(310, 529);
+            this.labelEventWhere.Name = "labelEventWhere";
+            this.labelEventWhere.Size = new System.Drawing.Size(73, 13);
+            this.labelEventWhere.TabIndex = 30;
+            this.labelEventWhere.Text = "city and street";
+            this.labelEventWhere.Visible = false;
             // 
-            // labelBithdateTitle
+            // labelEventWhereTitle
             // 
-            this.labelBithdateTitle.AutoSize = true;
-            this.labelBithdateTitle.Location = new System.Drawing.Point(240, 234);
-            this.labelBithdateTitle.Name = "labelBithdateTitle";
-            this.labelBithdateTitle.Size = new System.Drawing.Size(52, 13);
-            this.labelBithdateTitle.TabIndex = 15;
-            this.labelBithdateTitle.Text = "Birthdate:";
-            this.labelBithdateTitle.Visible = false;
+            this.labelEventWhereTitle.AutoSize = true;
+            this.labelEventWhereTitle.Location = new System.Drawing.Point(240, 529);
+            this.labelEventWhereTitle.Name = "labelEventWhereTitle";
+            this.labelEventWhereTitle.Size = new System.Drawing.Size(42, 13);
+            this.labelEventWhereTitle.TabIndex = 29;
+            this.labelEventWhereTitle.Text = "Where:";
+            this.labelEventWhereTitle.Visible = false;
+            // 
+            // labelEventWhen
+            // 
+            this.labelEventWhen.AutoSize = true;
+            this.labelEventWhen.Location = new System.Drawing.Point(310, 504);
+            this.labelEventWhen.Name = "labelEventWhen";
+            this.labelEventWhen.Size = new System.Drawing.Size(71, 13);
+            this.labelEventWhen.TabIndex = 28;
+            this.labelEventWhen.Text = "date and time";
+            this.labelEventWhen.Visible = false;
+            // 
+            // labelEventWhenTitle
+            // 
+            this.labelEventWhenTitle.AutoSize = true;
+            this.labelEventWhenTitle.Location = new System.Drawing.Point(240, 504);
+            this.labelEventWhenTitle.Name = "labelEventWhenTitle";
+            this.labelEventWhenTitle.Size = new System.Drawing.Size(39, 13);
+            this.labelEventWhenTitle.TabIndex = 27;
+            this.labelEventWhenTitle.Text = "When:";
+            this.labelEventWhenTitle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelEventWhenTitle.Visible = false;
+            // 
+            // labelEventName
+            // 
+            this.labelEventName.AutoSize = true;
+            this.labelEventName.Location = new System.Drawing.Point(240, 481);
+            this.labelEventName.Name = "labelEventName";
+            this.labelEventName.Size = new System.Drawing.Size(66, 13);
+            this.labelEventName.TabIndex = 26;
+            this.labelEventName.Text = "Event Name";
+            this.labelEventName.Visible = false;
+            // 
+            // pictureBoxEvent
+            // 
+            this.pictureBoxEvent.Location = new System.Drawing.Point(243, 344);
+            this.pictureBoxEvent.Name = "pictureBoxEvent";
+            this.pictureBoxEvent.Size = new System.Drawing.Size(152, 134);
+            this.pictureBoxEvent.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxEvent.TabIndex = 25;
+            this.pictureBoxEvent.TabStop = false;
+            this.pictureBoxEvent.Visible = false;
+            // 
+            // listBoxEvents
+            // 
+            this.listBoxEvents.FormattingEnabled = true;
+            this.listBoxEvents.Location = new System.Drawing.Point(30, 344);
+            this.listBoxEvents.Name = "listBoxEvents";
+            this.listBoxEvents.Size = new System.Drawing.Size(207, 264);
+            this.listBoxEvents.TabIndex = 24;
+            this.listBoxEvents.SelectedIndexChanged += new System.EventHandler(this.listBoxEvents_SelectedIndexChanged);
+            // 
+            // labelPageName
+            // 
+            this.labelPageName.AutoSize = true;
+            this.labelPageName.Location = new System.Drawing.Point(698, 199);
+            this.labelPageName.Name = "labelPageName";
+            this.labelPageName.Size = new System.Drawing.Size(63, 13);
+            this.labelPageName.TabIndex = 32;
+            this.labelPageName.Text = "Page Name";
+            this.labelPageName.Visible = false;
             // 
             // FormMain
             // 
@@ -308,6 +487,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFriend)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProfilePicture)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCoverPhoto)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxEvent)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -331,12 +511,26 @@
         private System.Windows.Forms.Button buttonExit;
         private System.Windows.Forms.Label labelLikedPages;
         private System.Windows.Forms.Label labelFriends;
-        private System.Windows.Forms.TextBox textBoxPageName;
         private System.Windows.Forms.Label labelFriendName;
-        private System.Windows.Forms.TextBox textBoxBirthdate;
-        private System.Windows.Forms.Label labelBirthdate;
-        private System.Windows.Forms.Label labelBithdateTitle;
+        private System.Windows.Forms.Label labelBirthday;
+        private System.Windows.Forms.Label labelBithdayTitle;
         private System.Windows.Forms.Label labelMail;
         private System.Windows.Forms.Label labelMailTitle;
+        private System.Windows.Forms.Label labelPhoneTitle;
+        private System.Windows.Forms.Label labelSiteTitle;
+        private System.Windows.Forms.Button buttonClearFriendDetails;
+        private System.Windows.Forms.Label labelPhone;
+        private System.Windows.Forms.Label labelSite;
+        private System.Windows.Forms.Button buttonClearPageDetails;
+        private System.Windows.Forms.Label labelMyBirthdayTitle;
+        private System.Windows.Forms.Label labelPageName;
+        private System.Windows.Forms.Button buttonClearEventDetails;
+        private System.Windows.Forms.Label labelEventWhere;
+        private System.Windows.Forms.Label labelEventWhereTitle;
+        private System.Windows.Forms.Label labelEventWhen;
+        private System.Windows.Forms.Label labelEventWhenTitle;
+        private System.Windows.Forms.Label labelEventName;
+        private System.Windows.Forms.PictureBox pictureBoxEvent;
+        private System.Windows.Forms.ListBox listBoxEvents;
     }
 }
