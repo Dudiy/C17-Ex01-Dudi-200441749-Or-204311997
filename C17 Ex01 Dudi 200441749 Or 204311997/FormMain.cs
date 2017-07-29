@@ -6,7 +6,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using FacebookWrapper;
 using FacebookWrapper.ObjectModel;
+
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997
 {
@@ -30,8 +32,9 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
 
         private void fetchProfileAndCoverPhotos()
         {
+            // TODO check if there are pic
             pictureBoxProfilePicture.LoadAsync(m_LoggedInUser.PictureNormalURL);
-            pictureBoxCoverPhoto.LoadAsync(m_LoggedInUser.Cover.SourceURL);
+            //pictureBoxCoverPhoto.LoadAsync(m_LoggedInUser.Cover.SourceURL);
         }
 
         private void updateFriendsList()
@@ -40,6 +43,22 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             {
                 listBoxFriends.Items.Add(friend.Name);
             }
+        }
+
+        private void buttonLogout_Click(object sender, EventArgs e)
+        {
+            FacebookService.Logout(notifyLogout);
+        }
+
+        private void notifyLogout()
+        {
+            MessageBox.Show("Logged Out");
+            Close();
+        }
+
+        private void buttonExit_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

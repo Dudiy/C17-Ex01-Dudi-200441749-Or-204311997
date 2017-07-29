@@ -50,6 +50,7 @@
             this.buttonExit.TabIndex = 1;
             this.buttonExit.Text = "Exit";
             this.buttonExit.UseVisualStyleBackColor = true;
+            this.buttonExit.Click += new System.EventHandler(this.buttonExit_Click);
             // 
             // FormLogin
             // 

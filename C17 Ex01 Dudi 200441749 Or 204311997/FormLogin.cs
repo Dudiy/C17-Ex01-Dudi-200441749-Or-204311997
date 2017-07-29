@@ -25,8 +25,8 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             loginAndInit();
             FormMain mainForm = new FormMain(m_LoggedInUser);
             this.Hide();
-            mainForm.ShowDialog();            
-            this.Close();
+            DialogResult closeMainFormResult = mainForm.ShowDialog();
+            Show();
         }
 
         private void loginAndInit()
@@ -39,5 +39,11 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                 //TODO save access token
             }
         }
+
+        private void buttonExit_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+        
     }
 }
