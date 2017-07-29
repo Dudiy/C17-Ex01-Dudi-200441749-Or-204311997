@@ -28,23 +28,90 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             labelUserName.Text = m_LoggedInUser.Name;
             fetchProfileAndCoverPhotos();
             updateFriendsList();
+            updatePagesList();
         }
 
         private void fetchProfileAndCoverPhotos()
         {
             // TODO check if there are pic
-            pictureBoxProfilePicture.LoadAsync(m_LoggedInUser.PictureNormalURL);
-            //pictureBoxCoverPhoto.LoadAsync(m_LoggedInUser.Cover.SourceURL);
-        }
-
-        private void updateFriendsList()
-        {
-            foreach (User friend in m_LoggedInUser.Friends)
+            if (m_LoggedInUser.PictureNormalURL != null)
             {
-                listBoxFriends.Items.Add(friend.Name);
+                pictureBoxProfilePicture.LoadAsync(m_LoggedInUser.PictureNormalURL);
+            }
+            else
+            {
+                // TODO add empty user picture
+            }
+
+            if (m_LoggedInUser.Cover != null)
+            {
+                pictureBoxCoverPhoto.LoadAsync(m_LoggedInUser.Cover.SourceURL);
             }
         }
 
+        // ================================================= tab1==================
+        private void updateFriendsList()
+        {
+            listBoxFriends.DisplayMember = "Name";
+            foreach (User friend in m_LoggedInUser.Friends)
+            {
+                listBoxFriends.Items.Add(friend);
+            }
+        }
+
+        private void listBoxFriends_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listBoxFriends.SelectedItems.Count == 1)
+            {
+                User selectedFriend = listBoxFriends.SelectedItem as User;
+                if (selectedFriend.PictureLargeURL != null)
+                {
+                    pictureBoxFriend.LoadAsync(selectedFriend.PictureNormalURL);
+                    labelFriendName.Text = selectedFriend.Name;
+                    labelFriendName.Visible = true;
+                    labelSendMessage.Text = "Send " + selectedFriend.Name + " message:";
+                    labelSendMessage.Visible = true;
+                    textBoxSendMessage.Visible = true;
+                    buttonSendMessage.Visible = true;
+                }
+                else
+                {
+                    // TODO add empty user picture
+                }
+            }
+        }
+
+        private void buttonSendMessage_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void updatePagesList()
+        {
+            listBoxLikedPages.DisplayMember = "Name";
+            foreach (Page page in m_LoggedInUser.LikedPages)
+            {
+                listBoxLikedPages.Items.Add(page);
+            }
+        }
+
+        private void listBoxLikedPages_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listBoxLikedPages.SelectedItems.Count == 1)
+            {
+                Page selectedPage = listBoxLikedPages.SelectedItem as Page;
+                if (selectedPage.PictureSqaureURL != null)
+                {
+                    pictureBoxPage.LoadAsync(selectedPage.PictureSqaureURL);
+                }
+                else
+                {
+                    // TODO add empty user picture
+                }
+            }
+        }
+
+        // ===============================================================================================
         private void buttonLogout_Click(object sender, EventArgs e)
         {
             FacebookService.Logout(notifyLogout);
@@ -60,5 +127,6 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         {
             Close();
         }
+
     }
 }

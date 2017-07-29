@@ -31,7 +31,12 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
 
         private void loginAndInit()
         {
-            LoginResult result = FacebookWrapper.FacebookService.Login("197501144117907", "public_profile", "user_friends");
+            LoginResult result = FacebookWrapper.FacebookService.Login("197501144117907",
+                "public_profile",
+                "user_birthday",
+                "public_profile", 
+                "user_friends"
+                );
 
             if (!string.IsNullOrEmpty(result.AccessToken))
             {
