@@ -34,7 +34,7 @@
             // 
             // buttonLogin
             // 
-            this.buttonLogin.Location = new System.Drawing.Point(43, 12);
+            this.buttonLogin.Location = new System.Drawing.Point(100, 12);
             this.buttonLogin.Name = "buttonLogin";
             this.buttonLogin.Size = new System.Drawing.Size(96, 54);
             this.buttonLogin.TabIndex = 0;
@@ -44,21 +44,21 @@
             // 
             // buttonExit
             // 
-            this.buttonExit.Location = new System.Drawing.Point(107, 72);
+            this.buttonExit.Location = new System.Drawing.Point(201, 84);
             this.buttonExit.Name = "buttonExit";
             this.buttonExit.Size = new System.Drawing.Size(75, 23);
             this.buttonExit.TabIndex = 1;
             this.buttonExit.Text = "Exit";
             this.buttonExit.UseVisualStyleBackColor = true;
             // 
-            // Form1
+            // FormLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(194, 107);
+            this.ClientSize = new System.Drawing.Size(283, 119);
             this.Controls.Add(this.buttonExit);
             this.Controls.Add(this.buttonLogin);
-            this.Name = "Form1";
+            this.Name = "FormLogin";
             this.Text = "Form1";
             this.ResumeLayout(false);
 

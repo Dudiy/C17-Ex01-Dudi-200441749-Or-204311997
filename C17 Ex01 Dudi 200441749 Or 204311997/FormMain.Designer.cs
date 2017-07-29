@@ -28,73 +28,103 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabControl = new System.Windows.Forms.TabControl();
+            this.tabPageAboutMe = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.textBoxUserName = new System.Windows.Forms.TextBox();
             this.pictureBoxProfilePicture = new System.Windows.Forms.PictureBox();
-            this.tabControl1.SuspendLayout();
+            this.labelUserName = new System.Windows.Forms.Label();
+            this.pictureBoxCoverPhoto = new System.Windows.Forms.PictureBox();
+            this.listBoxFriends = new System.Windows.Forms.ListBox();
+            this.tabControl.SuspendLayout();
+            this.tabPageAboutMe.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProfilePicture)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCoverPhoto)).BeginInit();
             this.SuspendLayout();
             // 
-            // tabControl1
+            // tabControl
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(12, 125);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(711, 407);
-            this.tabControl1.TabIndex = 0;
+            this.tabControl.Controls.Add(this.tabPageAboutMe);
+            this.tabControl.Controls.Add(this.tabPage2);
+            this.tabControl.Location = new System.Drawing.Point(12, 169);
+            this.tabControl.Name = "tabControl";
+            this.tabControl.SelectedIndex = 0;
+            this.tabControl.Size = new System.Drawing.Size(1033, 743);
+            this.tabControl.TabIndex = 0;
             // 
-            // tabPage1
+            // tabPageAboutMe
             // 
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(703, 381);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.tabPageAboutMe.Controls.Add(this.listBoxFriends);
+            this.tabPageAboutMe.Location = new System.Drawing.Point(4, 22);
+            this.tabPageAboutMe.Name = "tabPageAboutMe";
+            this.tabPageAboutMe.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageAboutMe.Size = new System.Drawing.Size(1025, 717);
+            this.tabPageAboutMe.TabIndex = 0;
+            this.tabPageAboutMe.Text = "About Me";
+            this.tabPageAboutMe.UseVisualStyleBackColor = true;
             // 
             // tabPage2
             // 
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(633, 396);
+            this.tabPage2.Size = new System.Drawing.Size(1025, 717);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // textBoxUserName
-            // 
-            this.textBoxUserName.Location = new System.Drawing.Point(33, 17);
-            this.textBoxUserName.Name = "textBoxUserName";
-            this.textBoxUserName.Size = new System.Drawing.Size(102, 20);
-            this.textBoxUserName.TabIndex = 1;
-            // 
             // pictureBoxProfilePicture
             // 
-            this.pictureBoxProfilePicture.Location = new System.Drawing.Point(610, 17);
+            this.pictureBoxProfilePicture.Location = new System.Drawing.Point(916, 60);
             this.pictureBoxProfilePicture.Name = "pictureBoxProfilePicture";
-            this.pictureBoxProfilePicture.Size = new System.Drawing.Size(66, 66);
+            this.pictureBoxProfilePicture.Size = new System.Drawing.Size(125, 125);
             this.pictureBoxProfilePicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxProfilePicture.TabIndex = 2;
             this.pictureBoxProfilePicture.TabStop = false;
+            // 
+            // labelUserName
+            // 
+            this.labelUserName.AutoSize = true;
+            this.labelUserName.BackColor = System.Drawing.SystemColors.Control;
+            this.labelUserName.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.labelUserName.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.labelUserName.Location = new System.Drawing.Point(12, 12);
+            this.labelUserName.Name = "labelUserName";
+            this.labelUserName.Size = new System.Drawing.Size(160, 31);
+            this.labelUserName.TabIndex = 3;
+            this.labelUserName.Text = "User Name";
+            // 
+            // pictureBoxCoverPhoto
+            // 
+            this.pictureBoxCoverPhoto.Location = new System.Drawing.Point(293, 12);
+            this.pictureBoxCoverPhoto.Name = "pictureBoxCoverPhoto";
+            this.pictureBoxCoverPhoto.Size = new System.Drawing.Size(748, 151);
+            this.pictureBoxCoverPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBoxCoverPhoto.TabIndex = 4;
+            this.pictureBoxCoverPhoto.TabStop = false;
+            // 
+            // listBoxFriends
+            // 
+            this.listBoxFriends.FormattingEnabled = true;
+            this.listBoxFriends.Location = new System.Drawing.Point(6, 36);
+            this.listBoxFriends.Name = "listBoxFriends";
+            this.listBoxFriends.Size = new System.Drawing.Size(207, 264);
+            this.listBoxFriends.TabIndex = 0;
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(735, 544);
+            this.ClientSize = new System.Drawing.Size(1072, 974);
+            this.Controls.Add(this.labelUserName);
             this.Controls.Add(this.pictureBoxProfilePicture);
-            this.Controls.Add(this.textBoxUserName);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.tabControl);
+            this.Controls.Add(this.pictureBoxCoverPhoto);
             this.Name = "FormMain";
             this.Text = "FormMain";
-            this.tabControl1.ResumeLayout(false);
+            this.tabControl.ResumeLayout(false);
+            this.tabPageAboutMe.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProfilePicture)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCoverPhoto)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -102,10 +132,12 @@
 
         #endregion
 
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabControl tabControl;
+        private System.Windows.Forms.TabPage tabPageAboutMe;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.TextBox textBoxUserName;
         private System.Windows.Forms.PictureBox pictureBoxProfilePicture;
+        private System.Windows.Forms.Label labelUserName;
+        private System.Windows.Forms.PictureBox pictureBoxCoverPhoto;
+        private System.Windows.Forms.ListBox listBoxFriends;
     }
 }
