@@ -13,9 +13,9 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            //Application.EnableVisualStyles();
+            //Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new FormLogin());
         }
     }
 }

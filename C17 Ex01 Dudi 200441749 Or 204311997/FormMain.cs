@@ -9,9 +9,9 @@ using System.Windows.Forms;
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997
 {
-    public partial class Form1 : Form
+    public partial class FormMain : Form
     {
-        public Form1()
+        public FormMain()
         {
             InitializeComponent();
         }
