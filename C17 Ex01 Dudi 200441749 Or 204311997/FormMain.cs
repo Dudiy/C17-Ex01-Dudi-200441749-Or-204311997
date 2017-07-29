@@ -29,6 +29,8 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             fetchProfileAndCoverPhotos();
             updateFriendsList();
             updatePagesList();
+
+            textBoxBirthdate.Text = m_LoggedInUser.Birthday;
         }
 
         private void fetchProfileAndCoverPhotos()
@@ -69,10 +71,13 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                     pictureBoxFriend.LoadAsync(selectedFriend.PictureNormalURL);
                     labelFriendName.Text = selectedFriend.Name;
                     labelFriendName.Visible = true;
-                    labelSendMessage.Text = "Send " + selectedFriend.Name + " message:";
-                    labelSendMessage.Visible = true;
-                    textBoxSendMessage.Visible = true;
-                    buttonSendMessage.Visible = true;
+                    labelMailTitle.Visible = true;
+                    labelMail.Text = selectedFriend.Email != null ? selectedFriend.Email  : "Not defined";
+                    labelMail.Visible = true;
+                    labelBithdateTitle.Visible = true;
+                    labelBirthdate.Text = selectedFriend.Birthday != null ? selectedFriend.Birthday : "Not defined";
+                    labelBirthdate.Visible = true;
+
                 }
                 else
                 {
@@ -83,7 +88,6 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
 
         private void buttonSendMessage_Click(object sender, EventArgs e)
         {
-
         }
 
         private void updatePagesList()

@@ -34,6 +34,8 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             LoginResult result = FacebookWrapper.FacebookService.Login("197501144117907",
                 "public_profile",
                 "user_birthday",
+                "user_hometown",
+                "email",
                 "public_profile", 
                 "user_friends"
                 );

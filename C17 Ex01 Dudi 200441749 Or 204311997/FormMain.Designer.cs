@@ -31,9 +31,6 @@
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPageAboutMe = new System.Windows.Forms.TabPage();
             this.labelFriendName = new System.Windows.Forms.Label();
-            this.buttonSendMessage = new System.Windows.Forms.Button();
-            this.textBoxSendMessage = new System.Windows.Forms.TextBox();
-            this.labelSendMessage = new System.Windows.Forms.Label();
             this.textBoxPageName = new System.Windows.Forms.TextBox();
             this.labelLikedPages = new System.Windows.Forms.Label();
             this.labelFriends = new System.Windows.Forms.Label();
@@ -49,6 +46,11 @@
             this.button1 = new System.Windows.Forms.Button();
             this.buttonLogout = new System.Windows.Forms.Button();
             this.buttonExit = new System.Windows.Forms.Button();
+            this.textBoxBirthdate = new System.Windows.Forms.TextBox();
+            this.labelMailTitle = new System.Windows.Forms.Label();
+            this.labelMail = new System.Windows.Forms.Label();
+            this.labelBirthdate = new System.Windows.Forms.Label();
+            this.labelBithdateTitle = new System.Windows.Forms.Label();
             this.tabControl.SuspendLayout();
             this.tabPageAboutMe.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPage)).BeginInit();
@@ -69,10 +71,12 @@
             // 
             // tabPageAboutMe
             // 
+            this.tabPageAboutMe.Controls.Add(this.labelBirthdate);
+            this.tabPageAboutMe.Controls.Add(this.labelBithdateTitle);
+            this.tabPageAboutMe.Controls.Add(this.labelMail);
+            this.tabPageAboutMe.Controls.Add(this.labelMailTitle);
+            this.tabPageAboutMe.Controls.Add(this.textBoxBirthdate);
             this.tabPageAboutMe.Controls.Add(this.labelFriendName);
-            this.tabPageAboutMe.Controls.Add(this.buttonSendMessage);
-            this.tabPageAboutMe.Controls.Add(this.textBoxSendMessage);
-            this.tabPageAboutMe.Controls.Add(this.labelSendMessage);
             this.tabPageAboutMe.Controls.Add(this.textBoxPageName);
             this.tabPageAboutMe.Controls.Add(this.labelLikedPages);
             this.tabPageAboutMe.Controls.Add(this.labelFriends);
@@ -97,35 +101,6 @@
             this.labelFriendName.TabIndex = 11;
             this.labelFriendName.Text = "Friend Name";
             this.labelFriendName.Visible = false;
-            // 
-            // buttonSendMessage
-            // 
-            this.buttonSendMessage.Location = new System.Drawing.Point(337, 264);
-            this.buttonSendMessage.Name = "buttonSendMessage";
-            this.buttonSendMessage.Size = new System.Drawing.Size(58, 30);
-            this.buttonSendMessage.TabIndex = 10;
-            this.buttonSendMessage.Text = "Send !";
-            this.buttonSendMessage.UseVisualStyleBackColor = true;
-            this.buttonSendMessage.Visible = false;
-            this.buttonSendMessage.Click += new System.EventHandler(this.buttonSendMessage_Click);
-            // 
-            // textBoxSendMessage
-            // 
-            this.textBoxSendMessage.Location = new System.Drawing.Point(243, 238);
-            this.textBoxSendMessage.Name = "textBoxSendMessage";
-            this.textBoxSendMessage.Size = new System.Drawing.Size(152, 20);
-            this.textBoxSendMessage.TabIndex = 9;
-            this.textBoxSendMessage.Visible = false;
-            // 
-            // labelSendMessage
-            // 
-            this.labelSendMessage.AutoSize = true;
-            this.labelSendMessage.Location = new System.Drawing.Point(240, 222);
-            this.labelSendMessage.Name = "labelSendMessage";
-            this.labelSendMessage.Size = new System.Drawing.Size(86, 13);
-            this.labelSendMessage.TabIndex = 8;
-            this.labelSendMessage.Text = "Send a message";
-            this.labelSendMessage.Visible = false;
             // 
             // textBoxPageName
             // 
@@ -264,6 +239,53 @@
             this.buttonExit.UseVisualStyleBackColor = true;
             this.buttonExit.Click += new System.EventHandler(this.buttonExit_Click);
             // 
+            // textBoxBirthdate
+            // 
+            this.textBoxBirthdate.Location = new System.Drawing.Point(30, 388);
+            this.textBoxBirthdate.Name = "textBoxBirthdate";
+            this.textBoxBirthdate.Size = new System.Drawing.Size(156, 20);
+            this.textBoxBirthdate.TabIndex = 12;
+            // 
+            // labelMailTitle
+            // 
+            this.labelMailTitle.AutoSize = true;
+            this.labelMailTitle.Location = new System.Drawing.Point(240, 209);
+            this.labelMailTitle.Name = "labelMailTitle";
+            this.labelMailTitle.Size = new System.Drawing.Size(29, 13);
+            this.labelMailTitle.TabIndex = 13;
+            this.labelMailTitle.Text = "Mail:";
+            this.labelMailTitle.Visible = false;
+            // 
+            // labelMail
+            // 
+            this.labelMail.AutoSize = true;
+            this.labelMail.Location = new System.Drawing.Point(298, 209);
+            this.labelMail.Name = "labelMail";
+            this.labelMail.Size = new System.Drawing.Size(85, 13);
+            this.labelMail.TabIndex = 14;
+            this.labelMail.Text = "name@mail.com";
+            this.labelMail.Visible = false;
+            // 
+            // labelBirthdate
+            // 
+            this.labelBirthdate.AutoSize = true;
+            this.labelBirthdate.Location = new System.Drawing.Point(298, 234);
+            this.labelBirthdate.Name = "labelBirthdate";
+            this.labelBirthdate.Size = new System.Drawing.Size(53, 13);
+            this.labelBirthdate.TabIndex = 16;
+            this.labelBirthdate.Text = "1/1/1970";
+            this.labelBirthdate.Visible = false;
+            // 
+            // labelBithdateTitle
+            // 
+            this.labelBithdateTitle.AutoSize = true;
+            this.labelBithdateTitle.Location = new System.Drawing.Point(240, 234);
+            this.labelBithdateTitle.Name = "labelBithdateTitle";
+            this.labelBithdateTitle.Size = new System.Drawing.Size(52, 13);
+            this.labelBithdateTitle.TabIndex = 15;
+            this.labelBithdateTitle.Text = "Birthdate:";
+            this.labelBithdateTitle.Visible = false;
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -309,10 +331,12 @@
         private System.Windows.Forms.Button buttonExit;
         private System.Windows.Forms.Label labelLikedPages;
         private System.Windows.Forms.Label labelFriends;
-        private System.Windows.Forms.Button buttonSendMessage;
-        private System.Windows.Forms.TextBox textBoxSendMessage;
-        private System.Windows.Forms.Label labelSendMessage;
         private System.Windows.Forms.TextBox textBoxPageName;
         private System.Windows.Forms.Label labelFriendName;
+        private System.Windows.Forms.TextBox textBoxBirthdate;
+        private System.Windows.Forms.Label labelBirthdate;
+        private System.Windows.Forms.Label labelBithdateTitle;
+        private System.Windows.Forms.Label labelMail;
+        private System.Windows.Forms.Label labelMailTitle;
     }
 }
