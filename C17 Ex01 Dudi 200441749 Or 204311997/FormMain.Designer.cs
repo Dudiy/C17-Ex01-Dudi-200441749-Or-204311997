@@ -28,8 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPageAboutMe = new System.Windows.Forms.TabPage();
+            this.labelPageName = new System.Windows.Forms.Label();
+            this.buttonClearEventDetails = new System.Windows.Forms.Button();
+            this.labelEventWhere = new System.Windows.Forms.Label();
+            this.labelEventWhereTitle = new System.Windows.Forms.Label();
+            this.labelEventWhen = new System.Windows.Forms.Label();
+            this.labelEventWhenTitle = new System.Windows.Forms.Label();
+            this.labelEventName = new System.Windows.Forms.Label();
+            this.pictureBoxEvent = new System.Windows.Forms.PictureBox();
+            this.listBoxEvents = new System.Windows.Forms.ListBox();
+            this.labelMyBirthdayTitle = new System.Windows.Forms.Label();
+            this.buttonClearPageDetails = new System.Windows.Forms.Button();
             this.labelPhone = new System.Windows.Forms.Label();
             this.labelSite = new System.Windows.Forms.Label();
             this.buttonClearFriendDetails = new System.Windows.Forms.Button();
@@ -54,24 +66,13 @@
             this.button1 = new System.Windows.Forms.Button();
             this.buttonLogout = new System.Windows.Forms.Button();
             this.buttonExit = new System.Windows.Forms.Button();
-            this.buttonClearPageDetails = new System.Windows.Forms.Button();
-            this.labelMyBirthdayTitle = new System.Windows.Forms.Label();
-            this.buttonClearEventDetails = new System.Windows.Forms.Button();
-            this.labelEventWhere = new System.Windows.Forms.Label();
-            this.labelEventWhereTitle = new System.Windows.Forms.Label();
-            this.labelEventWhen = new System.Windows.Forms.Label();
-            this.labelEventWhenTitle = new System.Windows.Forms.Label();
-            this.labelEventName = new System.Windows.Forms.Label();
-            this.pictureBoxEvent = new System.Windows.Forms.PictureBox();
-            this.listBoxEvents = new System.Windows.Forms.ListBox();
-            this.labelPageName = new System.Windows.Forms.Label();
             this.tabControl.SuspendLayout();
             this.tabPageAboutMe.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxEvent)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFriend)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProfilePicture)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCoverPhoto)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxEvent)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl
@@ -81,11 +82,13 @@
             this.tabControl.Location = new System.Drawing.Point(12, 169);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(1033, 743);
+            this.tabControl.Size = new System.Drawing.Size(1033, 654);
             this.tabControl.TabIndex = 0;
             // 
             // tabPageAboutMe
             // 
+            this.tabPageAboutMe.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("tabPageAboutMe.BackgroundImage")));
+            this.tabPageAboutMe.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.tabPageAboutMe.Controls.Add(this.labelPageName);
             this.tabPageAboutMe.Controls.Add(this.buttonClearEventDetails);
             this.tabPageAboutMe.Controls.Add(this.labelEventWhere);
@@ -116,10 +119,121 @@
             this.tabPageAboutMe.Location = new System.Drawing.Point(4, 22);
             this.tabPageAboutMe.Name = "tabPageAboutMe";
             this.tabPageAboutMe.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageAboutMe.Size = new System.Drawing.Size(1025, 717);
+            this.tabPageAboutMe.Size = new System.Drawing.Size(1025, 628);
             this.tabPageAboutMe.TabIndex = 0;
             this.tabPageAboutMe.Text = "About Me";
             this.tabPageAboutMe.UseVisualStyleBackColor = true;
+            // 
+            // labelPageName
+            // 
+            this.labelPageName.AutoSize = true;
+            this.labelPageName.Location = new System.Drawing.Point(698, 199);
+            this.labelPageName.Name = "labelPageName";
+            this.labelPageName.Size = new System.Drawing.Size(63, 13);
+            this.labelPageName.TabIndex = 32;
+            this.labelPageName.Text = "Page Name";
+            this.labelPageName.Visible = false;
+            // 
+            // buttonClearEventDetails
+            // 
+            this.buttonClearEventDetails.Location = new System.Drawing.Point(243, 578);
+            this.buttonClearEventDetails.Name = "buttonClearEventDetails";
+            this.buttonClearEventDetails.Size = new System.Drawing.Size(80, 30);
+            this.buttonClearEventDetails.TabIndex = 31;
+            this.buttonClearEventDetails.Text = "Clear Details";
+            this.buttonClearEventDetails.UseVisualStyleBackColor = true;
+            this.buttonClearEventDetails.Visible = false;
+            this.buttonClearEventDetails.Click += new System.EventHandler(this.buttonClearEventDetails_Click);
+            // 
+            // labelEventWhere
+            // 
+            this.labelEventWhere.AutoSize = true;
+            this.labelEventWhere.Location = new System.Drawing.Point(310, 529);
+            this.labelEventWhere.Name = "labelEventWhere";
+            this.labelEventWhere.Size = new System.Drawing.Size(73, 13);
+            this.labelEventWhere.TabIndex = 30;
+            this.labelEventWhere.Text = "city and street";
+            this.labelEventWhere.Visible = false;
+            // 
+            // labelEventWhereTitle
+            // 
+            this.labelEventWhereTitle.AutoSize = true;
+            this.labelEventWhereTitle.Location = new System.Drawing.Point(240, 529);
+            this.labelEventWhereTitle.Name = "labelEventWhereTitle";
+            this.labelEventWhereTitle.Size = new System.Drawing.Size(42, 13);
+            this.labelEventWhereTitle.TabIndex = 29;
+            this.labelEventWhereTitle.Text = "Where:";
+            this.labelEventWhereTitle.Visible = false;
+            // 
+            // labelEventWhen
+            // 
+            this.labelEventWhen.AutoSize = true;
+            this.labelEventWhen.Location = new System.Drawing.Point(310, 504);
+            this.labelEventWhen.Name = "labelEventWhen";
+            this.labelEventWhen.Size = new System.Drawing.Size(71, 13);
+            this.labelEventWhen.TabIndex = 28;
+            this.labelEventWhen.Text = "date and time";
+            this.labelEventWhen.Visible = false;
+            // 
+            // labelEventWhenTitle
+            // 
+            this.labelEventWhenTitle.AutoSize = true;
+            this.labelEventWhenTitle.Location = new System.Drawing.Point(240, 504);
+            this.labelEventWhenTitle.Name = "labelEventWhenTitle";
+            this.labelEventWhenTitle.Size = new System.Drawing.Size(39, 13);
+            this.labelEventWhenTitle.TabIndex = 27;
+            this.labelEventWhenTitle.Text = "When:";
+            this.labelEventWhenTitle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelEventWhenTitle.Visible = false;
+            // 
+            // labelEventName
+            // 
+            this.labelEventName.AutoSize = true;
+            this.labelEventName.Location = new System.Drawing.Point(240, 481);
+            this.labelEventName.Name = "labelEventName";
+            this.labelEventName.Size = new System.Drawing.Size(66, 13);
+            this.labelEventName.TabIndex = 26;
+            this.labelEventName.Text = "Event Name";
+            this.labelEventName.Visible = false;
+            // 
+            // pictureBoxEvent
+            // 
+            this.pictureBoxEvent.Location = new System.Drawing.Point(243, 344);
+            this.pictureBoxEvent.Name = "pictureBoxEvent";
+            this.pictureBoxEvent.Size = new System.Drawing.Size(152, 134);
+            this.pictureBoxEvent.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxEvent.TabIndex = 25;
+            this.pictureBoxEvent.TabStop = false;
+            this.pictureBoxEvent.Visible = false;
+            // 
+            // listBoxEvents
+            // 
+            this.listBoxEvents.FormattingEnabled = true;
+            this.listBoxEvents.Location = new System.Drawing.Point(30, 344);
+            this.listBoxEvents.Name = "listBoxEvents";
+            this.listBoxEvents.Size = new System.Drawing.Size(207, 264);
+            this.listBoxEvents.TabIndex = 24;
+            this.listBoxEvents.SelectedIndexChanged += new System.EventHandler(this.listBoxEvents_SelectedIndexChanged);
+            // 
+            // labelMyBirthdayTitle
+            // 
+            this.labelMyBirthdayTitle.AutoSize = true;
+            this.labelMyBirthdayTitle.Location = new System.Drawing.Point(500, 344);
+            this.labelMyBirthdayTitle.Name = "labelMyBirthdayTitle";
+            this.labelMyBirthdayTitle.Size = new System.Drawing.Size(112, 13);
+            this.labelMyBirthdayTitle.TabIndex = 23;
+            this.labelMyBirthdayTitle.Text = "My birthday in ?? days";
+            // 
+            // buttonClearPageDetails
+            // 
+            this.buttonClearPageDetails.Location = new System.Drawing.Point(701, 283);
+            this.buttonClearPageDetails.Name = "buttonClearPageDetails";
+            this.buttonClearPageDetails.Size = new System.Drawing.Size(80, 30);
+            this.buttonClearPageDetails.TabIndex = 22;
+            this.buttonClearPageDetails.Text = "Clear Details";
+            this.buttonClearPageDetails.UseVisualStyleBackColor = true;
+            this.buttonClearPageDetails.Visible = false;
+            this.buttonClearPageDetails.Click += new System.EventHandler(this.buttonClearPageDetails_Click);
             // 
             // labelPhone
             // 
@@ -283,7 +397,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1025, 717);
+            this.tabPage2.Size = new System.Drawing.Size(1025, 628);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -296,6 +410,7 @@
             this.pictureBoxProfilePicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxProfilePicture.TabIndex = 2;
             this.pictureBoxProfilePicture.TabStop = false;
+            this.pictureBoxProfilePicture.Visible = false;
             // 
             // labelUserName
             // 
@@ -317,6 +432,7 @@
             this.pictureBoxCoverPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBoxCoverPhoto.TabIndex = 4;
             this.pictureBoxCoverPhoto.TabStop = false;
+            this.pictureBoxCoverPhoto.Visible = false;
             // 
             // textBoxPost
             // 
@@ -354,122 +470,12 @@
             this.buttonExit.UseVisualStyleBackColor = true;
             this.buttonExit.Click += new System.EventHandler(this.buttonExit_Click);
             // 
-            // buttonClearPageDetails
-            // 
-            this.buttonClearPageDetails.Location = new System.Drawing.Point(701, 283);
-            this.buttonClearPageDetails.Name = "buttonClearPageDetails";
-            this.buttonClearPageDetails.Size = new System.Drawing.Size(80, 30);
-            this.buttonClearPageDetails.TabIndex = 22;
-            this.buttonClearPageDetails.Text = "Clear Details";
-            this.buttonClearPageDetails.UseVisualStyleBackColor = true;
-            this.buttonClearPageDetails.Visible = false;
-            this.buttonClearPageDetails.Click += new System.EventHandler(this.buttonClearPageDetails_Click);
-            // 
-            // labelMyBirthdayTitle
-            // 
-            this.labelMyBirthdayTitle.AutoSize = true;
-            this.labelMyBirthdayTitle.Location = new System.Drawing.Point(500, 344);
-            this.labelMyBirthdayTitle.Name = "labelMyBirthdayTitle";
-            this.labelMyBirthdayTitle.Size = new System.Drawing.Size(112, 13);
-            this.labelMyBirthdayTitle.TabIndex = 23;
-            this.labelMyBirthdayTitle.Text = "My birthday in ?? days";
-            // 
-            // buttonClearEventDetails
-            // 
-            this.buttonClearEventDetails.Location = new System.Drawing.Point(243, 578);
-            this.buttonClearEventDetails.Name = "buttonClearEventDetails";
-            this.buttonClearEventDetails.Size = new System.Drawing.Size(80, 30);
-            this.buttonClearEventDetails.TabIndex = 31;
-            this.buttonClearEventDetails.Text = "Clear Details";
-            this.buttonClearEventDetails.UseVisualStyleBackColor = true;
-            this.buttonClearEventDetails.Visible = false;
-            this.buttonClearEventDetails.Click += new System.EventHandler(this.buttonClearEventDetails_Click);
-            // 
-            // labelEventWhere
-            // 
-            this.labelEventWhere.AutoSize = true;
-            this.labelEventWhere.Location = new System.Drawing.Point(310, 529);
-            this.labelEventWhere.Name = "labelEventWhere";
-            this.labelEventWhere.Size = new System.Drawing.Size(73, 13);
-            this.labelEventWhere.TabIndex = 30;
-            this.labelEventWhere.Text = "city and street";
-            this.labelEventWhere.Visible = false;
-            // 
-            // labelEventWhereTitle
-            // 
-            this.labelEventWhereTitle.AutoSize = true;
-            this.labelEventWhereTitle.Location = new System.Drawing.Point(240, 529);
-            this.labelEventWhereTitle.Name = "labelEventWhereTitle";
-            this.labelEventWhereTitle.Size = new System.Drawing.Size(42, 13);
-            this.labelEventWhereTitle.TabIndex = 29;
-            this.labelEventWhereTitle.Text = "Where:";
-            this.labelEventWhereTitle.Visible = false;
-            // 
-            // labelEventWhen
-            // 
-            this.labelEventWhen.AutoSize = true;
-            this.labelEventWhen.Location = new System.Drawing.Point(310, 504);
-            this.labelEventWhen.Name = "labelEventWhen";
-            this.labelEventWhen.Size = new System.Drawing.Size(71, 13);
-            this.labelEventWhen.TabIndex = 28;
-            this.labelEventWhen.Text = "date and time";
-            this.labelEventWhen.Visible = false;
-            // 
-            // labelEventWhenTitle
-            // 
-            this.labelEventWhenTitle.AutoSize = true;
-            this.labelEventWhenTitle.Location = new System.Drawing.Point(240, 504);
-            this.labelEventWhenTitle.Name = "labelEventWhenTitle";
-            this.labelEventWhenTitle.Size = new System.Drawing.Size(39, 13);
-            this.labelEventWhenTitle.TabIndex = 27;
-            this.labelEventWhenTitle.Text = "When:";
-            this.labelEventWhenTitle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.labelEventWhenTitle.Visible = false;
-            // 
-            // labelEventName
-            // 
-            this.labelEventName.AutoSize = true;
-            this.labelEventName.Location = new System.Drawing.Point(240, 481);
-            this.labelEventName.Name = "labelEventName";
-            this.labelEventName.Size = new System.Drawing.Size(66, 13);
-            this.labelEventName.TabIndex = 26;
-            this.labelEventName.Text = "Event Name";
-            this.labelEventName.Visible = false;
-            // 
-            // pictureBoxEvent
-            // 
-            this.pictureBoxEvent.Location = new System.Drawing.Point(243, 344);
-            this.pictureBoxEvent.Name = "pictureBoxEvent";
-            this.pictureBoxEvent.Size = new System.Drawing.Size(152, 134);
-            this.pictureBoxEvent.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBoxEvent.TabIndex = 25;
-            this.pictureBoxEvent.TabStop = false;
-            this.pictureBoxEvent.Visible = false;
-            // 
-            // listBoxEvents
-            // 
-            this.listBoxEvents.FormattingEnabled = true;
-            this.listBoxEvents.Location = new System.Drawing.Point(30, 344);
-            this.listBoxEvents.Name = "listBoxEvents";
-            this.listBoxEvents.Size = new System.Drawing.Size(207, 264);
-            this.listBoxEvents.TabIndex = 24;
-            this.listBoxEvents.SelectedIndexChanged += new System.EventHandler(this.listBoxEvents_SelectedIndexChanged);
-            // 
-            // labelPageName
-            // 
-            this.labelPageName.AutoSize = true;
-            this.labelPageName.Location = new System.Drawing.Point(698, 199);
-            this.labelPageName.Name = "labelPageName";
-            this.labelPageName.Size = new System.Drawing.Size(63, 13);
-            this.labelPageName.TabIndex = 32;
-            this.labelPageName.Text = "Page Name";
-            this.labelPageName.Visible = false;
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1072, 974);
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.ClientSize = new System.Drawing.Size(1072, 839);
             this.Controls.Add(this.buttonExit);
             this.Controls.Add(this.buttonLogout);
             this.Controls.Add(this.button1);
@@ -478,16 +484,19 @@
             this.Controls.Add(this.pictureBoxProfilePicture);
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.pictureBoxCoverPhoto);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FormMain";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormMain";
             this.tabControl.ResumeLayout(false);
             this.tabPageAboutMe.ResumeLayout(false);
             this.tabPageAboutMe.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxEvent)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFriend)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProfilePicture)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCoverPhoto)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxEvent)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

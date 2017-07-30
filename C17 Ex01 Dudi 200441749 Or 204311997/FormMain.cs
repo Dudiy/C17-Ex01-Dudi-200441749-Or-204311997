@@ -25,20 +25,13 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
 
         private void initMainForm()
         {
+            // init global form
+            Text = m_LoggedInUser.Name;
             labelUserName.Text = m_LoggedInUser.Name;
             fetchProfileAndCoverPhotos();
-            updateFriendsList();
-            updatePagesList();
-            updateEventsList();
-
-            DateTime myBirthday = convertStringToDate(m_LoggedInUser.Birthday);
-            DateTime myNextBirthday = new DateTime(DateTime.Now.Year, myBirthday.Month, myBirthday.Day);
-
-            labelMyBirthdayTitle.Text = String.Format(
-@"Born in {0}
-My birthday in {1} days",
-myBirthday.ToString("dd/MM/yyyy"),
-(myNextBirthday - DateTime.Now).Days);
+            // init tabs
+            initAboutMeTab();
+            //initDudiTab2();
         }
 
         private void fetchProfileAndCoverPhotos()
@@ -47,6 +40,7 @@ myBirthday.ToString("dd/MM/yyyy"),
             if (m_LoggedInUser.PictureNormalURL != null)
             {
                 pictureBoxProfilePicture.LoadAsync(m_LoggedInUser.PictureNormalURL);
+                pictureBoxProfilePicture.Visible = true;
             }
             else
             {
@@ -56,11 +50,19 @@ myBirthday.ToString("dd/MM/yyyy"),
             if (m_LoggedInUser.Cover != null)
             {
                 pictureBoxCoverPhoto.LoadAsync(m_LoggedInUser.Cover.SourceURL);
+                pictureBoxCoverPhoto.Visible = true;
             }
         }
 
-        // ================================================= tab1==================
-        
+        // ================================================ About Me Tab ==============================================
+        private void initAboutMeTab()
+        {
+            updateFriendsList();
+            updatePagesList();
+            updateEventsList();
+            updateBirthday();
+        }
+
         // friends
         private void updateFriendsList()
         {
@@ -99,7 +101,6 @@ myBirthday.ToString("dd/MM/yyyy"),
                 buttonClearFriendDetails.Visible = true;
             }
         }
-
 
         private void buttonClearFriendDetails_Click(object sender, EventArgs e)
         {
@@ -206,12 +207,32 @@ myBirthday.ToString("dd/MM/yyyy"),
             buttonClearEventDetails.Visible = false;
         }
 
-        // ===============================================================================================
+        // Birthday
+        private void updateBirthday()
+        {
+            DateTime myBirthday = convertStringToDate(m_LoggedInUser.Birthday);
+            DateTime myNextBirthday = new DateTime(DateTime.Now.Year, myBirthday.Month, myBirthday.Day);
+
+            labelMyBirthdayTitle.Text = String.Format(
+@"Born in {0}
+My birthday in {1} days",
+myBirthday.ToString("dd/MM/yyyy"),
+(myNextBirthday - DateTime.Now).Days);
+        }
+
+        // ================================================ Dudi Tab ==============================================
+        private void initDudiTab2()
+        {
+            throw new NotImplementedException();
+        }
+
+        // ================================================ Close form ==============================================
         private void buttonLogout_Click(object sender, EventArgs e)
         {
             FacebookService.Logout(notifyLogout);
         }
 
+        // TODO call twice
         private void notifyLogout()
         {
             MessageBox.Show("Logged Out");
@@ -223,10 +244,7 @@ myBirthday.ToString("dd/MM/yyyy"),
             Close();
         }
 
-
-
-        ////////////////// utils
-
+        // ================================================ utils ==============================================
         private DateTime convertStringToDate(string i_Birthdate)
         {
             string[] splitDate = i_Birthdate.Split('/');
@@ -238,6 +256,5 @@ myBirthday.ToString("dd/MM/yyyy"),
 
             return date;
         }
-
     }
 }

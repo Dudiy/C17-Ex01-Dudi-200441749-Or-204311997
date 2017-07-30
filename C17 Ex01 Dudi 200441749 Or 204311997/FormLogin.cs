@@ -24,11 +24,12 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         {
             loginAndInit();
             FormMain mainForm = new FormMain(m_LoggedInUser);
-            this.Hide();
+            Hide();
             DialogResult closeMainFormResult = mainForm.ShowDialog();
             Show();
         }
 
+        // TODO see which permmision we need
         private void loginAndInit()
         {
             LoginResult result = FacebookWrapper.FacebookService.Login("197501144117907",
@@ -85,6 +86,5 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         {
             Close();
         }
-        
     }
 }
