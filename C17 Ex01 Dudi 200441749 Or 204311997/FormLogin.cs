@@ -13,26 +13,49 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
 {
     public partial class FormLogin : Form
     {
-        User m_LoggedInUser;
+        private User m_LoggedInUser;
+        private FormMain m_mainForm;
+        public AppSettings AppSettings { get; set; }
 
         public FormLogin()
         {
             InitializeComponent();
+            AppSettings = AppSettings.LoadFromFile();
+            if (AppSettings != null &&
+                !string.IsNullOrEmpty(AppSettings.LastAccessToken))
+            {
+                LoginResult resultLogin = FacebookService.Connect(AppSettings.LastAccessToken);
+                showLoginUser(resultLogin);
+            }
+            else
+            {
+                AppSettings = AppSettings.Instance;
+            }
+        }
+
+        private void showLoginUser(LoginResult i_LoginResult)
+        {
+            if (!string.IsNullOrEmpty(i_LoginResult.AccessToken))
+            {
+                //AppSettings.LoginUser = i_LoginResult.LoggedInUser;
+                AppSettings.LastAccessToken = i_LoginResult.AccessToken;
+            }
+
+            m_mainForm = new FormMain();
+            Hide();
+            m_mainForm.ShowDialog();
+            Show();
         }
 
         private void buttonLogin_Click(object sender, EventArgs e)
         {
             loginAndInit();
-            FormMain mainForm = new FormMain(m_LoggedInUser);
-            Hide();
-            DialogResult closeMainFormResult = mainForm.ShowDialog();
-            Show();
         }
 
         // TODO see which permmision we need
         private void loginAndInit()
         {
-            LoginResult result = FacebookWrapper.FacebookService.Login("197501144117907",
+            LoginResult resultLogin = FacebookWrapper.FacebookService.Login("197501144117907",
                 "public_profile",
                 "user_education_history",
                 "user_birthday",
@@ -74,12 +97,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
 
                 "rsvp_event"
                 );
-
-            if (!string.IsNullOrEmpty(result.AccessToken))
-            {
-                m_LoggedInUser = result.LoggedInUser;
-                //TODO save access token
-            }
+            showLoginUser(resultLogin);
         }
 
         private void buttonExit_Click(object sender, EventArgs e)

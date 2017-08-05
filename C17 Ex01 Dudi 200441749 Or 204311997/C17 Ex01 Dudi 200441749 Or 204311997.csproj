@@ -55,6 +55,7 @@
     <Compile Include="AlbumsSelector.Designer.cs">
       <DependentUpon>AlbumsSelector.cs</DependentUpon>
     </Compile>
+    <Compile Include="AppSettings.cs" />
     <Compile Include="DataTables\FacebookDataTable.cs" />
     <Compile Include="DataTables\FacebookDataTableManager.cs" />
     <Compile Include="DataTables\FacebookFriendsDataTable.cs" />

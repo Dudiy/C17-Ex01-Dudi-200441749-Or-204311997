@@ -9,36 +9,44 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
 {
     public partial class FormMain : Form
     {
-        private User m_LoggedInUser;
         private FacebookDataTableManager m_DataTableManager;
         private FacebookDataTable m_DataTableBindedToView;
+        public AppSettings AppSettings { get; private set; } = AppSettings.Instance;
+        public User LoggedInUser { get; private set; }
 
-        public FormMain(User i_LoggedInUser)
+        public FormMain()
         {
             InitializeComponent();
-            m_LoggedInUser = i_LoggedInUser;
             FacebookService.s_CollectionLimit = 500;
+            LoggedInUser = FacebookService.Connect(AppSettings.LastAccessToken).LoggedInUser;
             initMainForm();
+            AppSettings = AppSettings.Instance;
+            if (AppSettings.LoadFromFile() != null)
+            {
+                StartPosition = FormStartPosition.Manual;
+                Location = AppSettings.LastWindowsLocation;
+                Size = AppSettings.LastWindowsSize;
+                if(AppSettings.RememberUser == true)
+                {
+                    checkBoxRememberMe.Checked = true;
+                }
+            }
         }
 
         private void initMainForm()
         {
             // init global form
-            Text = m_LoggedInUser.Name;
-            labelUserName.Text = m_LoggedInUser.Name;
-            fetchProfileAndCoverPhotos();
-            // init tabs
-            initAboutMeTab();
-            initDataTablesTab();
+            Text = LoggedInUser.Name;
+            labelUserName.Text = LoggedInUser.Name;
         }
 
 
         private void fetchProfileAndCoverPhotos()
         {
             // TODO check if there are pic
-            if (m_LoggedInUser.PictureNormalURL != null)
+            if (LoggedInUser.PictureNormalURL != null)
             {
-                pictureBoxProfilePicture.LoadAsync(m_LoggedInUser.PictureNormalURL);
+                pictureBoxProfilePicture.LoadAsync(LoggedInUser.PictureNormalURL);
                 pictureBoxProfilePicture.Visible = true;
             }
             else
@@ -46,10 +54,36 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                 // TODO add empty user picture
             }
 
-            if (m_LoggedInUser.Cover != null)
+            if (LoggedInUser.Cover != null)
             {
-                pictureBoxCoverPhoto.LoadAsync(m_LoggedInUser.Cover.SourceURL);
+                pictureBoxCoverPhoto.LoadAsync(LoggedInUser.Cover.SourceURL);
                 pictureBoxCoverPhoto.Visible = true;
+            }
+        }
+
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+            fetchProfileAndCoverPhotos();
+            // init tabs
+            initAboutMeTab();
+            initDataTablesTab();
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+            // access token update all the time to the current user
+            if(checkBoxRememberMe.Checked == true)
+            {
+                AppSettings.LastWindowsLocation = Location;
+                AppSettings.LastWindowsSize = Size;
+                AppSettings.RememberUser = checkBoxRememberMe.Checked;
+                AppSettings.SaveToFile();
+            }
+            else
+            {
+                AppSettings.Clear();
             }
         }
 
@@ -66,7 +100,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         private void updateFriendsList()
         {
             listBoxFriends.DisplayMember = "Name";
-            foreach (User friend in m_LoggedInUser.Friends)
+            foreach (User friend in LoggedInUser.Friends)
             {
                 listBoxFriends.Items.Add(friend);
             }
@@ -116,7 +150,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         private void updatePagesList()
         {
             listBoxLikedPages.DisplayMember = "Name";
-            foreach (Page page in m_LoggedInUser.LikedPages)
+            foreach (Page page in LoggedInUser.LikedPages)
             {
                 listBoxLikedPages.Items.Add(page);
             }
@@ -163,7 +197,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         private void updateEventsList()
         {
             listBoxEvents.DisplayMember = "Name";
-            foreach (Event upcomingEvent in m_LoggedInUser.Events)
+            foreach (Event upcomingEvent in LoggedInUser.Events)
             {
                 listBoxEvents.Items.Add(upcomingEvent);
             }
@@ -210,7 +244,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         // Birthday
         private void updateBirthday()
         {
-            DateTime myBirthday = convertStringToDate(m_LoggedInUser.Birthday);
+            DateTime myBirthday = convertStringToDate(LoggedInUser.Birthday);
             DateTime myNextBirthday = new DateTime(DateTime.Now.Year, myBirthday.Month, myBirthday.Day);
 
             labelMyBirthdayTitle.Text = String.Format(
@@ -239,23 +273,10 @@ myBirthday.ToString("dd/MM/yyyy"),
             Close();
         }
 
-        // ================================================ utils ==============================================
-        private DateTime convertStringToDate(string i_Birthdate)
-        {
-            string[] splitDate = i_Birthdate.Split('/');
-            DateTime date = new DateTime(
-                int.Parse(splitDate[2]),
-                int.Parse(splitDate[0]),
-                int.Parse(splitDate[1])
-                );
-
-            return date;
-        }
-
         // ================================================ DataTables Tab ==============================================
         private void initDataTablesTab()
         {
-            m_DataTableManager = new FacebookDataTableManager(m_LoggedInUser);
+            m_DataTableManager = new FacebookDataTableManager(LoggedInUser);
             initComboBoxDataTableBindingSelection();
         }
 
@@ -311,7 +332,7 @@ Fetching {0} data from server ... {1:P0} Complete   ",
         private List<Album> getAlbumsToLoadFromUser()
         {
             List<Album> selectedAlbums = new List<Album>();
-            AlbumsSelector albumsSelector = new AlbumsSelector(m_LoggedInUser);
+            AlbumsSelector albumsSelector = new AlbumsSelector(LoggedInUser);
 
             DialogResult dialogResult = albumsSelector.ShowDialog();
             if (dialogResult == DialogResult.OK)
@@ -338,6 +359,18 @@ Fetching {0} data from server ... {1:P0} Complete   ",
         {
             object selectedObject = ((DataGridView)sender).SelectedCells[0].OwningRow.Cells["ObjectDisplayed"].Value;
             m_DataTableBindedToView.OnRowDoubleClicked(selectedObject);
+        }
+        // ================================================ utils ==============================================
+        private DateTime convertStringToDate(string i_Birthdate)
+        {
+            string[] splitDate = i_Birthdate.Split('/');
+            DateTime date = new DateTime(
+                int.Parse(splitDate[2]),
+                int.Parse(splitDate[0]),
+                int.Parse(splitDate[1])
+                );
+
+            return date;
         }
     }
 }
