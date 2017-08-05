@@ -21,6 +21,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             DataFetched = false;
             // all tables initialy have a colum that holds the current row object displayed
             DataTable.Columns.Add("ObjectDisplayed", typeof(object));
+            initColumns();
         }
 
         public string TableName
@@ -28,8 +29,10 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             get { return DataTable.TableName; }
         }
 
-        public abstract void fetchDataTableValues();
+        public abstract void FetchDataTableValues();
 
         public abstract void OnRowDoubleClicked(object i_SelectedObject);
+
+        protected abstract void initColumns();
     }
 }

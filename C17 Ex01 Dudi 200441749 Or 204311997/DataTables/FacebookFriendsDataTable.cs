@@ -13,14 +13,11 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
         {
         }
 
-        public override void fetchDataTableValues()
+        public override void FetchDataTableValues()
         {
             if (DataFetched == false || DataTable.Rows.Count == 0)
             {
                 TotalRows = m_LoggedInUser.Friends.Count;
-                //init columns
-                DataTable.Columns.Add("First Name", typeof(string));
-                DataTable.Columns.Add("Last Name", typeof(string));
 
                 //add rows
                 foreach (User friend in m_LoggedInUser.Friends)
@@ -44,6 +41,12 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
                 PictureFrame pictureFrame = new PictureFrame(friendSelected.PictureLargeURL, friendSelected.Name);
                 pictureFrame.Show();
             }
+        }
+
+        protected override void initColumns()
+        {
+            DataTable.Columns.Add("First Name", typeof(string));
+            DataTable.Columns.Add("Last Name", typeof(string));
         }
     }
 }

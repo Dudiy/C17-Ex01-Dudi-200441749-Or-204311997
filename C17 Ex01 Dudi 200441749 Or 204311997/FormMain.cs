@@ -271,37 +271,40 @@ myBirthday.ToString("dd/MM/yyyy"),
 
         private void buttonFetchData_Click(object sender, EventArgs e)
         {
-            dataGridView.DataSource = null;
-            m_DataTableBindedToView = (FacebookDataTable)comboBoxDataTableBindingSelection.SelectedItem;
-            //if (!m_DataTableBindedToView.DataFetched)
-            //{
+            if (comboBoxDataTableBindingSelection.SelectedItem != null)
+            {
+                dataGridView.DataSource = null;
+                m_DataTableBindedToView = (FacebookDataTable)comboBoxDataTableBindingSelection.SelectedItem;
+                //if (!m_DataTableBindedToView.DataFetched)
+                //{
                 if (m_DataTableBindedToView is FacebookPhotosDataTable)
                 {
                     List<Album> albumsToLoad = getAlbumsToLoadFromUser();
                     ((FacebookPhotosDataTable)m_DataTableBindedToView).AlbumsToLoad = albumsToLoad;
                 }
-                m_DataTableBindedToView.fetchDataTableValues();
-            //}
+                m_DataTableBindedToView.FetchDataTableValues();
+                //}
 
-            dataGridView.DataSource = m_DataTableBindedToView.DataTable;
-            if (dataGridView.Columns.Count > 0)
-            {
-                if (dataGridView.Columns["ObjectDisplayed"] != null)
+                dataGridView.DataSource = m_DataTableBindedToView.DataTable;
+                if (dataGridView.Columns.Count > 0)
                 {
-                    dataGridView.Columns["ObjectDisplayed"].Visible = false;
-                }
+                    if (dataGridView.Columns["ObjectDisplayed"] != null)
+                    {
+                        dataGridView.Columns["ObjectDisplayed"].Visible = false;
+                    }
 
-                //m_DataTableBindedToView = (FacebookDataTable)comboBoxDataTables.SelectedItem;
-                String toolStripMessage = String.Format(@"
+                    //m_DataTableBindedToView = (FacebookDataTable)comboBoxDataTables.SelectedItem;
+                    String toolStripMessage = String.Format(@"
 Fetching {0} data from server ... {1:P0} Complete   ",
-m_DataTableBindedToView.TableName,
-(float)m_DataTableBindedToView.DataTable.Rows.Count / m_DataTableBindedToView.TotalRows);
-                updateToolStrip(toolStripMessage);
-            }
-            else
-            {
-                String toolstripMessage = String.Format("The requested table could not be loaded, please try again");
-                updateToolStrip(toolstripMessage);
+    m_DataTableBindedToView.TableName,
+    (float)m_DataTableBindedToView.DataTable.Rows.Count / m_DataTableBindedToView.TotalRows);
+                    updateToolStrip(toolStripMessage);
+                }
+                else
+                {
+                    String toolstripMessage = String.Format("The requested table could not be loaded, please try again");
+                    updateToolStrip(toolstripMessage);
+                }
             }
         }
 
