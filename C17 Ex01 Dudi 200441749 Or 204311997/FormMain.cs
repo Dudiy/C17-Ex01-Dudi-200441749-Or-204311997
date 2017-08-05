@@ -20,17 +20,6 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             FacebookService.s_CollectionLimit = 500;
             LoggedInUser = FacebookService.Connect(AppSettings.LastAccessToken).LoggedInUser;
             initMainForm();
-            AppSettings = AppSettings.Instance;
-            if (AppSettings.LoadFromFile() != null)
-            {
-                StartPosition = FormStartPosition.Manual;
-                Location = AppSettings.LastWindowsLocation;
-                Size = AppSettings.LastWindowsSize;
-                if(AppSettings.RememberUser == true)
-                {
-                    checkBoxRememberMe.Checked = true;
-                }
-            }
         }
 
         private void initMainForm()
@@ -61,6 +50,12 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             }
         }
 
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            initLastUseSettings();
+        }
+
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
@@ -68,6 +63,26 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             // init tabs
             initAboutMeTab();
             initDataTablesTab();
+        }
+
+        private void initLastUseSettings()
+        {
+            AppSettings = AppSettings.Instance;
+            if (AppSettings.LoadFromFile() != null)
+            {
+                StartPosition = FormStartPosition.Manual;
+                Location = AppSettings.LastWindowsLocation;
+                Size = AppSettings.LastWindowsSize;
+                if (AppSettings.RememberUser == true)
+                {
+                    checkBoxRememberMe.Checked = true;
+                }
+            }
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -258,15 +273,17 @@ myBirthday.ToString("dd/MM/yyyy"),
         // ================================================ Close form ==============================================
         private void buttonLogout_Click(object sender, EventArgs e)
         {
-            FacebookService.Logout(notifyLogout);
+            DialogResult = DialogResult.Ignore;
+            FacebookService.Logout(null);
+            //FacebookService.Logout(notifyLogout);
         }
 
-        // TODO call twice
-        private void notifyLogout()
-        {
-            MessageBox.Show("Logged Out");
-            Close();
-        }
+        //// TODO call twice
+        //private void notifyLogout()
+        //{
+        //    MessageBox.Show("Logged Out");
+        //    Close();
+        //}
 
         private void buttonExit_Click(object sender, EventArgs e)
         {

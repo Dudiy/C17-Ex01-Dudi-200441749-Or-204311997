@@ -19,18 +19,32 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
 
         public FormLogin()
         {
+            Hide();
             InitializeComponent();
+        }
+
+
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
             AppSettings = AppSettings.LoadFromFile();
-            if (AppSettings != null &&
-                !string.IsNullOrEmpty(AppSettings.LastAccessToken))
+            // load settings from file
+            if (AppSettings != null && !string.IsNullOrEmpty(AppSettings.LastAccessToken))
             {
                 LoginResult resultLogin = FacebookService.Connect(AppSettings.LastAccessToken);
                 showLoginUser(resultLogin);
             }
             else
             {
+                Show();
                 AppSettings = AppSettings.Instance;
             }
+        }
+
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+            
         }
 
         private void showLoginUser(LoginResult i_LoginResult)
@@ -42,9 +56,17 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             }
 
             m_mainForm = new FormMain();
-            Hide();
-            m_mainForm.ShowDialog();
-            Show();
+            //Hide();
+            DialogResult dialogResultMainForm = m_mainForm.ShowDialog();
+            
+            if(dialogResultMainForm == DialogResult.Ignore)
+            {
+                Show();
+            }
+            else
+            {
+                Close();
+            }
         }
 
         private void buttonLogin_Click(object sender, EventArgs e)

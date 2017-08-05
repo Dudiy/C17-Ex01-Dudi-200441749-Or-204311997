@@ -15,7 +15,10 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormLogin());
+            FormLogin formLogin = new FormLogin();
+            formLogin.ShowDialog();
+            //Application.Run(formLogin);
+            //formLogin.Close();
         }
     }
 }

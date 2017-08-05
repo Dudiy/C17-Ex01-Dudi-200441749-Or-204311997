@@ -87,15 +87,13 @@
             // 
             // tabControl
             // 
-            this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.tabControl.Controls.Add(this.tabPageAboutMe);
             this.tabControl.Controls.Add(this.tabPageDataTables);
-            this.tabControl.Location = new System.Drawing.Point(12, 169);
+            this.tabControl.Location = new System.Drawing.Point(22, 206);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(742, 585);
+            this.tabControl.Size = new System.Drawing.Size(765, 585);
             this.tabControl.TabIndex = 0;
             this.tabControl.Tag = "";
             // 
@@ -132,7 +130,7 @@
             this.tabPageAboutMe.Location = new System.Drawing.Point(4, 22);
             this.tabPageAboutMe.Name = "tabPageAboutMe";
             this.tabPageAboutMe.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageAboutMe.Size = new System.Drawing.Size(734, 559);
+            this.tabPageAboutMe.Size = new System.Drawing.Size(757, 559);
             this.tabPageAboutMe.TabIndex = 0;
             this.tabPageAboutMe.Text = "About Me";
             this.tabPageAboutMe.UseVisualStyleBackColor = true;
@@ -141,7 +139,7 @@
             // 
             this.labelPageName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelPageName.AutoSize = true;
-            this.labelPageName.Location = new System.Drawing.Point(588, 170);
+            this.labelPageName.Location = new System.Drawing.Point(614, 170);
             this.labelPageName.Name = "labelPageName";
             this.labelPageName.Size = new System.Drawing.Size(63, 13);
             this.labelPageName.TabIndex = 32;
@@ -161,9 +159,10 @@
             // 
             // labelEventWhere
             // 
-            this.labelEventWhere.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.labelEventWhere.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.labelEventWhere.AutoSize = true;
-            this.labelEventWhere.Location = new System.Drawing.Point(289, 475);
+            this.labelEventWhere.Location = new System.Drawing.Point(289, 474);
             this.labelEventWhere.Name = "labelEventWhere";
             this.labelEventWhere.Size = new System.Drawing.Size(73, 13);
             this.labelEventWhere.TabIndex = 30;
@@ -172,9 +171,10 @@
             // 
             // labelEventWhereTitle
             // 
-            this.labelEventWhereTitle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.labelEventWhereTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.labelEventWhereTitle.AutoSize = true;
-            this.labelEventWhereTitle.Location = new System.Drawing.Point(219, 475);
+            this.labelEventWhereTitle.Location = new System.Drawing.Point(219, 474);
             this.labelEventWhereTitle.Name = "labelEventWhereTitle";
             this.labelEventWhereTitle.Size = new System.Drawing.Size(42, 13);
             this.labelEventWhereTitle.TabIndex = 29;
@@ -183,9 +183,10 @@
             // 
             // labelEventWhen
             // 
-            this.labelEventWhen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.labelEventWhen.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.labelEventWhen.AutoSize = true;
-            this.labelEventWhen.Location = new System.Drawing.Point(289, 450);
+            this.labelEventWhen.Location = new System.Drawing.Point(289, 449);
             this.labelEventWhen.Name = "labelEventWhen";
             this.labelEventWhen.Size = new System.Drawing.Size(71, 13);
             this.labelEventWhen.TabIndex = 28;
@@ -194,9 +195,10 @@
             // 
             // labelEventWhenTitle
             // 
-            this.labelEventWhenTitle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.labelEventWhenTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.labelEventWhenTitle.AutoSize = true;
-            this.labelEventWhenTitle.Location = new System.Drawing.Point(219, 450);
+            this.labelEventWhenTitle.Location = new System.Drawing.Point(219, 449);
             this.labelEventWhenTitle.Name = "labelEventWhenTitle";
             this.labelEventWhenTitle.Size = new System.Drawing.Size(39, 13);
             this.labelEventWhenTitle.TabIndex = 27;
@@ -206,9 +208,10 @@
             // 
             // labelEventName
             // 
-            this.labelEventName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.labelEventName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.labelEventName.AutoSize = true;
-            this.labelEventName.Location = new System.Drawing.Point(219, 427);
+            this.labelEventName.Location = new System.Drawing.Point(219, 426);
             this.labelEventName.Name = "labelEventName";
             this.labelEventName.Size = new System.Drawing.Size(66, 13);
             this.labelEventName.TabIndex = 26;
@@ -217,8 +220,9 @@
             // 
             // pictureBoxEvent
             // 
-            this.pictureBoxEvent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.pictureBoxEvent.Location = new System.Drawing.Point(219, 299);
+            this.pictureBoxEvent.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.pictureBoxEvent.Location = new System.Drawing.Point(219, 298);
             this.pictureBoxEvent.Name = "pictureBoxEvent";
             this.pictureBoxEvent.Size = new System.Drawing.Size(133, 117);
             this.pictureBoxEvent.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -228,9 +232,10 @@
             // 
             // listBoxEvents
             // 
-            this.listBoxEvents.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.listBoxEvents.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.listBoxEvents.FormattingEnabled = true;
-            this.listBoxEvents.Location = new System.Drawing.Point(8, 299);
+            this.listBoxEvents.Location = new System.Drawing.Point(8, 298);
             this.listBoxEvents.Name = "listBoxEvents";
             this.listBoxEvents.Size = new System.Drawing.Size(207, 251);
             this.listBoxEvents.TabIndex = 24;
@@ -248,7 +253,7 @@
             // buttonClearPageDetails
             // 
             this.buttonClearPageDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonClearPageDetails.Location = new System.Drawing.Point(645, 252);
+            this.buttonClearPageDetails.Location = new System.Drawing.Point(671, 252);
             this.buttonClearPageDetails.Name = "buttonClearPageDetails";
             this.buttonClearPageDetails.Size = new System.Drawing.Size(80, 30);
             this.buttonClearPageDetails.TabIndex = 22;
@@ -279,6 +284,8 @@
             // 
             // buttonClearFriendDetails
             // 
+            this.buttonClearFriendDetails.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonClearFriendDetails.Location = new System.Drawing.Point(274, 252);
             this.buttonClearFriendDetails.Name = "buttonClearFriendDetails";
             this.buttonClearFriendDetails.Size = new System.Drawing.Size(80, 30);
@@ -292,7 +299,7 @@
             // 
             this.labelPhoneTitle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelPhoneTitle.AutoSize = true;
-            this.labelPhoneTitle.Location = new System.Drawing.Point(588, 220);
+            this.labelPhoneTitle.Location = new System.Drawing.Point(614, 220);
             this.labelPhoneTitle.Name = "labelPhoneTitle";
             this.labelPhoneTitle.Size = new System.Drawing.Size(41, 13);
             this.labelPhoneTitle.TabIndex = 18;
@@ -303,7 +310,7 @@
             // 
             this.labelSiteTitle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelSiteTitle.AutoSize = true;
-            this.labelSiteTitle.Location = new System.Drawing.Point(588, 195);
+            this.labelSiteTitle.Location = new System.Drawing.Point(614, 195);
             this.labelSiteTitle.Name = "labelSiteTitle";
             this.labelSiteTitle.Size = new System.Drawing.Size(28, 13);
             this.labelSiteTitle.TabIndex = 17;
@@ -312,6 +319,8 @@
             // 
             // labelBirthday
             // 
+            this.labelBirthday.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.labelBirthday.AutoSize = true;
             this.labelBirthday.Location = new System.Drawing.Point(288, 205);
             this.labelBirthday.Name = "labelBirthday";
@@ -322,6 +331,8 @@
             // 
             // labelBithdayTitle
             // 
+            this.labelBithdayTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.labelBithdayTitle.AutoSize = true;
             this.labelBithdayTitle.Location = new System.Drawing.Point(218, 205);
             this.labelBithdayTitle.Name = "labelBithdayTitle";
@@ -332,6 +343,8 @@
             // 
             // labelMail
             // 
+            this.labelMail.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.labelMail.AutoSize = true;
             this.labelMail.Location = new System.Drawing.Point(288, 180);
             this.labelMail.Name = "labelMail";
@@ -342,6 +355,8 @@
             // 
             // labelMailTitle
             // 
+            this.labelMailTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.labelMailTitle.AutoSize = true;
             this.labelMailTitle.Location = new System.Drawing.Point(218, 180);
             this.labelMailTitle.Name = "labelMailTitle";
@@ -352,6 +367,8 @@
             // 
             // labelFriendName
             // 
+            this.labelFriendName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.labelFriendName.AutoSize = true;
             this.labelFriendName.Location = new System.Drawing.Point(218, 157);
             this.labelFriendName.Name = "labelFriendName";
@@ -364,7 +381,7 @@
             // 
             this.labelLikedPages.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelLikedPages.AutoSize = true;
-            this.labelLikedPages.Location = new System.Drawing.Point(385, 4);
+            this.labelLikedPages.Location = new System.Drawing.Point(411, 4);
             this.labelLikedPages.Name = "labelLikedPages";
             this.labelLikedPages.Size = new System.Drawing.Size(66, 13);
             this.labelLikedPages.TabIndex = 5;
@@ -372,6 +389,8 @@
             // 
             // labelFriends
             // 
+            this.labelFriends.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.labelFriends.AutoSize = true;
             this.labelFriends.Location = new System.Drawing.Point(5, 3);
             this.labelFriends.Name = "labelFriends";
@@ -382,7 +401,7 @@
             // pictureBoxPage
             // 
             this.pictureBoxPage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBoxPage.Location = new System.Drawing.Point(591, 19);
+            this.pictureBoxPage.Location = new System.Drawing.Point(617, 19);
             this.pictureBoxPage.Name = "pictureBoxPage";
             this.pictureBoxPage.Size = new System.Drawing.Size(133, 130);
             this.pictureBoxPage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -394,7 +413,7 @@
             // 
             this.listBoxLikedPages.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.listBoxLikedPages.FormattingEnabled = true;
-            this.listBoxLikedPages.Location = new System.Drawing.Point(387, 19);
+            this.listBoxLikedPages.Location = new System.Drawing.Point(413, 19);
             this.listBoxLikedPages.Name = "listBoxLikedPages";
             this.listBoxLikedPages.Size = new System.Drawing.Size(192, 264);
             this.listBoxLikedPages.TabIndex = 2;
@@ -402,6 +421,8 @@
             // 
             // pictureBoxFriend
             // 
+            this.pictureBoxFriend.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.pictureBoxFriend.Location = new System.Drawing.Point(221, 19);
             this.pictureBoxFriend.Name = "pictureBoxFriend";
             this.pictureBoxFriend.Size = new System.Drawing.Size(133, 130);
@@ -412,6 +433,8 @@
             // 
             // listBoxFriends
             // 
+            this.listBoxFriends.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.listBoxFriends.FormattingEnabled = true;
             this.listBoxFriends.Location = new System.Drawing.Point(8, 19);
             this.listBoxFriends.Name = "listBoxFriends";
@@ -428,7 +451,7 @@
             this.tabPageDataTables.Location = new System.Drawing.Point(4, 22);
             this.tabPageDataTables.Name = "tabPageDataTables";
             this.tabPageDataTables.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageDataTables.Size = new System.Drawing.Size(734, 559);
+            this.tabPageDataTables.Size = new System.Drawing.Size(720, 559);
             this.tabPageDataTables.TabIndex = 1;
             this.tabPageDataTables.Text = "Data Tables";
             this.tabPageDataTables.UseVisualStyleBackColor = true;
@@ -449,7 +472,7 @@
             this.dataGridView.ReadOnly = true;
             this.dataGridView.RowHeadersVisible = false;
             this.dataGridView.RowTemplate.Height = 28;
-            this.dataGridView.Size = new System.Drawing.Size(727, 502);
+            this.dataGridView.Size = new System.Drawing.Size(725, 502);
             this.dataGridView.TabIndex = 0;
             this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellDoubleClick);
             // 
@@ -483,7 +506,7 @@
             this.toolStripProgressBar});
             this.toolStrip1.Location = new System.Drawing.Point(3, 531);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(728, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(714, 25);
             this.toolStrip1.TabIndex = 3;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -513,7 +536,7 @@
             // textBoxPost
             // 
             this.textBoxPost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxPost.Location = new System.Drawing.Point(402, 163);
+            this.textBoxPost.Location = new System.Drawing.Point(434, 167);
             this.textBoxPost.Name = "textBoxPost";
             this.textBoxPost.Size = new System.Drawing.Size(273, 20);
             this.textBoxPost.TabIndex = 5;
@@ -522,7 +545,7 @@
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(678, 160);
+            this.button1.Location = new System.Drawing.Point(710, 164);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(73, 24);
             this.button1.TabIndex = 6;
@@ -532,7 +555,7 @@
             // buttonLogout
             // 
             this.buttonLogout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonLogout.Location = new System.Drawing.Point(612, 9);
+            this.buttonLogout.Location = new System.Drawing.Point(658, 9);
             this.buttonLogout.Name = "buttonLogout";
             this.buttonLogout.Size = new System.Drawing.Size(67, 26);
             this.buttonLogout.TabIndex = 7;
@@ -543,7 +566,7 @@
             // buttonExit
             // 
             this.buttonExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonExit.Location = new System.Drawing.Point(685, 9);
+            this.buttonExit.Location = new System.Drawing.Point(731, 9);
             this.buttonExit.Name = "buttonExit";
             this.buttonExit.Size = new System.Drawing.Size(67, 26);
             this.buttonExit.TabIndex = 8;
@@ -588,7 +611,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(756, 684);
+            this.ClientSize = new System.Drawing.Size(802, 795);
             this.Controls.Add(this.checkBoxRememberMe);
             this.Controls.Add(this.buttonExit);
             this.Controls.Add(this.buttonLogout);
