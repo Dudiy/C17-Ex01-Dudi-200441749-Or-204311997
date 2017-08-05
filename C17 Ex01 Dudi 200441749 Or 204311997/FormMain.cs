@@ -1,25 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using FacebookWrapper;
 using FacebookWrapper.ObjectModel;
-
+using C17_Ex01_Dudi_200441749_Or_204311997.DataTables;
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997
 {
     public partial class FormMain : Form
     {
         private User m_LoggedInUser;
+        private FacebookDataTableManager m_DataTableManager;
+        private FacebookDataTable m_DataTableBindedToView;
 
         public FormMain(User i_LoggedInUser)
         {
             InitializeComponent();
             m_LoggedInUser = i_LoggedInUser;
+            FacebookService.s_CollectionLimit = 500;
             initMainForm();
         }
 
@@ -31,8 +29,9 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             fetchProfileAndCoverPhotos();
             // init tabs
             initAboutMeTab();
-            //initDudiTab2();
+            initDataTablesTab();
         }
+
 
         private void fetchProfileAndCoverPhotos()
         {
@@ -94,8 +93,8 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                 labelMail.Visible = true;
                 labelBithdayTitle.Visible = true;
                 ;
-                labelBirthday.Text = selectedFriend.Birthday != null ? 
-                    convertStringToDate(selectedFriend.Birthday).ToString("dd/MM/yyyy") : 
+                labelBirthday.Text = selectedFriend.Birthday != null ?
+                    convertStringToDate(selectedFriend.Birthday).ToString("dd/MM/yyyy") :
                     "Not defined";
                 labelBirthday.Visible = true;
                 buttonClearFriendDetails.Visible = true;
@@ -190,7 +189,8 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                 labelEventWhen.Text = selectedEvent.TimeString;
                 labelEventWhen.Visible = true;
                 labelEventWhereTitle.Visible = true;
-                labelEventWhere.Text = selectedEvent.Place.Location.City + selectedEvent.Place.Location.Street;
+                try { labelEventWhere.Text = selectedEvent.Place.Location.City + selectedEvent.Place.Location.Street; }
+                catch { labelEventWhere.Text = ""; }
                 labelEventWhere.Visible = true;
                 buttonClearEventDetails.Visible = true;
             }
@@ -220,11 +220,6 @@ myBirthday.ToString("dd/MM/yyyy"),
 (myNextBirthday - DateTime.Now).Days);
         }
 
-        // ================================================ Dudi Tab ==============================================
-        private void initDudiTab2()
-        {
-            throw new NotImplementedException();
-        }
 
         // ================================================ Close form ==============================================
         private void buttonLogout_Click(object sender, EventArgs e)
@@ -255,6 +250,91 @@ myBirthday.ToString("dd/MM/yyyy"),
                 );
 
             return date;
+        }
+
+        // ================================================ DataTables Tab ==============================================
+        private void initDataTablesTab()
+        {
+            m_DataTableManager = new FacebookDataTableManager(m_LoggedInUser);
+            initComboBoxDataTableBindingSelection();
+        }
+
+        private void initComboBoxDataTableBindingSelection()
+        {
+            comboBoxDataTableBindingSelection.DisplayMember = "TableName";
+
+            foreach (FacebookDataTable facebookDataTable in m_DataTableManager.GetDataTables())
+            {
+                comboBoxDataTableBindingSelection.Items.Add(facebookDataTable);
+            }
+        }
+
+        private void buttonFetchData_Click(object sender, EventArgs e)
+        {
+            dataGridView.DataSource = null;
+            m_DataTableBindedToView = (FacebookDataTable)comboBoxDataTableBindingSelection.SelectedItem;
+            //if (!m_DataTableBindedToView.DataFetched)
+            //{
+                if (m_DataTableBindedToView is FacebookPhotosDataTable)
+                {
+                    List<Album> albumsToLoad = getAlbumsToLoadFromUser();
+                    ((FacebookPhotosDataTable)m_DataTableBindedToView).AlbumsToLoad = albumsToLoad;
+                }
+                m_DataTableBindedToView.fetchDataTableValues();
+            //}
+
+            dataGridView.DataSource = m_DataTableBindedToView.DataTable;
+            if (dataGridView.Columns.Count > 0)
+            {
+                if (dataGridView.Columns["ObjectDisplayed"] != null)
+                {
+                    dataGridView.Columns["ObjectDisplayed"].Visible = false;
+                }
+
+                //m_DataTableBindedToView = (FacebookDataTable)comboBoxDataTables.SelectedItem;
+                String toolStripMessage = String.Format(@"
+Fetching {0} data from server ... {1:P0} Complete   ",
+m_DataTableBindedToView.TableName,
+(float)m_DataTableBindedToView.DataTable.Rows.Count / m_DataTableBindedToView.TotalRows);
+                updateToolStrip(toolStripMessage);
+            }
+            else
+            {
+                String toolstripMessage = String.Format("The requested table could not be loaded, please try again");
+                updateToolStrip(toolstripMessage);
+            }
+        }
+
+        private List<Album> getAlbumsToLoadFromUser()
+        {
+            List<Album> selectedAlbums = new List<Album>();
+            AlbumsSelector albumsSelector = new AlbumsSelector(m_LoggedInUser);
+
+            DialogResult dialogResult = albumsSelector.ShowDialog();
+            if (dialogResult == DialogResult.OK)
+            {
+                selectedAlbums = albumsSelector.SelectedAlbums;
+            }
+
+            return selectedAlbums;
+        }
+
+        private void updateToolStrip(string i_ToolstripMessage)
+        {
+            //progress bar
+            toolStripProgressBar.Minimum = 0;
+            toolStripProgressBar.Maximum = m_DataTableBindedToView.TotalRows;
+            toolStripProgressBar.Value = m_DataTableBindedToView.DataTable.Rows.Count;
+            toolStripProgressBar.Visible =
+                toolStripProgressBar.Value < toolStripProgressBar.Maximum ? true : false;
+            // message
+            toolStripLabelMessage.Text = i_ToolstripMessage;
+        }
+
+        private void dataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            object selectedObject = ((DataGridView)sender).SelectedCells[0].OwningRow.Cells["ObjectDisplayed"].Value;
+            m_DataTableBindedToView.OnRowDoubleClicked(selectedObject);
         }
     }
 }
