@@ -14,10 +14,13 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         private FacebookDataTable m_DataTableBindedToView;
         public AppSettings AppSettings { get; private set; } = AppSettings.Instance;
         public User LoggedInUser { get; private set; }
+        public bool RememberMe { get; set; }
 
         public FormMain()
         {
             InitializeComponent();
+            // TODO delete, in order to save center position in default settings
+            CenterToScreen();
         }
 
         protected override void OnShown(EventArgs e)
@@ -39,6 +42,8 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             // init global form
             Text = LoggedInUser.Name;
             labelUserName.Text = LoggedInUser.Name;
+
+            MinimumSize = new System.Drawing.Size(Size.Width, Size.Height);
         }
 
         private void fetchProfileAndCoverPhotos()
@@ -63,16 +68,12 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
 
         private void initLastUseSettings()
         {
-            AppSettings = AppSettings.Instance;
-            if (AppSettings.LoadFromFile() != null)
+            AppSettings = AppSettings.Instance;StartPosition = FormStartPosition.Manual;
+            Location = AppSettings.LastWindowsLocation;
+            Size = AppSettings.LastWindowsSize;
+            if (AppSettings.RememberUser == true)
             {
-                StartPosition = FormStartPosition.Manual;
-                Location = AppSettings.LastWindowsLocation;
-                Size = AppSettings.LastWindowsSize;
-                if (AppSettings.RememberUser == true)
-                {
-                    checkBoxRememberMe.Checked = true;
-                }
+                checkBoxRememberMe.Checked = true;
             }
         }
 
@@ -84,9 +85,11 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
-            // access token update all the time to the current user
+            // TODO if logout and exit is the same in that case
+            // TODO 
             if(checkBoxRememberMe.Checked == true)
             {
+                // access token update all the time to the current user
                 AppSettings.LastWindowsLocation = Location;
                 AppSettings.LastWindowsSize = Size;
                 AppSettings.RememberUser = checkBoxRememberMe.Checked;
@@ -165,6 +168,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             {
                 listBoxLikedPages.Items.Add(page);
             }
+
         }
 
         private void listBoxLikedPages_SelectedIndexChanged(object sender, EventArgs e)
@@ -256,14 +260,21 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         // Birthday
         private void updateBirthday()
         {
-            DateTime myBirthday = convertStringToDate(LoggedInUser.Birthday);
-            DateTime myNextBirthday = new DateTime(DateTime.Now.Year, myBirthday.Month, myBirthday.Day);
+            if(LoggedInUser.Birthday != null)
+            {
+                DateTime myBirthday = convertStringToDate(LoggedInUser.Birthday);
+                DateTime myNextBirthday = new DateTime(DateTime.Now.Year, myBirthday.Month, myBirthday.Day);
 
-            labelMyBirthdayTitle.Text = String.Format(
-@"Born in {0}
+                labelMyBirthdayTitle.Text = String.Format(
+    @"Born in {0}
 My birthday in {1} days",
-myBirthday.ToString("dd/MM/yyyy"),
-(myNextBirthday - DateTime.Now).Days);
+    myBirthday.ToString("dd/MM/yyyy"),
+    (myNextBirthday - DateTime.Now).Days);
+            }
+            else
+            {
+                labelMyBirthdayTitle.Visible = false;
+            }
         }
 
 
@@ -272,15 +283,16 @@ myBirthday.ToString("dd/MM/yyyy"),
         {
             DialogResult = DialogResult.Ignore;
             FacebookService.Logout(null);
+            // TODO bug after logout and try to login 
             //FacebookService.Logout(notifyLogout);
         }
 
-        //// TODO call twice
-        //private void notifyLogout()
-        //{
-        //    MessageBox.Show("Logged Out");
-        //    Close();
-        //}
+        // TODO call twice
+        private void notifyLogout()
+        {
+            MessageBox.Show("Logged Out");
+            Close();
+        }
 
         private void buttonExit_Click(object sender, EventArgs e)
         {
@@ -393,6 +405,11 @@ Fetching {0} data from server ... {1:P0} Complete   ",
             linkLabelSite.LinkVisited = true;
             // Navigate to a URL.
             System.Diagnostics.Process.Start(linkLabelSite.Text);
+        }
+
+        private void checkBoxRememberMe_CheckedChanged(object sender, EventArgs e)
+        {
+            RememberMe = ((CheckBox)sender).Checked;
         }
     }
 }

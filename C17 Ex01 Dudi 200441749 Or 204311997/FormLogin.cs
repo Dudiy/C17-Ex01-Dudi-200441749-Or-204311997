@@ -14,21 +14,21 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
     public partial class FormLogin : Form
     {
         private User m_LoggedInUser;
-        private FormMain m_mainForm;
+        private FormMain m_MainForm;
         public AppSettings AppSettings { get; set; }
 
         public FormLogin()
         {
             Hide();
             InitializeComponent();
+
         }
 
-
-        protected override void OnLoad(EventArgs e)
+        protected override void OnShown(EventArgs e)
         {
-            base.OnLoad(e);
-            AppSettings = AppSettings.LoadFromFile();
+            base.OnShown(e);
             // load settings from file
+            AppSettings = AppSettings.LoadFromFile();
             if (AppSettings != null && !string.IsNullOrEmpty(AppSettings.LastAccessToken))
             {
                 LoginResult resultLogin = FacebookService.Connect(AppSettings.LastAccessToken);
@@ -37,27 +37,31 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             else
             {
                 Show();
-                AppSettings = AppSettings.Instance;
             }
-        }
-
-        protected override void OnShown(EventArgs e)
-        {
-            base.OnShown(e);
-            
         }
 
         private void showLoginUser(LoginResult i_LoginResult)
         {
+            m_MainForm = new FormMain();
+            if (AppSettings == null)
+            {
+                AppSettings = AppSettings.Instance;
+                AppSettings.DefaultSettings(m_MainForm);
+            }
+
             if (!string.IsNullOrEmpty(i_LoginResult.AccessToken))
             {
-                //AppSettings.LoginUser = i_LoginResult.LoggedInUser;
+                // TODO bug if logout and login with same user, the access token are different 
+                if(!string.IsNullOrEmpty(AppSettings.LastAccessToken ) &&
+                    AppSettings.LastAccessToken != i_LoginResult.AccessToken)
+                {
+                    AppSettings.DefaultSettings(m_MainForm);
+                }
                 AppSettings.LastAccessToken = i_LoginResult.AccessToken;
             }
 
-            m_mainForm = new FormMain();
-            //Hide();
-            DialogResult dialogResultMainForm = m_mainForm.ShowDialog();
+            Hide();
+            DialogResult dialogResultMainForm = m_MainForm.ShowDialog();
             
             if(dialogResultMainForm == DialogResult.Ignore)
             {
@@ -74,11 +78,13 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             loginAndInit();
         }
 
-        // TODO see which permmision we need
+        // TODO see which permission we need
         private void loginAndInit()
         {
+            //FacebookWrapper.FacebookService.Logout(Show);
             LoginResult resultLogin = FacebookWrapper.FacebookService.Login("197501144117907",
                 "public_profile",
+                "email",
                 "user_education_history",
                 "user_birthday",
                 "user_actions.video",

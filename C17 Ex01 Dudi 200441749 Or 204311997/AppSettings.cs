@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
-using System.Drawing.Design;
 using System.IO;
 using System.Xml.Serialization;
 using FacebookWrapper;
 using FacebookWrapper.ObjectModel;
+using System.Windows.Forms;
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997
 {
@@ -20,6 +20,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         public bool RememberUser { get; set; }
         //public User LoginUser { get; set; }
         public string LastAccessToken { get; set; }
+        
 
         private AppSettings()
         {
@@ -98,6 +99,13 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         public void Clear()
         {
             deleteSettingsFile();
+        }
+
+        public void DefaultSettings(FormMain i_Form)
+        {
+            LastWindowsLocation = i_Form.Location;
+            LastWindowsSize = i_Form.Size;
+            RememberUser = i_Form.RememberMe;
         }
     }
 }

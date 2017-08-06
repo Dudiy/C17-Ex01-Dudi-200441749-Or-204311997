@@ -31,6 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPageAboutMe = new System.Windows.Forms.TabPage();
+            this.linkLabelSite = new System.Windows.Forms.LinkLabel();
+            this.labelPageName = new System.Windows.Forms.Label();
             this.buttonClearEventDetails = new System.Windows.Forms.Button();
             this.labelEventWhere = new System.Windows.Forms.Label();
             this.labelEventWhereTitle = new System.Windows.Forms.Label();
@@ -71,8 +73,6 @@
             this.pictureBoxProfilePicture = new System.Windows.Forms.PictureBox();
             this.pictureBoxCoverPhoto = new System.Windows.Forms.PictureBox();
             this.checkBoxRememberMe = new System.Windows.Forms.CheckBox();
-            this.labelPageName = new System.Windows.Forms.Label();
-            this.linkLabelSite = new System.Windows.Forms.LinkLabel();
             this.tabControl.SuspendLayout();
             this.tabPageAboutMe.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxEvent)).BeginInit();
@@ -136,6 +136,31 @@
             this.tabPageAboutMe.TabIndex = 0;
             this.tabPageAboutMe.Text = "About Me";
             this.tabPageAboutMe.UseVisualStyleBackColor = true;
+            // 
+            // linkLabelSite
+            // 
+            this.linkLabelSite.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.linkLabelSite.AutoSize = true;
+            this.linkLabelSite.Location = new System.Drawing.Point(732, 171);
+            this.linkLabelSite.MaximumSize = new System.Drawing.Size(100, 50);
+            this.linkLabelSite.Name = "linkLabelSite";
+            this.linkLabelSite.Size = new System.Drawing.Size(67, 13);
+            this.linkLabelSite.TabIndex = 36;
+            this.linkLabelSite.TabStop = true;
+            this.linkLabelSite.Text = "linkLabelSite";
+            this.linkLabelSite.Visible = false;
+            this.linkLabelSite.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelSite_LinkClicked);
+            // 
+            // labelPageName
+            // 
+            this.labelPageName.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelPageName.AutoSize = true;
+            this.labelPageName.Location = new System.Drawing.Point(698, 152);
+            this.labelPageName.Name = "labelPageName";
+            this.labelPageName.Size = new System.Drawing.Size(63, 13);
+            this.labelPageName.TabIndex = 33;
+            this.labelPageName.Text = "Page Name";
+            this.labelPageName.Visible = false;
             // 
             // buttonClearEventDetails
             // 
@@ -435,7 +460,7 @@
             this.tabPageDataTables.Location = new System.Drawing.Point(4, 22);
             this.tabPageDataTables.Name = "tabPageDataTables";
             this.tabPageDataTables.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageDataTables.Size = new System.Drawing.Size(757, 559);
+            this.tabPageDataTables.Size = new System.Drawing.Size(927, 559);
             this.tabPageDataTables.TabIndex = 1;
             this.tabPageDataTables.Text = "Data Tables";
             this.tabPageDataTables.UseVisualStyleBackColor = true;
@@ -490,7 +515,7 @@
             this.toolStripProgressBar});
             this.toolStrip1.Location = new System.Drawing.Point(3, 531);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(751, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(921, 25);
             this.toolStrip1.TabIndex = 3;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -591,31 +616,7 @@
             this.checkBoxRememberMe.TabIndex = 9;
             this.checkBoxRememberMe.Text = "Remember Me";
             this.checkBoxRememberMe.UseVisualStyleBackColor = true;
-            // 
-            // labelPageName
-            // 
-            this.labelPageName.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.labelPageName.AutoSize = true;
-            this.labelPageName.Location = new System.Drawing.Point(698, 152);
-            this.labelPageName.Name = "labelPageName";
-            this.labelPageName.Size = new System.Drawing.Size(63, 13);
-            this.labelPageName.TabIndex = 33;
-            this.labelPageName.Text = "Page Name";
-            this.labelPageName.Visible = false;
-            // 
-            // linkLabelSite
-            // 
-            this.linkLabelSite.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.linkLabelSite.AutoSize = true;
-            this.linkLabelSite.Location = new System.Drawing.Point(732, 171);
-            this.linkLabelSite.MaximumSize = new System.Drawing.Size(100, 50);
-            this.linkLabelSite.Name = "linkLabelSite";
-            this.linkLabelSite.Size = new System.Drawing.Size(67, 13);
-            this.linkLabelSite.TabIndex = 36;
-            this.linkLabelSite.TabStop = true;
-            this.linkLabelSite.Text = "linkLabelSite";
-            this.linkLabelSite.Visible = false;
-            this.linkLabelSite.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelSite_LinkClicked);
+            this.checkBoxRememberMe.CheckedChanged += new System.EventHandler(this.checkBoxRememberMe_CheckedChanged);
             // 
             // FormMain
             // 
