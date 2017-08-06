@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using FacebookWrapper;
 using FacebookWrapper.ObjectModel;
+using System.Threading;
 using C17_Ex01_Dudi_200441749_Or_204311997.DataTables;
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997
@@ -17,9 +18,20 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         public FormMain()
         {
             InitializeComponent();
+        }
+
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+            initLastUseSettings();
             FacebookService.s_CollectionLimit = 500;
             LoggedInUser = FacebookService.Connect(AppSettings.LastAccessToken).LoggedInUser;
             initMainForm();
+            fetchProfileAndCoverPhotos();
+            //Thread.Sleep(100000);
+            // init tabs
+            initAboutMeTab();
+            initDataTablesTab();
         }
 
         private void initMainForm()
@@ -28,7 +40,6 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             Text = LoggedInUser.Name;
             labelUserName.Text = LoggedInUser.Name;
         }
-
 
         private void fetchProfileAndCoverPhotos()
         {
@@ -48,21 +59,6 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                 pictureBoxCoverPhoto.LoadAsync(LoggedInUser.Cover.SourceURL);
                 pictureBoxCoverPhoto.Visible = true;
             }
-        }
-
-        protected override void OnLoad(EventArgs e)
-        {
-            base.OnLoad(e);
-            initLastUseSettings();
-        }
-
-        protected override void OnShown(EventArgs e)
-        {
-            base.OnShown(e);
-            fetchProfileAndCoverPhotos();
-            // init tabs
-            initAboutMeTab();
-            initDataTablesTab();
         }
 
         private void initLastUseSettings()
@@ -188,8 +184,9 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                 labelPageName.Text = selectedPage.Name;
                 labelPageName.Visible = true;
                 labelSiteTitle.Visible = true;
-                labelSite.Text = selectedPage.URL;
-                labelSite.Visible = true;
+                linkLabelSite.Text = selectedPage.URL;
+                linkLabelSite.Name = selectedPage.URL;
+                linkLabelSite.Visible = true;
                 labelPhoneTitle.Visible = true;
                 labelPhone.Text = selectedPage.Phone != null ? selectedPage.Phone : "Not defined";
                 labelPhone.Visible = true;
@@ -202,7 +199,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             pictureBoxPage.Visible = false;
             labelPageName.Visible = false;
             labelSiteTitle.Visible = false;
-            labelSite.Visible = false;
+            linkLabelSite.Visible = false;
             labelPhoneTitle.Visible = false;
             labelPhone.Visible = false;
             buttonClearPageDetails.Visible = false;
@@ -388,6 +385,14 @@ Fetching {0} data from server ... {1:P0} Complete   ",
                 );
 
             return date;
+        }
+
+        private void linkLabelSite_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            // Specify that the link was visited.
+            linkLabelSite.LinkVisited = true;
+            // Navigate to a URL.
+            System.Diagnostics.Process.Start(linkLabelSite.Text);
         }
     }
 }

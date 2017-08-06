@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPageAboutMe = new System.Windows.Forms.TabPage();
-            this.labelPageName = new System.Windows.Forms.Label();
             this.buttonClearEventDetails = new System.Windows.Forms.Button();
             this.labelEventWhere = new System.Windows.Forms.Label();
             this.labelEventWhereTitle = new System.Windows.Forms.Label();
@@ -43,7 +42,6 @@
             this.labelMyBirthdayTitle = new System.Windows.Forms.Label();
             this.buttonClearPageDetails = new System.Windows.Forms.Button();
             this.labelPhone = new System.Windows.Forms.Label();
-            this.labelSite = new System.Windows.Forms.Label();
             this.buttonClearFriendDetails = new System.Windows.Forms.Button();
             this.labelPhoneTitle = new System.Windows.Forms.Label();
             this.labelSiteTitle = new System.Windows.Forms.Label();
@@ -73,6 +71,8 @@
             this.pictureBoxProfilePicture = new System.Windows.Forms.PictureBox();
             this.pictureBoxCoverPhoto = new System.Windows.Forms.PictureBox();
             this.checkBoxRememberMe = new System.Windows.Forms.CheckBox();
+            this.labelPageName = new System.Windows.Forms.Label();
+            this.linkLabelSite = new System.Windows.Forms.LinkLabel();
             this.tabControl.SuspendLayout();
             this.tabPageAboutMe.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxEvent)).BeginInit();
@@ -87,19 +87,22 @@
             // 
             // tabControl
             // 
-            this.tabControl.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl.Controls.Add(this.tabPageAboutMe);
             this.tabControl.Controls.Add(this.tabPageDataTables);
             this.tabControl.Location = new System.Drawing.Point(22, 206);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(765, 585);
+            this.tabControl.Size = new System.Drawing.Size(935, 585);
+            this.tabControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabControl.TabIndex = 0;
             this.tabControl.Tag = "";
             // 
             // tabPageAboutMe
             // 
             this.tabPageAboutMe.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.tabPageAboutMe.Controls.Add(this.linkLabelSite);
             this.tabPageAboutMe.Controls.Add(this.labelPageName);
             this.tabPageAboutMe.Controls.Add(this.buttonClearEventDetails);
             this.tabPageAboutMe.Controls.Add(this.labelEventWhere);
@@ -112,7 +115,6 @@
             this.tabPageAboutMe.Controls.Add(this.labelMyBirthdayTitle);
             this.tabPageAboutMe.Controls.Add(this.buttonClearPageDetails);
             this.tabPageAboutMe.Controls.Add(this.labelPhone);
-            this.tabPageAboutMe.Controls.Add(this.labelSite);
             this.tabPageAboutMe.Controls.Add(this.buttonClearFriendDetails);
             this.tabPageAboutMe.Controls.Add(this.labelPhoneTitle);
             this.tabPageAboutMe.Controls.Add(this.labelSiteTitle);
@@ -130,21 +132,10 @@
             this.tabPageAboutMe.Location = new System.Drawing.Point(4, 22);
             this.tabPageAboutMe.Name = "tabPageAboutMe";
             this.tabPageAboutMe.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageAboutMe.Size = new System.Drawing.Size(757, 559);
+            this.tabPageAboutMe.Size = new System.Drawing.Size(927, 559);
             this.tabPageAboutMe.TabIndex = 0;
             this.tabPageAboutMe.Text = "About Me";
             this.tabPageAboutMe.UseVisualStyleBackColor = true;
-            // 
-            // labelPageName
-            // 
-            this.labelPageName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelPageName.AutoSize = true;
-            this.labelPageName.Location = new System.Drawing.Point(614, 170);
-            this.labelPageName.Name = "labelPageName";
-            this.labelPageName.Size = new System.Drawing.Size(63, 13);
-            this.labelPageName.TabIndex = 32;
-            this.labelPageName.Text = "Page Name";
-            this.labelPageName.Visible = false;
             // 
             // buttonClearEventDetails
             // 
@@ -243,17 +234,19 @@
             // 
             // labelMyBirthdayTitle
             // 
+            this.labelMyBirthdayTitle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.labelMyBirthdayTitle.AutoSize = true;
-            this.labelMyBirthdayTitle.Location = new System.Drawing.Point(500, 344);
+            this.labelMyBirthdayTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelMyBirthdayTitle.Location = new System.Drawing.Point(704, 488);
             this.labelMyBirthdayTitle.Name = "labelMyBirthdayTitle";
-            this.labelMyBirthdayTitle.Size = new System.Drawing.Size(112, 13);
+            this.labelMyBirthdayTitle.Size = new System.Drawing.Size(217, 24);
             this.labelMyBirthdayTitle.TabIndex = 23;
             this.labelMyBirthdayTitle.Text = "My birthday in ?? days";
             // 
             // buttonClearPageDetails
             // 
-            this.buttonClearPageDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonClearPageDetails.Location = new System.Drawing.Point(671, 252);
+            this.buttonClearPageDetails.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.buttonClearPageDetails.Location = new System.Drawing.Point(754, 253);
             this.buttonClearPageDetails.Name = "buttonClearPageDetails";
             this.buttonClearPageDetails.Size = new System.Drawing.Size(80, 30);
             this.buttonClearPageDetails.TabIndex = 22;
@@ -264,23 +257,14 @@
             // 
             // labelPhone
             // 
+            this.labelPhone.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelPhone.AutoSize = true;
-            this.labelPhone.Location = new System.Drawing.Point(765, 249);
+            this.labelPhone.Location = new System.Drawing.Point(764, 230);
             this.labelPhone.Name = "labelPhone";
             this.labelPhone.Size = new System.Drawing.Size(70, 13);
             this.labelPhone.TabIndex = 21;
             this.labelPhone.Text = "050-0000000";
             this.labelPhone.Visible = false;
-            // 
-            // labelSite
-            // 
-            this.labelSite.AutoSize = true;
-            this.labelSite.Location = new System.Drawing.Point(765, 224);
-            this.labelSite.Name = "labelSite";
-            this.labelSite.Size = new System.Drawing.Size(83, 13);
-            this.labelSite.TabIndex = 20;
-            this.labelSite.Text = "www.name.com";
-            this.labelSite.Visible = false;
             // 
             // buttonClearFriendDetails
             // 
@@ -297,9 +281,9 @@
             // 
             // labelPhoneTitle
             // 
-            this.labelPhoneTitle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelPhoneTitle.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelPhoneTitle.AutoSize = true;
-            this.labelPhoneTitle.Location = new System.Drawing.Point(614, 220);
+            this.labelPhoneTitle.Location = new System.Drawing.Point(698, 230);
             this.labelPhoneTitle.Name = "labelPhoneTitle";
             this.labelPhoneTitle.Size = new System.Drawing.Size(41, 13);
             this.labelPhoneTitle.TabIndex = 18;
@@ -308,9 +292,9 @@
             // 
             // labelSiteTitle
             // 
-            this.labelSiteTitle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelSiteTitle.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelSiteTitle.AutoSize = true;
-            this.labelSiteTitle.Location = new System.Drawing.Point(614, 195);
+            this.labelSiteTitle.Location = new System.Drawing.Point(698, 171);
             this.labelSiteTitle.Name = "labelSiteTitle";
             this.labelSiteTitle.Size = new System.Drawing.Size(28, 13);
             this.labelSiteTitle.TabIndex = 17;
@@ -379,9 +363,9 @@
             // 
             // labelLikedPages
             // 
-            this.labelLikedPages.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelLikedPages.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelLikedPages.AutoSize = true;
-            this.labelLikedPages.Location = new System.Drawing.Point(411, 4);
+            this.labelLikedPages.Location = new System.Drawing.Point(501, 4);
             this.labelLikedPages.Name = "labelLikedPages";
             this.labelLikedPages.Size = new System.Drawing.Size(66, 13);
             this.labelLikedPages.TabIndex = 5;
@@ -400,8 +384,8 @@
             // 
             // pictureBoxPage
             // 
-            this.pictureBoxPage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBoxPage.Location = new System.Drawing.Point(617, 19);
+            this.pictureBoxPage.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.pictureBoxPage.Location = new System.Drawing.Point(701, 19);
             this.pictureBoxPage.Name = "pictureBoxPage";
             this.pictureBoxPage.Size = new System.Drawing.Size(133, 130);
             this.pictureBoxPage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -411,9 +395,9 @@
             // 
             // listBoxLikedPages
             // 
-            this.listBoxLikedPages.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.listBoxLikedPages.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.listBoxLikedPages.FormattingEnabled = true;
-            this.listBoxLikedPages.Location = new System.Drawing.Point(413, 19);
+            this.listBoxLikedPages.Location = new System.Drawing.Point(503, 19);
             this.listBoxLikedPages.Name = "listBoxLikedPages";
             this.listBoxLikedPages.Size = new System.Drawing.Size(192, 264);
             this.listBoxLikedPages.TabIndex = 2;
@@ -451,7 +435,7 @@
             this.tabPageDataTables.Location = new System.Drawing.Point(4, 22);
             this.tabPageDataTables.Name = "tabPageDataTables";
             this.tabPageDataTables.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageDataTables.Size = new System.Drawing.Size(720, 559);
+            this.tabPageDataTables.Size = new System.Drawing.Size(757, 559);
             this.tabPageDataTables.TabIndex = 1;
             this.tabPageDataTables.Text = "Data Tables";
             this.tabPageDataTables.UseVisualStyleBackColor = true;
@@ -506,7 +490,7 @@
             this.toolStripProgressBar});
             this.toolStrip1.Location = new System.Drawing.Point(3, 531);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(714, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(751, 25);
             this.toolStrip1.TabIndex = 3;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -535,17 +519,17 @@
             // 
             // textBoxPost
             // 
-            this.textBoxPost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxPost.Location = new System.Drawing.Point(434, 167);
+            this.textBoxPost.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.textBoxPost.Location = new System.Drawing.Point(608, 201);
             this.textBoxPost.Name = "textBoxPost";
             this.textBoxPost.Size = new System.Drawing.Size(273, 20);
             this.textBoxPost.TabIndex = 5;
             // 
             // button1
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(710, 164);
+            this.button1.Location = new System.Drawing.Point(884, 198);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(73, 24);
             this.button1.TabIndex = 6;
@@ -555,7 +539,7 @@
             // buttonLogout
             // 
             this.buttonLogout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonLogout.Location = new System.Drawing.Point(658, 9);
+            this.buttonLogout.Location = new System.Drawing.Point(828, 9);
             this.buttonLogout.Name = "buttonLogout";
             this.buttonLogout.Size = new System.Drawing.Size(67, 26);
             this.buttonLogout.TabIndex = 7;
@@ -566,7 +550,7 @@
             // buttonExit
             // 
             this.buttonExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonExit.Location = new System.Drawing.Point(731, 9);
+            this.buttonExit.Location = new System.Drawing.Point(901, 9);
             this.buttonExit.Name = "buttonExit";
             this.buttonExit.Size = new System.Drawing.Size(67, 26);
             this.buttonExit.TabIndex = 8;
@@ -599,19 +583,45 @@
             // 
             // checkBoxRememberMe
             // 
+            this.checkBoxRememberMe.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.checkBoxRememberMe.AutoSize = true;
-            this.checkBoxRememberMe.Location = new System.Drawing.Point(612, 41);
+            this.checkBoxRememberMe.Location = new System.Drawing.Point(828, 41);
             this.checkBoxRememberMe.Name = "checkBoxRememberMe";
             this.checkBoxRememberMe.Size = new System.Drawing.Size(95, 17);
             this.checkBoxRememberMe.TabIndex = 9;
             this.checkBoxRememberMe.Text = "Remember Me";
             this.checkBoxRememberMe.UseVisualStyleBackColor = true;
             // 
+            // labelPageName
+            // 
+            this.labelPageName.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelPageName.AutoSize = true;
+            this.labelPageName.Location = new System.Drawing.Point(698, 152);
+            this.labelPageName.Name = "labelPageName";
+            this.labelPageName.Size = new System.Drawing.Size(63, 13);
+            this.labelPageName.TabIndex = 33;
+            this.labelPageName.Text = "Page Name";
+            this.labelPageName.Visible = false;
+            // 
+            // linkLabelSite
+            // 
+            this.linkLabelSite.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.linkLabelSite.AutoSize = true;
+            this.linkLabelSite.Location = new System.Drawing.Point(732, 171);
+            this.linkLabelSite.MaximumSize = new System.Drawing.Size(100, 50);
+            this.linkLabelSite.Name = "linkLabelSite";
+            this.linkLabelSite.Size = new System.Drawing.Size(67, 13);
+            this.linkLabelSite.TabIndex = 36;
+            this.linkLabelSite.TabStop = true;
+            this.linkLabelSite.Text = "linkLabelSite";
+            this.linkLabelSite.Visible = false;
+            this.linkLabelSite.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelSite_LinkClicked);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(802, 795);
+            this.ClientSize = new System.Drawing.Size(972, 795);
             this.Controls.Add(this.checkBoxRememberMe);
             this.Controls.Add(this.buttonExit);
             this.Controls.Add(this.buttonLogout);
@@ -671,10 +681,8 @@
         private System.Windows.Forms.Label labelSiteTitle;
         private System.Windows.Forms.Button buttonClearFriendDetails;
         private System.Windows.Forms.Label labelPhone;
-        private System.Windows.Forms.Label labelSite;
         private System.Windows.Forms.Button buttonClearPageDetails;
         private System.Windows.Forms.Label labelMyBirthdayTitle;
-        private System.Windows.Forms.Label labelPageName;
         private System.Windows.Forms.Button buttonClearEventDetails;
         private System.Windows.Forms.Label labelEventWhere;
         private System.Windows.Forms.Label labelEventWhereTitle;
@@ -690,5 +698,7 @@
         private System.Windows.Forms.ToolStripLabel toolStripLabelMessage;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar;
         private System.Windows.Forms.CheckBox checkBoxRememberMe;
+        private System.Windows.Forms.Label labelPageName;
+        private System.Windows.Forms.LinkLabel linkLabelSite;
     }
 }
