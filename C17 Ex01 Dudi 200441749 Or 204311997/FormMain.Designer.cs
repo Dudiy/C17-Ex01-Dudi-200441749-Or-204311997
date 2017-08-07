@@ -66,13 +66,16 @@
             this.toolStripLabelMessage = new System.Windows.Forms.ToolStripLabel();
             this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.labelUserName = new System.Windows.Forms.Label();
-            this.textBoxPost = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.buttonPostStatus = new System.Windows.Forms.Button();
             this.buttonLogout = new System.Windows.Forms.Button();
             this.buttonExit = new System.Windows.Forms.Button();
             this.pictureBoxProfilePicture = new System.Windows.Forms.PictureBox();
             this.pictureBoxCoverPhoto = new System.Windows.Forms.PictureBox();
             this.checkBoxRememberMe = new System.Windows.Forms.CheckBox();
+            this.richTextBoxStatusPost = new System.Windows.Forms.RichTextBox();
+            this.comboBoxTagFriend = new System.Windows.Forms.ComboBox();
+            this.labelTagFriends = new System.Windows.Forms.Label();
+            this.buttonAddPicture = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.tabPageAboutMe.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxEvent)).BeginInit();
@@ -542,24 +545,17 @@
             this.labelUserName.TabIndex = 3;
             this.labelUserName.Text = "User Name";
             // 
-            // textBoxPost
+            // buttonPostStatus
             // 
-            this.textBoxPost.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.textBoxPost.Location = new System.Drawing.Point(608, 201);
-            this.textBoxPost.Name = "textBoxPost";
-            this.textBoxPost.Size = new System.Drawing.Size(273, 20);
-            this.textBoxPost.TabIndex = 5;
-            // 
-            // button1
-            // 
-            this.button1.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(884, 198);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(73, 24);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "Post";
-            this.button1.UseVisualStyleBackColor = true;
+            this.buttonPostStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonPostStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonPostStatus.Location = new System.Drawing.Point(880, 175);
+            this.buttonPostStatus.Name = "buttonPostStatus";
+            this.buttonPostStatus.Size = new System.Drawing.Size(73, 47);
+            this.buttonPostStatus.TabIndex = 6;
+            this.buttonPostStatus.Text = "Post";
+            this.buttonPostStatus.UseVisualStyleBackColor = true;
+            this.buttonPostStatus.Click += new System.EventHandler(this.buttonPost_Click);
             // 
             // buttonLogout
             // 
@@ -618,16 +614,57 @@
             this.checkBoxRememberMe.UseVisualStyleBackColor = true;
             this.checkBoxRememberMe.CheckedChanged += new System.EventHandler(this.checkBoxRememberMe_CheckedChanged);
             // 
+            // richTextBoxStatusPost
+            // 
+            this.richTextBoxStatusPost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBoxStatusPost.Location = new System.Drawing.Point(586, 175);
+            this.richTextBoxStatusPost.Name = "richTextBoxStatusPost";
+            this.richTextBoxStatusPost.Size = new System.Drawing.Size(288, 47);
+            this.richTextBoxStatusPost.TabIndex = 10;
+            this.richTextBoxStatusPost.Text = "";
+            // 
+            // comboBoxTagFriend
+            // 
+            this.comboBoxTagFriend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxTagFriend.FormattingEnabled = true;
+            this.comboBoxTagFriend.Location = new System.Drawing.Point(880, 148);
+            this.comboBoxTagFriend.Name = "comboBoxTagFriend";
+            this.comboBoxTagFriend.Size = new System.Drawing.Size(73, 21);
+            this.comboBoxTagFriend.TabIndex = 11;
+            // 
+            // labelTagFriends
+            // 
+            this.labelTagFriends.AutoSize = true;
+            this.labelTagFriends.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelTagFriends.Location = new System.Drawing.Point(879, 132);
+            this.labelTagFriends.Name = "labelTagFriends";
+            this.labelTagFriends.Size = new System.Drawing.Size(74, 13);
+            this.labelTagFriends.TabIndex = 12;
+            this.labelTagFriends.Text = "Tag Friends";
+            // 
+            // buttonAddPicture
+            // 
+            this.buttonAddPicture.Location = new System.Drawing.Point(793, 148);
+            this.buttonAddPicture.Name = "buttonAddPicture";
+            this.buttonAddPicture.Size = new System.Drawing.Size(81, 21);
+            this.buttonAddPicture.TabIndex = 13;
+            this.buttonAddPicture.Text = "Add Picture";
+            this.buttonAddPicture.UseVisualStyleBackColor = true;
+            this.buttonAddPicture.Click += new System.EventHandler(this.buttonAddPicture_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(972, 795);
+            this.Controls.Add(this.buttonAddPicture);
+            this.Controls.Add(this.labelTagFriends);
+            this.Controls.Add(this.comboBoxTagFriend);
+            this.Controls.Add(this.richTextBoxStatusPost);
             this.Controls.Add(this.checkBoxRememberMe);
             this.Controls.Add(this.buttonExit);
             this.Controls.Add(this.buttonLogout);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.textBoxPost);
+            this.Controls.Add(this.buttonPostStatus);
             this.Controls.Add(this.labelUserName);
             this.Controls.Add(this.pictureBoxProfilePicture);
             this.Controls.Add(this.tabControl);
@@ -667,8 +704,7 @@
         private System.Windows.Forms.PictureBox pictureBoxPage;
         private System.Windows.Forms.ListBox listBoxLikedPages;
         private System.Windows.Forms.PictureBox pictureBoxFriend;
-        private System.Windows.Forms.TextBox textBoxPost;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonPostStatus;
         private System.Windows.Forms.Button buttonLogout;
         private System.Windows.Forms.Button buttonExit;
         private System.Windows.Forms.Label labelLikedPages;
@@ -701,5 +737,9 @@
         private System.Windows.Forms.CheckBox checkBoxRememberMe;
         private System.Windows.Forms.Label labelPageName;
         private System.Windows.Forms.LinkLabel linkLabelSite;
+        private System.Windows.Forms.RichTextBox richTextBoxStatusPost;
+        private System.Windows.Forms.ComboBox comboBoxTagFriend;
+        private System.Windows.Forms.Label labelTagFriends;
+        private System.Windows.Forms.Button buttonAddPicture;
     }
 }

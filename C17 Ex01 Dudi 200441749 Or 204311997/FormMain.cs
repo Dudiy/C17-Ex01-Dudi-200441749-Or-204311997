@@ -5,6 +5,8 @@ using FacebookWrapper;
 using FacebookWrapper.ObjectModel;
 using System.Threading;
 using C17_Ex01_Dudi_200441749_Or_204311997.DataTables;
+using System.Drawing;
+using System.IO;
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997
 {
@@ -15,6 +17,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         public AppSettings AppSettings { get; private set; } = AppSettings.Instance;
         public User LoggedInUser { get; private set; }
         public bool RememberMe { get; set; }
+        private string m_PostPictureURL;
 
         public FormMain()
         {
@@ -114,9 +117,11 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         private void updateFriendsList()
         {
             listBoxFriends.DisplayMember = "Name";
+            comboBoxTagFriend.DisplayMember = "Name";
             foreach (User friend in LoggedInUser.Friends)
             {
                 listBoxFriends.Items.Add(friend);
+                comboBoxTagFriend.Items.Add(friend);
             }
         }
 
@@ -410,6 +415,33 @@ Fetching {0} data from server ... {1:P0} Complete   ",
         private void checkBoxRememberMe_CheckedChanged(object sender, EventArgs e)
         {
             RememberMe = ((CheckBox)sender).Checked;
+        }
+
+        private void buttonPost_Click(object sender, EventArgs e)
+        {
+            // TODO multi tags
+            User friend = comboBoxTagFriend.SelectedItem as User;
+            string friendID = friend != null ? friend.Id : null;
+            Status postedStatus = LoggedInUser.PostStatus(richTextBoxStatusPost.Text, 
+                i_TaggedFriendIDs: friendID, i_PictureURL: m_PostPictureURL);
+
+            MessageBox.Show("Status Posted! ID: " + postedStatus.Id);
+        }
+
+        // TODO bug
+        private void buttonAddPicture_Click(object sender, EventArgs e)
+        {
+            //Image file;
+            OpenFileDialog file = new OpenFileDialog();
+
+            //file.Filter = "JPG(*.JPG|*.jpg";
+            //file.Filter = "PNG(*.PNG|*.png";
+            if (file.ShowDialog() == DialogResult.OK)
+            {
+                m_PostPictureURL = new Uri(file.FileName).AbsoluteUri;
+                //m_PostPictureURL = Path.GetFullPath(file.FileName);
+                //m_PostPictureURL = Image.FromFile(file.FileName);
+            }
         }
     }
 }
