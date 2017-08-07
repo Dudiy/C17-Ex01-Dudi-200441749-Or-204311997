@@ -376,6 +376,7 @@ Fetching {0} data from server ... {1:P0} Complete   ",
 
         private void updateToolStrip(string i_ToolstripMessage)
         {
+
             //progress bar
             toolStripProgressBar.Minimum = 0;
             toolStripProgressBar.Maximum = m_DataTableBindedToView.TotalRows;
