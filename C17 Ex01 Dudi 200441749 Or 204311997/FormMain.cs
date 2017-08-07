@@ -422,8 +422,11 @@ Fetching {0} data from server ... {1:P0} Complete   ",
             // TODO multi tags
             User friend = comboBoxTagFriend.SelectedItem as User;
             string friendID = friend != null ? friend.Id : null;
-            Status postedStatus = LoggedInUser.PostStatus(richTextBoxStatusPost.Text, 
-                i_TaggedFriendIDs: friendID, i_PictureURL: m_PostPictureURL);
+            // TODO work only with URL of web
+            m_PostPictureURL = "https://ibb.co/g5SthF";
+            Status postedStatus = LoggedInUser.PostStatus(richTextBoxStatusPost.Text,
+                i_TaggedFriendIDs: friendID, i_PictureURL: m_PostPictureURL,
+                i_Link:m_PostPictureURL);
 
             MessageBox.Show("Status Posted! ID: " + postedStatus.Id);
         }
