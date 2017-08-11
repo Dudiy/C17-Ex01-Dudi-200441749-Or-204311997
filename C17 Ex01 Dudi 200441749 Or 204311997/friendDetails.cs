@@ -24,15 +24,19 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         private void init()
         {
             userBindingSource.DataSource = m_Friend;
-            foreach(Page profilePicture in m_Friend.LikedPages)
-            {
-
-            }
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             likedPagesBindingSource.DataSource = ((ListBox)sender).SelectedItem as Page;
+        }
+
+        private void uRLLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            // Specify that the link was visited.
+            uRLLinkLabel.LinkVisited = true;
+            // Navigate to a URL.
+            System.Diagnostics.Process.Start(uRLLinkLabel.Text);
         }
     }
 }
