@@ -15,8 +15,11 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         public static User LoggedInUser { get; private set; }
         public static AppSettings AppSettings { get; private set; }
         public static bool ExitSelected { get; set; }
+        private static bool isFirstLogoutCall = true;
+        private static Form m_MainForm;
         public static void Run()
         {
+            FacebookService.s_CollectionLimit = 500;
             ExitSelected = false;
             AppSettings = AppSettings.LoadFromFile();
             while (!ExitSelected)
@@ -27,18 +30,33 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                     showMainForm();
                 }
             }
-            //We get here only after ExitSelected == true
+            //We get here only after ExitSelected is true
             exitApplication();
         }
 
         private static void showMainForm()
         {
-            FormMain mainForm = new FormMain();
+            m_MainForm = new FormMain();
+            m_MainForm.Size = AppSettings.LastWindowsSize;
+            m_MainForm.StartPosition = AppSettings.LastFormStartPosition;
+            m_MainForm.Location = AppSettings.LastWindowLocation;
+            m_MainForm.ShowDialog();
+        }
 
-            mainForm.StartPosition = FormStartPosition.Manual;
-            mainForm.Location = AppSettings.LastWindowsLocation;
-            mainForm.Size = AppSettings.LastWindowsSize;
-            mainForm.ShowDialog();
+        // used as a method to call after succesfully invoking FacebookService.Logout
+        public static void Logout()
+        {
+            // this is a patch to fix bug in facebookWrapper where this method is called twice when Logout is invoked            
+            if (isFirstLogoutCall)
+            {
+                AppSettings.SetDefaultSettings();
+                MessageBox.Show("{0} logged out", LoggedInUser.Name);
+                LoggedInUser = null; 
+                m_MainForm.Close();
+            }
+
+            // toggle isFirstLogoutCall
+            isFirstLogoutCall = isFirstLogoutCall ? false : true;
         }
 
         private static void exitApplication()

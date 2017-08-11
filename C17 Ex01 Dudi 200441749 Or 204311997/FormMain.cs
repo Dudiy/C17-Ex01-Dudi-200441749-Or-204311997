@@ -16,85 +16,59 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         private FacebookDataTableManager m_DataTableManager;
         private FacebookDataTable m_DataTableBindedToView;
         private FriendshipAnalyzer m_FriendshipAnalyzer;
-        public AppSettings AppSettings { get; private set; } = AppSettings.Instance;
-        //public User LoggedInUser { get; private set; }
         public bool RememberMe { get; set; }
         private string m_PostPictureURL;
+        private static readonly Size sr_MinimumWindowSize = new Size(800, 600);
+        private bool m_LogoutClicked = false;
 
         public FormMain()
         {
             InitializeComponent();
-            // TODO delete, in order to save center position in default settings
-            //LoggedInUser = FormLogin.LoggedInUser;
-            CenterToScreen();
         }
 
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
-            //initLastUseSettings();
-            FacebookService.s_CollectionLimit = 500;
-            //LoggedInUser = FacebookService.Connect(AppSettings.LastAccessToken).LoggedInUser;
             initMainForm();
             fetchProfileAndCoverPhotos();
-            //Thread.Sleep(100000);
             // init tabs
             initAboutMeTab();
             initDataTablesTab();
             initFriendshipAnalyzerTab();
         }
 
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            base.OnClosing(e);
+            if (!m_LogoutClicked)
+            {
+                //exitSelected is set here in case where user hits the X button or alt+F4
+                FacebookApplication.ExitSelected = true;
+                FacebookApplication.AppSettings.LastFormStartPosition = FormStartPosition.Manual;
+                FacebookApplication.AppSettings.LastWindowLocation = Location;
+                FacebookApplication.AppSettings.LastWindowsSize = Size;
+            }
+        }
+
         private void initMainForm()
         {
-            // init global form
             Text = FacebookApplication.LoggedInUser.Name;
             labelUserName.Text = FacebookApplication.LoggedInUser.Name;
-
-            //MinimumSize = new System.Drawing.Size(Size.Width, Size.Height);
+            MinimumSize = sr_MinimumWindowSize;
         }
 
         private void fetchProfileAndCoverPhotos()
         {
-            // TODO check if there are pic
-            if (FacebookApplication.LoggedInUser.PictureNormalURL != null)
+            try
             {
                 pictureBoxProfilePicture.LoadAsync(FacebookApplication.LoggedInUser.PictureNormalURL);
-                pictureBoxProfilePicture.Visible = true;
-            }
-            else
-            {
-                // TODO add empty user picture
-            }
-
-            if (FacebookApplication.LoggedInUser.Cover != null)
-            {
                 pictureBoxCoverPhoto.LoadAsync(FacebookApplication.LoggedInUser.Cover.SourceURL);
-                pictureBoxCoverPhoto.Visible = true;
+            }
+            catch
+            {
+                MessageBox.Show("Profile or cover photo missing, default photos were loaded");
             }
         }
-
-        private void initLastUseSettings()
-        {
-            //AppSettings = AppSettings.Instance;
-            //StartPosition = FormStartPosition.Manual;
-            //Location = AppSettings.LastWindowsLocation;
-            //Size = AppSettings.LastWindowsSize;
-        }
-
-        protected override void OnClosing(CancelEventArgs e)
-        {
-            base.OnClosing(e);
-            //TODO should we set exitSelected here? for the case where user hits the X button
-            FacebookApplication.ExitSelected = true;
-            FacebookApplication.AppSettings.LastWindowsLocation = Location;
-            FacebookApplication.AppSettings.LastWindowsSize = Size;
-        }
-        //protected override void OnFormClosing(FormClosingEventArgs e)
-        //{
-        //    base.OnFormClosing(e);
-        //    AppSettings.LastWindowsLocation = Location;
-        //    AppSettings.LastWindowsSize = Size;
-        //}
 
         // ================================================ About Me Tab ==============================================
         private void initAboutMeTab()
@@ -263,8 +237,8 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                 DateTime myNextBirthday = new DateTime(DateTime.Now.Year, myBirthday.Month, myBirthday.Day);
 
                 labelMyBirthdayTitle.Text = String.Format(
-    @"Born in {0}
-My birthday in {1} days",
+@"Born on {0}
+My birthday is in {1} days",
     myBirthday.ToString("dd/MM/yyyy"),
     (myNextBirthday - DateTime.Now).Days);
             }
@@ -278,19 +252,9 @@ My birthday in {1} days",
         // ================================================ Close form ==============================================
         private void buttonLogout_Click(object sender, EventArgs e)
         {
-            FacebookService.Logout(null);
-            FacebookApplication.AppSettings.SetDefaultSettings();
-            //DialogResult = DialogResult.Yes;
-            this.Close();
-            // TODO bug after logout and try to login 
-            //FacebookService.Logout(notifyLogout);
-        }
-
-        // TODO call twice
-        private void notifyLogout()
-        {
-            MessageBox.Show("Logged Out");
-            Close();
+            m_LogoutClicked = true;
+            FacebookService.Logout(FacebookApplication.Logout);
+            //this.Close();
         }
 
         private void buttonExit_Click(object sender, EventArgs e)

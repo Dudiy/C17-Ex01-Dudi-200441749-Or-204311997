@@ -10,10 +10,12 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
     public class AppSettings
     {
         private const string k_SettingsFilePath = "AppSettings.xml";
+        private static readonly Size sr_DefaultFormSize = new Size(1394, 867);
         private static readonly object sr_CreationLock = new object();
-        private static AppSettings s_Instance;
-        public Point LastWindowsLocation { get; set; }
+        //private static AppSettings s_Instance;
+        public Point LastWindowLocation { get; set; }
         public Size LastWindowsSize { get; set; }
+        public FormStartPosition LastFormStartPosition { get; set; }
         public bool RememberUser { get; set; }
         public string LastAccessToken { get; set; }
         //public User LoginUser { get; set; }
@@ -23,42 +25,8 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             SetDefaultSettings();
         }
 
-        private Point getDefaultStartingPointForMainForm()
-        {
-            int x = Screen.PrimaryScreen.WorkingArea.Width / 2;
-            int y = Screen.PrimaryScreen.WorkingArea.Height / 2;
-            return new Point(x - (LastWindowsSize.Width) / 2, y - (LastWindowsSize.Height) / 2);
-        }
-
-        public static AppSettings Instance
-        {
-            get
-            {
-                if (s_Instance == null)
-                {
-                    lock (sr_CreationLock)
-                    {
-                        if (s_Instance == null)
-                        {
-                            s_Instance = new AppSettings();
-                        }
-                    }
-                }
-
-                return s_Instance;
-            }
-            // TODO singletons don't have set (it happens in the get) - Delete after reading
-            /*
-            private set
-            {
-                s_Instance = value;
-            } 
-            */
-        }
-
         public void SaveToFile()
         {
-            //deleteSettingsFile();
             // TODO is this the right way to to this?
             if (!File.Exists(k_SettingsFilePath))
             {
@@ -99,31 +67,12 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             return appSettings;
         }
 
-        //private void deleteSettingsFile()
-        //{
-        //    try
-        //    {
-        //        if (File.Exists(m_Path))
-        //        {
-        //            File.Delete(m_Path);
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        throw new Exception("Fail when try to delete the old settings file");
-        //    }
-        //}
-
-        //public void Clear()
-        //{
-        //    deleteSettingsFile();
-        //}
-
         public void SetDefaultSettings()
         {
             //TODO isn't the initial size to big?
-            LastWindowsSize = new Size(1394, 867);
-            LastWindowsLocation = getDefaultStartingPointForMainForm();
+            LastWindowsSize = sr_DefaultFormSize;
+            LastFormStartPosition = FormStartPosition.CenterScreen;
+            LastWindowLocation = new Point(0,0);
             LastAccessToken = null;
             RememberUser = false;
         }

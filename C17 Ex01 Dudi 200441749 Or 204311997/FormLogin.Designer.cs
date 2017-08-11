@@ -63,13 +63,14 @@
             // 
             this.checkBoxRememberMe.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.checkBoxRememberMe.AutoSize = true;
-            this.checkBoxRememberMe.Location = new System.Drawing.Point(193, 111);
+            this.checkBoxRememberMe.Location = new System.Drawing.Point(186, 111);
             this.checkBoxRememberMe.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.checkBoxRememberMe.Name = "checkBoxRememberMe";
-            this.checkBoxRememberMe.Size = new System.Drawing.Size(133, 24);
+            this.checkBoxRememberMe.Size = new System.Drawing.Size(140, 24);
             this.checkBoxRememberMe.TabIndex = 10;
             this.checkBoxRememberMe.Text = "Remember Me";
             this.checkBoxRememberMe.UseVisualStyleBackColor = true;
+            this.checkBoxRememberMe.CheckedChanged += new System.EventHandler(this.checkBoxRememberMe_CheckedChanged);
             // 
             // FormLogin
             // 

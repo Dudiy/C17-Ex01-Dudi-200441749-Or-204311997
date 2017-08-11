@@ -182,24 +182,9 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             Close();
         }
 
-        protected override void OnClosing(CancelEventArgs e)
+        private void checkBoxRememberMe_CheckedChanged(object sender, EventArgs e)
         {
-            base.OnClosing(e);
-
-            if (FacebookApplication.AppSettings.RememberUser)
-            {
-                FacebookApplication.AppSettings.LastWindowsLocation = Location;
-                FacebookApplication.AppSettings.LastWindowsSize = Size;
-            }
-            //// TODO if logout and exit is the same in that case
-            //AppSettings.RememberUser = checkBoxRememberMe.Checked;
-            //// if rememberMe is false set settings to default before saving
-            //if (!checkBoxRememberMe.Checked)
-            //{
-            //    AppSettings.SetDefaultSettings();
-            //}
-
-            //AppSettings.SaveToFile();
+            FacebookApplication.AppSettings.RememberUser = checkBoxRememberMe.Checked;
         }
     }
 }
