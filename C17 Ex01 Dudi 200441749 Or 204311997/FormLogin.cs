@@ -125,7 +125,6 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         // TODO see which permission we need
         private void login()
         {
-            //FacebookWrapper.FacebookService.Logout(Show);
             LoginResult = FacebookWrapper.FacebookService.Login("197501144117907",
                 "public_profile",
                 "email",
@@ -141,7 +140,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                 "publish_actions",
                 "user_events",
                 //"user_games_activity",
-                //"user_groups" (This permission is only available for apps using Graph API version v2.3 or older.)
+                //"user_groups", //(This permission is only available for apps using Graph API version v2.3 or older.)
                 "user_hometown",
                 "user_likes",
                 "user_location",

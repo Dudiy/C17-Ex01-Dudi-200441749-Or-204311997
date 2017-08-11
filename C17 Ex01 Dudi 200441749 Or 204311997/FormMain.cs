@@ -21,8 +21,6 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         public FormMain()
         {
             InitializeComponent();
-
-
         }
 
         protected override void OnShown(EventArgs e)
@@ -75,7 +73,6 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             updateFriendsList();
             updatePagesList();
             updateEventsList();
-            //updateBirthday();
         }
 
         // friends
@@ -513,17 +510,17 @@ photo.Name != String.Empty ? photo.Name : "No name");
             }
         }
 
-        
-
         private void ProfilePic_MouseLeave(object sender, EventArgs e)
         {
             PictureBox me = sender as PictureBox;
+
             increasePictureBoxSize(me, -20);
         }
 
         private void ProfilePic_MouseEnter(object sender, EventArgs e)
         {
             PictureBox me = sender as PictureBox;
+
             increasePictureBoxSize(me, 20);
         }
 
@@ -531,6 +528,7 @@ photo.Name != String.Empty ? photo.Name : "No name");
         {
             User friend = ((PictureBox)sender).Tag as User;
             FriendDetails friendDetails = new FriendDetails(friend);
+
             friendDetails.ShowDialog();
         }
 
@@ -538,6 +536,7 @@ photo.Name != String.Empty ? photo.Name : "No name");
         {
             int newWidth = i_PictureBox.Size.Width + i_Size;
             int newHeight = i_PictureBox.Size.Height + i_Size;
+
             i_PictureBox.Size = new Size(newWidth, newHeight);
         }
     }

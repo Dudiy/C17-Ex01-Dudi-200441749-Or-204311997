@@ -42,53 +42,43 @@
             </PropertyUISettings>
          </TypeUISetting>
       </GenericObjectDataSource>
-      <GenericObjectDataSource DisplayName="InterestedIn" Version="1.0">
-         <TypeInfo>FacebookWrapper.ObjectModel.User+eGender, FbGraphApiWrapper, Version=6.8.0.15, Culture=neutral, PublicKeyToken=null</TypeInfo>
-      </GenericObjectDataSource>
       <GenericObjectDataSource DisplayName="Languages" Version="1.0">
          <TypeInfo>FacebookWrapper.ObjectModel.Page, FbGraphApiWrapper, Version=6.8.0.15, Culture=neutral, PublicKeyToken=null</TypeInfo>
-      </GenericObjectDataSource>
-      <GenericObjectDataSource DisplayName="Educations" Version="1.0">
-         <TypeInfo>FacebookWrapper.ObjectModel.Education, FbGraphApiWrapper, Version=6.8.0.15, Culture=neutral, PublicKeyToken=null</TypeInfo>
-      </GenericObjectDataSource>
-      <GenericObjectDataSource DisplayName="Albums" Version="1.0">
-         <TypeInfo>FacebookWrapper.ObjectModel.Album, FbGraphApiWrapper, Version=6.8.0.15, Culture=neutral, PublicKeyToken=null</TypeInfo>
-      </GenericObjectDataSource>
-      <GenericObjectDataSource DisplayName="Checkins" Version="1.0">
-         <TypeInfo>FacebookWrapper.ObjectModel.Checkin, FbGraphApiWrapper, Version=6.8.0.15, Culture=neutral, PublicKeyToken=null</TypeInfo>
+         <TypeUISetting>
+            <PropertyUISettings>
+               <PropertyUISetting Name="Name">
+                  <ControlSettings>
+                     <ControlSetting ArtifactName="Microsoft:System.Windows.Forms:Form">
+                        <BindableControlInfo Name="Label" Type="System.Windows.Forms.Label" AssemblyName="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+                     </ControlSetting>
+                  </ControlSettings>
+               </PropertyUISetting>
+               <PropertyUISetting Name="LikesCount">
+                  <ControlSettings>
+                     <ControlSetting ArtifactName="Microsoft:System.Windows.Forms:Form">
+                        <BindableControlInfo Name="Label" Type="System.Windows.Forms.Label" AssemblyName="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+                     </ControlSetting>
+                  </ControlSettings>
+               </PropertyUISetting>
+               <PropertyUISetting Name="Website">
+                  <ControlSettings>
+                     <ControlSetting ArtifactName="Microsoft:System.Windows.Forms:Form">
+                        <BindableControlInfo Name="LinkLabel" Type="System.Windows.Forms.LinkLabel" AssemblyName="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+                     </ControlSetting>
+                  </ControlSettings>
+               </PropertyUISetting>
+               <PropertyUISetting Name="URL">
+                  <ControlSettings>
+                     <ControlSetting ArtifactName="Microsoft:System.Windows.Forms:Form">
+                        <BindableControlInfo Name="LinkLabel" Type="System.Windows.Forms.LinkLabel" AssemblyName="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+                     </ControlSetting>
+                  </ControlSettings>
+               </PropertyUISetting>
+            </PropertyUISettings>
+         </TypeUISetting>
       </GenericObjectDataSource>
       <GenericObjectDataSource DisplayName="Groups" Version="1.0">
          <TypeInfo>FacebookWrapper.ObjectModel.Group, FbGraphApiWrapper, Version=6.8.0.15, Culture=neutral, PublicKeyToken=null</TypeInfo>
-      </GenericObjectDataSource>
-      <GenericObjectDataSource DisplayName="EventsDeclined" Version="1.0">
-         <TypeInfo>FacebookWrapper.ObjectModel.Event, FbGraphApiWrapper, Version=6.8.0.15, Culture=neutral, PublicKeyToken=null</TypeInfo>
-      </GenericObjectDataSource>
-      <GenericObjectDataSource DisplayName="FriendLists" Version="1.0">
-         <TypeInfo>FacebookWrapper.ObjectModel.FriendList, FbGraphApiWrapper, Version=6.8.0.15, Culture=neutral, PublicKeyToken=null</TypeInfo>
-      </GenericObjectDataSource>
-      <GenericObjectDataSource DisplayName="NewsFeed" Version="1.0">
-         <TypeInfo>FacebookWrapper.ObjectModel.Post, FbGraphApiWrapper, Version=6.8.0.15, Culture=neutral, PublicKeyToken=null</TypeInfo>
-      </GenericObjectDataSource>
-      <GenericObjectDataSource DisplayName="InboxThreads" Version="1.0">
-         <TypeInfo>FacebookWrapper.ObjectModel.InboxThread, FbGraphApiWrapper, Version=6.8.0.15, Culture=neutral, PublicKeyToken=null</TypeInfo>
-      </GenericObjectDataSource>
-      <GenericObjectDataSource DisplayName="PostedLinks" Version="1.0">
-         <TypeInfo>FacebookWrapper.ObjectModel.Link, FbGraphApiWrapper, Version=6.8.0.15, Culture=neutral, PublicKeyToken=null</TypeInfo>
-      </GenericObjectDataSource>
-      <GenericObjectDataSource DisplayName="PhotosTaggedIn" Version="1.0">
-         <TypeInfo>FacebookWrapper.ObjectModel.Photo, FbGraphApiWrapper, Version=6.8.0.15, Culture=neutral, PublicKeyToken=null</TypeInfo>
-      </GenericObjectDataSource>
-      <GenericObjectDataSource DisplayName="Pokes" Version="1.0">
-         <TypeInfo>FacebookWrapper.ObjectModel.Poke, FbGraphApiWrapper, Version=6.8.0.15, Culture=neutral, PublicKeyToken=null</TypeInfo>
-      </GenericObjectDataSource>
-      <GenericObjectDataSource DisplayName="Statuses" Version="1.0">
-         <TypeInfo>FacebookWrapper.ObjectModel.Status, FbGraphApiWrapper, Version=6.8.0.15, Culture=neutral, PublicKeyToken=null</TypeInfo>
-      </GenericObjectDataSource>
-      <GenericObjectDataSource DisplayName="MessageUpdates" Version="1.0">
-         <TypeInfo>FacebookWrapper.ObjectModel.Message, FbGraphApiWrapper, Version=6.8.0.15, Culture=neutral, PublicKeyToken=null</TypeInfo>
-      </GenericObjectDataSource>
-      <GenericObjectDataSource DisplayName="Videos" Version="1.0">
-         <TypeInfo>FacebookWrapper.ObjectModel.Video, FbGraphApiWrapper, Version=6.8.0.15, Culture=neutral, PublicKeyToken=null</TypeInfo>
       </GenericObjectDataSource>
       <GenericObjectDataSource DisplayName="Pictures" Version="1.0">
          <TypeInfo>FacebookWrapper.ObjectModel.PicturesColleciton, FbGraphApiWrapper, Version=6.8.0.15, Culture=neutral, PublicKeyToken=null</TypeInfo>
