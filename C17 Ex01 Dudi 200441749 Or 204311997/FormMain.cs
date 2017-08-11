@@ -21,6 +21,8 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         public FormMain()
         {
             InitializeComponent();
+
+
         }
 
         protected override void OnShown(EventArgs e)
@@ -73,7 +75,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             updateFriendsList();
             updatePagesList();
             updateEventsList();
-            updateBirthday();
+            //updateBirthday();
         }
 
         // friends
@@ -225,25 +227,25 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             buttonClearEventDetails.Visible = false;
         }
 
-        // Birthday
-        private void updateBirthday()
-        {
-            if (FacebookApplication.LoggedInUser.Birthday != null)
-            {
-                DateTime myBirthday = convertStringToDate(FacebookApplication.LoggedInUser.Birthday);
-                DateTime myNextBirthday = new DateTime(DateTime.Now.Year, myBirthday.Month, myBirthday.Day);
+//        // Birthday
+//        private void updateBirthday()
+//        {
+//            if (FacebookApplication.LoggedInUser.Birthday != null)
+//            {
+//                DateTime myBirthday = convertStringToDate(FacebookApplication.LoggedInUser.Birthday);
+//                DateTime myNextBirthday = new DateTime(DateTime.Now.Year, myBirthday.Month, myBirthday.Day);
 
-                labelMyBirthdayTitle.Text = String.Format(
-@"Born on {0}
-My birthday is in {1} days",
-    myBirthday.ToString("dd/MM/yyyy"),
-    (myNextBirthday - DateTime.Now).Days);
-            }
-            else
-            {
-                labelMyBirthdayTitle.Visible = false;
-            }
-        }
+//                labelMyBirthdayTitle.Text = String.Format(
+//@"Born on {0}
+//My birthday is in {1} days",
+//    myBirthday.ToString("dd/MM/yyyy"),
+//    (myNextBirthday - DateTime.Now).Days);
+//            }
+//            else
+//            {
+//                labelMyBirthdayTitle.Visible = false;
+//            }
+//        }
 
 
         // ================================================ Close form ==============================================
@@ -506,9 +508,12 @@ photo.Name != String.Empty ? photo.Name : "No name");
                 profilePic.Tag = friend;
                 profilePic.MouseEnter += ProfilePic_MouseEnter;
                 profilePic.MouseLeave += ProfilePic_MouseLeave;
+                profilePic.MouseClick += ProfilePic_MouseClick;
                 flowLayoutPanelFriendshipAnalyzer.Controls.Add(profilePic);
             }
         }
+
+        
 
         private void ProfilePic_MouseLeave(object sender, EventArgs e)
         {
@@ -520,6 +525,13 @@ photo.Name != String.Empty ? photo.Name : "No name");
         {
             PictureBox me = sender as PictureBox;
             increasePictureBoxSize(me, 20);
+        }
+
+        private void ProfilePic_MouseClick(object sender, MouseEventArgs e)
+        {
+            User friend = ((PictureBox)sender).Tag as User;
+            FriendDetails friendDetails = new FriendDetails(friend);
+            friendDetails.ShowDialog();
         }
 
         private void increasePictureBoxSize(PictureBox i_PictureBox, int i_Size)
