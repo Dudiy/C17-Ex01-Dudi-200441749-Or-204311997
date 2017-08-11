@@ -1,12 +1,7 @@
 ﻿using FacebookWrapper;
 using FacebookWrapper.ObjectModel;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using System.Xml.Serialization;
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997
 {
@@ -17,6 +12,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         public static bool ExitSelected { get; set; }
         private static bool isFirstLogoutCall = true;
         private static Form m_MainForm;
+
         public static void Run()
         {
             FacebookService.s_CollectionLimit = 500;
@@ -34,6 +30,12 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             exitApplication();
         }
 
+        // used as a method to call after successfuly invoking FacebookService.Logout
+        public static void Logout()
+        {
+            FacebookService.Logout(logoutSuccessful);
+        }
+
         private static void showMainForm()
         {
             m_MainForm = new FormMain();
@@ -41,22 +43,6 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             m_MainForm.StartPosition = AppSettings.LastFormStartPosition;
             m_MainForm.Location = AppSettings.LastWindowLocation;
             m_MainForm.ShowDialog();
-        }
-
-        // used as a method to call after succesfully invoking FacebookService.Logout
-        public static void Logout()
-        {
-            // this is a patch to fix bug in facebookWrapper where this method is called twice when Logout is invoked            
-            if (isFirstLogoutCall)
-            {
-                AppSettings.SetDefaultSettings();
-                MessageBox.Show("{0} logged out", LoggedInUser.Name);
-                LoggedInUser = null; 
-                m_MainForm.Close();
-            }
-
-            // toggle isFirstLogoutCall
-            isFirstLogoutCall = isFirstLogoutCall ? false : true;
         }
 
         private static void exitApplication()
@@ -72,56 +58,86 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         private static void loginToFacebook()
         {
             LoginResult loginResult = null;
+            bool loginSuccessful = false;
+            bool isFirstLoginAttempt = true;
 
-            try
+            while (!loginSuccessful)
             {
-                if (AppSettings.RememberUser &&
-                    !String.IsNullOrEmpty(AppSettings.LastAccessToken))
+                try
                 {
-                    loginResult = FacebookService.Connect(AppSettings.LastAccessToken);
+                    if (AppSettings.RememberUser &&
+                        !String.IsNullOrEmpty(AppSettings.LastAccessToken) &&
+                        isFirstLoginAttempt)
+                    {
+                        loginResult = FacebookService.Connect(AppSettings.LastAccessToken);
+                    }
+                    else
+                    {
+                        loginResult = loginWithForm();
+                    }
+
+                    if (loginResult == null)
+                    {
+                        throw new Exception("Login returned null");
+                    }
+
+                    loginSuccessful = true;
                 }
-                else
+                catch
                 {
-                    loginResult = loginWithForm();
+                    MessageBox.Show("Error logging in to Facebook, please try again");
+                    isFirstLoginAttempt = false;
                 }
-            }
-            catch
-            {
-                MessageBox.Show("Error logging in to Facebook, please try again");
-                //TODO what if an error is thrown from this call to loginWithForm?
-                loginWithForm();
             }
 
-            if (loginResult != null)
-            {
-                AppSettings.LastAccessToken = loginResult.AccessToken;
-                LoggedInUser = loginResult.LoggedInUser;
-            }
+            AppSettings.LastAccessToken = loginResult.AccessToken;
+            LoggedInUser = loginResult.LoggedInUser;
         }
 
         private static LoginResult loginWithForm()
         {
             FormLogin formLogin = new FormLogin();
-            DialogResult loginSuccesfull = DialogResult.No;
+            DialogResult loginSuccessful = DialogResult.No;
 
-            while (loginSuccesfull != DialogResult.Yes &&
-                loginSuccesfull != DialogResult.Cancel)
+            while (loginSuccessful != DialogResult.Yes &&
+                loginSuccessful != DialogResult.Cancel)
             {
-                loginSuccesfull = formLogin.ShowDialog();
-                if (loginSuccesfull == DialogResult.Cancel)
+                loginSuccessful = formLogin.ShowDialog();
+                if (loginSuccessful == DialogResult.Cancel)
                 {
                     ExitSelected = true;
                 }
-                else if (loginSuccesfull != DialogResult.Yes)
+                else if (loginSuccessful != DialogResult.Yes)
                 {
                     MessageBox.Show("Login failed, try again");
                 }
             }
 
+            return formLogin.LoginResult;
+        }
 
-            // TODO do we need to save to "res" in order to keep the value after fomLogin is disposed?
-            LoginResult res = formLogin.LoginResult;
-            return res;
+        private static void logoutSuccessful()
+        {
+            // this is a patch to fix bug in facebookWrapper where this method is called twice when Logout is invoked            
+            if (isFirstLogoutCall)
+            {
+                AppSettings.SetDefaultSettings();
+                MessageBox.Show(String.Format("{0} logged out", LoggedInUser.Name));
+                LoggedInUser = null;
+                closeAllForms();
+            }
+
+            // toggle isFirstLogoutCall
+            isFirstLogoutCall = isFirstLogoutCall ? false : true;
+        }
+
+        private static void closeAllForms()
+        {
+            int numOfOpenForms = Application.OpenForms.Count;
+            for (int i = numOfOpenForms; i > 0; i--)
+            {
+                Application.OpenForms[i - 1].Close();
+            }
         }
     }
 }

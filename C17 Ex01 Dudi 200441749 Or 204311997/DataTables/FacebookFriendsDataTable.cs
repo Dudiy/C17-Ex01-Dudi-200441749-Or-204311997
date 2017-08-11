@@ -8,8 +8,8 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
 {
     class FacebookFriendsDataTable : FacebookDataTable
     {
-        public FacebookFriendsDataTable(User i_LoggedInUser)
-            : base(i_LoggedInUser, "Friends", typeof(User))
+        public FacebookFriendsDataTable()
+            : base("Friends", typeof(User))
         {
         }
 
@@ -51,7 +51,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
             return mostRecentPostStr.ToString();
         }
 
-        public override void OnRowDoubleClicked(object i_SelectedObject)
+        public override void DisplayObjectDetails(object i_SelectedObject)
         {
             User friendSelected = i_SelectedObject as User;
 

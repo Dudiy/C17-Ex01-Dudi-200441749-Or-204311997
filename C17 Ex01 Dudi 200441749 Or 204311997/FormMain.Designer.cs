@@ -66,9 +66,10 @@
             this.toolStripLabelMessage = new System.Windows.Forms.ToolStripLabel();
             this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.tabPageFriendshipAnalyzer = new System.Windows.Forms.TabPage();
+            this.treeViewPhotosOfFriendInMyPhotos = new System.Windows.Forms.TreeView();
+            this.flowLayoutPanelFriendshipAnalyzer = new System.Windows.Forms.FlowLayoutPanel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.treeViewTaggedTogether = new System.Windows.Forms.TreeView();
-            this.treeViewPhotosOfFriendInMyPhotos = new System.Windows.Forms.TreeView();
             this.buttonAnalyzeFriendship = new System.Windows.Forms.Button();
             this.comboBoxFriends = new System.Windows.Forms.ComboBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -290,7 +291,7 @@
             this.labelMyBirthdayTitle.Location = new System.Drawing.Point(676, 482);
             this.labelMyBirthdayTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelMyBirthdayTitle.Name = "labelMyBirthdayTitle";
-            this.labelMyBirthdayTitle.Size = new System.Drawing.Size(319, 32);
+            this.labelMyBirthdayTitle.Size = new System.Drawing.Size(217, 24);
             this.labelMyBirthdayTitle.TabIndex = 23;
             this.labelMyBirthdayTitle.Text = "My birthday in ?? days";
             // 
@@ -505,6 +506,7 @@
             this.dataGridView.Size = new System.Drawing.Size(1326, 642);
             this.dataGridView.TabIndex = 0;
             this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellDoubleClick);
+            this.dataGridView.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseClick);
             // 
             // buttonFetchData
             // 
@@ -542,7 +544,7 @@
             // toolStripLabelMessage
             // 
             this.toolStripLabelMessage.Name = "toolStripLabelMessage";
-            this.toolStripLabelMessage.Size = new System.Drawing.Size(121, 38);
+            this.toolStripLabelMessage.Size = new System.Drawing.Size(80, 38);
             this.toolStripLabelMessage.Text = "toolStripLabel";
             // 
             // toolStripProgressBar
@@ -552,47 +554,60 @@
             // 
             // tabPageFriendshipAnalyzer
             // 
+            this.tabPageFriendshipAnalyzer.Controls.Add(this.treeViewPhotosOfFriendInMyPhotos);
+            this.tabPageFriendshipAnalyzer.Controls.Add(this.flowLayoutPanelFriendshipAnalyzer);
             this.tabPageFriendshipAnalyzer.Controls.Add(this.pictureBox1);
             this.tabPageFriendshipAnalyzer.Controls.Add(this.treeViewTaggedTogether);
-            this.tabPageFriendshipAnalyzer.Controls.Add(this.treeViewPhotosOfFriendInMyPhotos);
             this.tabPageFriendshipAnalyzer.Controls.Add(this.buttonAnalyzeFriendship);
             this.tabPageFriendshipAnalyzer.Controls.Add(this.comboBoxFriends);
             this.tabPageFriendshipAnalyzer.Location = new System.Drawing.Point(4, 29);
             this.tabPageFriendshipAnalyzer.Name = "tabPageFriendshipAnalyzer";
-            this.tabPageFriendshipAnalyzer.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPageFriendshipAnalyzer.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageFriendshipAnalyzer.Size = new System.Drawing.Size(1342, 736);
             this.tabPageFriendshipAnalyzer.TabIndex = 2;
             this.tabPageFriendshipAnalyzer.Text = "Friendship Analyzer";
             this.tabPageFriendshipAnalyzer.UseVisualStyleBackColor = true;
             // 
+            // treeViewPhotosOfFriendInMyPhotos
+            // 
+            this.treeViewPhotosOfFriendInMyPhotos.Location = new System.Drawing.Point(853, 69);
+            this.treeViewPhotosOfFriendInMyPhotos.Name = "treeViewPhotosOfFriendInMyPhotos";
+            this.treeViewPhotosOfFriendInMyPhotos.Size = new System.Drawing.Size(300, 422);
+            this.treeViewPhotosOfFriendInMyPhotos.TabIndex = 2;
+            this.treeViewPhotosOfFriendInMyPhotos.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewPhotosOfFriendInMyPhotos_NodeMouseDoubleClick);
+            // 
+            // flowLayoutPanelFriendshipAnalyzer
+            // 
+            this.flowLayoutPanelFriendshipAnalyzer.AutoScroll = true;
+            this.flowLayoutPanelFriendshipAnalyzer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.flowLayoutPanelFriendshipAnalyzer.Dock = System.Windows.Forms.DockStyle.Left;
+            this.flowLayoutPanelFriendshipAnalyzer.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanelFriendshipAnalyzer.Location = new System.Drawing.Point(3, 3);
+            this.flowLayoutPanelFriendshipAnalyzer.Margin = new System.Windows.Forms.Padding(0);
+            this.flowLayoutPanelFriendshipAnalyzer.Name = "flowLayoutPanelFriendshipAnalyzer";
+            this.flowLayoutPanelFriendshipAnalyzer.Size = new System.Drawing.Size(120, 730);
+            this.flowLayoutPanelFriendshipAnalyzer.TabIndex = 4;
+            // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(6, 46);
+            this.pictureBox1.Location = new System.Drawing.Point(153, 47);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pictureBox1.Padding = new System.Windows.Forms.Padding(2);
             this.pictureBox1.Size = new System.Drawing.Size(92, 92);
             this.pictureBox1.TabIndex = 3;
             this.pictureBox1.TabStop = false;
             // 
             // treeViewTaggedTogether
             // 
-            this.treeViewTaggedTogether.Location = new System.Drawing.Point(754, 69);
+            this.treeViewTaggedTogether.Location = new System.Drawing.Point(1024, 69);
             this.treeViewTaggedTogether.Name = "treeViewTaggedTogether";
             this.treeViewTaggedTogether.Size = new System.Drawing.Size(300, 422);
             this.treeViewTaggedTogether.TabIndex = 2;
             this.treeViewTaggedTogether.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewTaggedTogether_NodeMouseDoubleClick);
             // 
-            // treeViewPhotosOfFriendInMyPhotos
-            // 
-            this.treeViewPhotosOfFriendInMyPhotos.Location = new System.Drawing.Point(422, 69);
-            this.treeViewPhotosOfFriendInMyPhotos.Name = "treeViewPhotosOfFriendInMyPhotos";
-            this.treeViewPhotosOfFriendInMyPhotos.Size = new System.Drawing.Size(300, 422);
-            this.treeViewPhotosOfFriendInMyPhotos.TabIndex = 2;
-            this.treeViewPhotosOfFriendInMyPhotos.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewPhotosOfFriendInMyPhotos_NodeMouseDoubleClick);
-            // 
             // buttonAnalyzeFriendship
             // 
-            this.buttonAnalyzeFriendship.Location = new System.Drawing.Point(234, 12);
+            this.buttonAnalyzeFriendship.Location = new System.Drawing.Point(465, 12);
             this.buttonAnalyzeFriendship.Name = "buttonAnalyzeFriendship";
             this.buttonAnalyzeFriendship.Size = new System.Drawing.Size(168, 28);
             this.buttonAnalyzeFriendship.TabIndex = 1;
@@ -603,7 +618,7 @@
             // comboBoxFriends
             // 
             this.comboBoxFriends.FormattingEnabled = true;
-            this.comboBoxFriends.Location = new System.Drawing.Point(6, 12);
+            this.comboBoxFriends.Location = new System.Drawing.Point(237, 13);
             this.comboBoxFriends.Name = "comboBoxFriends";
             this.comboBoxFriends.Size = new System.Drawing.Size(222, 28);
             this.comboBoxFriends.TabIndex = 0;
@@ -694,7 +709,7 @@
             this.labelUserName.Location = new System.Drawing.Point(176, 189);
             this.labelUserName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelUserName.Name = "labelUserName";
-            this.labelUserName.Size = new System.Drawing.Size(238, 47);
+            this.labelUserName.Size = new System.Drawing.Size(160, 31);
             this.labelUserName.TabIndex = 3;
             this.labelUserName.Text = "User Name";
             // 
@@ -741,7 +756,7 @@
             this.pictureBoxProfilePicture.Location = new System.Drawing.Point(38, 129);
             this.pictureBoxProfilePicture.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pictureBoxProfilePicture.Name = "pictureBoxProfilePicture";
-            this.pictureBoxProfilePicture.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pictureBoxProfilePicture.Padding = new System.Windows.Forms.Padding(2);
             this.pictureBoxProfilePicture.Size = new System.Drawing.Size(122, 122);
             this.pictureBoxProfilePicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxProfilePicture.TabIndex = 2;
@@ -786,7 +801,7 @@
             this.labelTagFriends.Location = new System.Drawing.Point(1256, 180);
             this.labelTagFriends.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelTagFriends.Name = "labelTagFriends";
-            this.labelTagFriends.Size = new System.Drawing.Size(109, 20);
+            this.labelTagFriends.Size = new System.Drawing.Size(74, 13);
             this.labelTagFriends.TabIndex = 12;
             this.labelTagFriends.Text = "Tag Friends";
             // 
@@ -907,5 +922,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelFriendshipAnalyzer;
     }
 }

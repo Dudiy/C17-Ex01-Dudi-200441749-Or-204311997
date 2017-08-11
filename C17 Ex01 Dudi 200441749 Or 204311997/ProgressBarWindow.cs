@@ -12,11 +12,13 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
     public partial class ProgressBarWindow : Form
     {
         public bool Finished { get; set; }
-        public ProgressBarWindow(int i_MinValue, int i_MaxValue)
+
+        public ProgressBarWindow(int i_MinValue, int i_MaxValue, string i_Description)
         {
             InitializeComponent();
             progressBar.Minimum = i_MinValue;
             progressBar.Maximum = i_MaxValue;
+            labelLoading.Text = String.Format("Loading {0}...", i_Description);
         }
 
         public int ProgressValue

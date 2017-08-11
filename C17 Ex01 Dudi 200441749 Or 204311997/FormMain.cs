@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using FacebookWrapper;
 using FacebookWrapper.ObjectModel;
-using System.Threading;
 using C17_Ex01_Dudi_200441749_Or_204311997.DataTables;
 using System.Drawing;
-using System.IO;
 using System.ComponentModel;
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997
@@ -16,8 +13,8 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         private FacebookDataTableManager m_DataTableManager;
         private FacebookDataTable m_DataTableBindedToView;
         private FriendshipAnalyzer m_FriendshipAnalyzer;
-        public bool RememberMe { get; set; }
         private string m_PostPictureURL;
+        //TODO set value once we are done with the design
         private static readonly Size sr_MinimumWindowSize = new Size(800, 600);
         private bool m_LogoutClicked = false;
 
@@ -253,80 +250,66 @@ My birthday is in {1} days",
         private void buttonLogout_Click(object sender, EventArgs e)
         {
             m_LogoutClicked = true;
-            FacebookService.Logout(FacebookApplication.Logout);
-            //this.Close();
+            FacebookApplication.Logout();
         }
 
         private void buttonExit_Click(object sender, EventArgs e)
         {
             FacebookApplication.ExitSelected = true;
-            DialogResult = DialogResult.No;
             Close();
         }
 
         // ================================================ DataTables Tab ==============================================
         private void initDataTablesTab()
         {
-            m_DataTableManager = new FacebookDataTableManager(FacebookApplication.LoggedInUser);
+            m_DataTableManager = new FacebookDataTableManager();
             initComboBoxDataTableBindingSelection();
         }
 
         private void initComboBoxDataTableBindingSelection()
         {
             comboBoxDataTableBindingSelection.DisplayMember = "TableName";
-
-            foreach (FacebookDataTable facebookDataTable in m_DataTableManager.GetDataTables())
-            {
-                comboBoxDataTableBindingSelection.Items.Add(facebookDataTable);
-            }
+            comboBoxDataTableBindingSelection.DataSource = m_DataTableManager.GetDataTables();
         }
 
         private void buttonFetchData_Click(object sender, EventArgs e)
+        {
+            fetchDataForDataTablesTab();
+        }
+
+        private void fetchDataForDataTablesTab()
         {
             if (comboBoxDataTableBindingSelection.SelectedItem != null)
             {
                 dataGridView.DataSource = null;
                 m_DataTableBindedToView = (FacebookDataTable)comboBoxDataTableBindingSelection.SelectedItem;
-                //if (!m_DataTableBindedToView.DataFetched)
-                //{
                 if (m_DataTableBindedToView is FacebookPhotosDataTable)
                 {
                     List<Album> albumsToLoad = getAlbumsToLoadFromUser();
                     ((FacebookPhotosDataTable)m_DataTableBindedToView).AlbumsToLoad = albumsToLoad;
                 }
                 m_DataTableBindedToView.FetchDataTableValues();
-                //}
 
                 dataGridView.DataSource = m_DataTableBindedToView.DataTable;
-                if (dataGridView.Columns.Count > 0)
+                if (dataGridView.Columns["ObjectDisplayed"] != null)
                 {
-                    if (dataGridView.Columns["ObjectDisplayed"] != null)
-                    {
-                        dataGridView.Columns["ObjectDisplayed"].Visible = false;
-                    }
-
-                    //m_DataTableBindedToView = (FacebookDataTable)comboBoxDataTables.SelectedItem;
-                    String toolStripMessage = String.Format(@"
-Fetching {0} data from server ... {1:P0} Complete   ",
-    m_DataTableBindedToView.TableName,
-    (float)m_DataTableBindedToView.DataTable.Rows.Count / m_DataTableBindedToView.TotalRows);
-                    updateToolStrip(toolStripMessage);
+                    dataGridView.Columns["ObjectDisplayed"].Visible = false;
                 }
-                else
+
+                if (dataGridView.Columns.Count == 0)
                 {
-                    String toolstripMessage = String.Format("The requested table could not be loaded, please try again");
-                    updateToolStrip(toolstripMessage);
+                    MessageBox.Show("The requested table could not be loaded, please try again");
                 }
             }
         }
 
         private List<Album> getAlbumsToLoadFromUser()
         {
+            AlbumsSelector albumsSelector = new AlbumsSelector();
             List<Album> selectedAlbums = new List<Album>();
-            AlbumsSelector albumsSelector = new AlbumsSelector(FacebookApplication.LoggedInUser);
 
-            DialogResult dialogResult = albumsSelector.ShowDialog();
-            if (dialogResult == DialogResult.OK)
+            DialogResult albumsSelected = albumsSelector.ShowDialog();
+            if (albumsSelected == DialogResult.Yes)
             {
                 selectedAlbums = albumsSelector.SelectedAlbums;
             }
@@ -334,78 +317,72 @@ Fetching {0} data from server ... {1:P0} Complete   ",
             return selectedAlbums;
         }
 
-        private void updateToolStrip(string i_ToolstripMessage)
-        {
-
-            //progress bar
-            toolStripProgressBar.Minimum = 0;
-            toolStripProgressBar.Maximum = m_DataTableBindedToView.TotalRows;
-            toolStripProgressBar.Value = m_DataTableBindedToView.DataTable.Rows.Count;
-            toolStripProgressBar.Visible =
-                toolStripProgressBar.Value < toolStripProgressBar.Maximum ? true : false;
-            // message
-            toolStripLabelMessage.Text = i_ToolstripMessage;
-        }
-
         private void dataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            object selectedObject = ((DataGridView)sender).SelectedCells[0].OwningRow.Cells["ObjectDisplayed"].Value;
-            m_DataTableBindedToView.OnRowDoubleClicked(selectedObject);
+            DataGridViewRow rowSelected = ((DataGridView)sender).SelectedCells[0].OwningRow;
+            rowSelected.Selected = true;
+            displayDetailsForRowObject(rowSelected);
         }
 
+        private void displayDetailsForRowObject(DataGridViewRow i_RowSelected)
+        {
+            object selectedObject = i_RowSelected.Cells["ObjectDisplayed"].Value;
+            m_DataTableBindedToView.DisplayObjectDetails(selectedObject);
+        }
+
+        private void dataGridView_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            ((DataGridView)sender).SelectedCells[0].OwningRow.Selected = true;
+        }
         // ================================================ Friendship analyzer Tab ==============================================
         private void initFriendshipAnalyzerTab()
         {
-            m_FriendshipAnalyzer = new FriendshipAnalyzer(FacebookApplication.LoggedInUser);
+            m_FriendshipAnalyzer = new FriendshipAnalyzer();
             initComboBoxFriendshipAnalyzer();
+            initFriendsPhotosBar();
         }
 
         private void initComboBoxFriendshipAnalyzer()
         {
             comboBoxFriends.DisplayMember = "Name";
-
-            foreach (User friend in FacebookApplication.LoggedInUser.Friends)
-            {
-                comboBoxFriends.Items.Add(friend);
-            }
+            comboBoxFriends.DataSource = FacebookApplication.LoggedInUser.Friends;
         }
 
         private void fetchPhotosTaggedTogether()
         {
+            List<Photo> taggedTogether = m_FriendshipAnalyzer.FetchPhotosTaggedTogether();
+            Dictionary<string, List<Photo>> photos = new Dictionary<string, List<Photo>>();
+
+            foreach (Photo photo in taggedTogether)
             {
-                List<Photo> taggedTogether = m_FriendshipAnalyzer.FetchPhotosTaggedTogether();
-                Dictionary<string, List<Photo>> photos = new Dictionary<string, List<Photo>>();
-
-                foreach (Photo photo in taggedTogether)
+                if (photos.ContainsKey(photo.From.Id))
                 {
-                    if (photos.ContainsKey(photo.From.Id))
-                    {
-                        photos[photo.From.Id].Add(photo);
-                    }
-                    else
-                    {
-                        List<Photo> photoList = new List<Photo>();
-                        photoList.Add(photo);
-                        photos.Add(photo.From.Id, photoList);
-                    }
+                    photos[photo.From.Id].Add(photo);
                 }
-
-                foreach (KeyValuePair<string, List<Photo>> UserPhotos in photos)
+                else
                 {
-                    TreeNode fromNode = new TreeNode(String.Format("Photos by {0}", UserPhotos.Value[0].From.Name));
-
-                    fromNode.Tag = UserPhotos.Value[0].From;
-                    foreach (Photo photo in UserPhotos.Value)
-                    {
-                        TreeNode photoNode = new TreeNode(String.Format("{0} - {1}", photo.CreatedTime.ToString(), photo.Name));
-                        photoNode.Tag = photo;
-                        fromNode.Nodes.Add(photoNode);
-                    }
-
-                    treeViewTaggedTogether.Nodes.Add(fromNode);
+                    List<Photo> photoList = new List<Photo>();
+                    photoList.Add(photo);
+                    photos.Add(photo.From.Id, photoList);
                 }
             }
+
+            foreach (KeyValuePair<string, List<Photo>> UserPhotos in photos)
+            {
+                TreeNode fromNode = new TreeNode(String.Format("Photos by {0}", UserPhotos.Value[0].From.Name));
+
+                fromNode.Tag = UserPhotos.Value[0].From;
+                foreach (Photo photo in UserPhotos.Value)
+                {
+                    TreeNode photoNode = new TreeNode(String.Format("{0} - {1}", photo.CreatedTime.ToString(), photo.Name));
+                    photoNode.Tag = photo;
+                    fromNode.Nodes.Add(photoNode);
+                }
+
+                treeViewTaggedTogether.Nodes.Add(fromNode);
+            }
         }
+
         private void fetchPhotosOfFriendInMyPhotos()
         {
             treeViewPhotosOfFriendInMyPhotos.Nodes.Clear();
@@ -431,7 +408,38 @@ photo.Name != String.Empty ? photo.Name : "No name");
             }
         }
 
+        private void treeViewPhotosOfFriendInMyPhotos_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            TreeNode selectedNode = e.Node as TreeNode;
+            Photo selectedPhoto = selectedNode.Tag as Photo;
+            if (selectedPhoto != null)
+            {
+                pictureBox1.LoadAsync(selectedPhoto.PictureThumbURL);
+            }
 
+        }
+
+        private void treeViewTaggedTogether_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (treeViewTaggedTogether.SelectedNode.Tag is User)
+            {
+                User selectedUser = (User)treeViewTaggedTogether.SelectedNode.Tag;
+                PictureFrame profile = new PictureFrame(selectedUser.PictureLargeURL, selectedUser.Name);
+                profile.Show();
+            }
+            else
+            {
+                Photo selectedPhoto = (Photo)treeViewTaggedTogether.SelectedNode.Tag;
+                PhotoDetails photoDetails = new PhotoDetails(selectedPhoto);
+                photoDetails.Show();
+            }
+        }
+
+        private void buttonAnalyzeFriendship_Click(object sender, EventArgs e)
+        {
+            fetchPhotosOfFriendInMyPhotos();
+            fetchPhotosTaggedTogether();
+        }
 
         // ================================================ utils ==============================================
         private DateTime convertStringToDate(string i_Birthdate)
@@ -484,42 +492,41 @@ photo.Name != String.Empty ? photo.Name : "No name");
             }
         }
 
-        private void treeViewPhotosOfFriendInMyPhotos_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        private void initFriendsPhotosBar()
         {
-            TreeNode selectedNode = e.Node as TreeNode;
-            Photo selectedPhoto = selectedNode.Tag as Photo;
-            if (selectedPhoto != null)
+            flowLayoutPanelFriendshipAnalyzer.Width = 110;
+            flowLayoutPanelFriendshipAnalyzer.Padding = new Padding(0,0,20,0);
+            
+            foreach (User friend in FacebookApplication.LoggedInUser.Friends)
             {
-                pictureBox1.LoadAsync(selectedPhoto.PictureThumbURL);
-            }
-
-        }
-
-        private void treeViewTaggedTogether_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
-        {
-            if (treeViewTaggedTogether.SelectedNode.Tag is User)
-            {
-                User selectedUser = (User)treeViewTaggedTogether.SelectedNode.Tag;
-                PictureFrame profile = new PictureFrame(selectedUser.PictureLargeURL, selectedUser.Name);
-                profile.Show();
-            }
-            else
-            {
-                Photo selectedPhoto = (Photo)treeViewTaggedTogether.SelectedNode.Tag;
-                PhotoDetails photoDetails = new PhotoDetails(selectedPhoto);
-                photoDetails.Show();
+                PictureBox profilePic = new PictureBox();
+                profilePic.LoadAsync(friend.PictureSqaureURL);
+                profilePic.Size = new Size(90, 90);
+                profilePic.SizeMode = PictureBoxSizeMode.Zoom;
+                profilePic.Tag = friend;
+                profilePic.MouseEnter += ProfilePic_MouseEnter;
+                profilePic.MouseLeave += ProfilePic_MouseLeave;
+                flowLayoutPanelFriendshipAnalyzer.Controls.Add(profilePic);
             }
         }
 
-        private void buttonAnalyzeFriendship_Click(object sender, EventArgs e)
+        private void ProfilePic_MouseLeave(object sender, EventArgs e)
         {
-            fetchPhotosOfFriendInMyPhotos();
-            fetchPhotosTaggedTogether();
+            PictureBox me = sender as PictureBox;
+            increasePictureBoxSize(me, -20);
         }
 
-        private void tabPage1_Click(object sender, EventArgs e)
+        private void ProfilePic_MouseEnter(object sender, EventArgs e)
         {
+            PictureBox me = sender as PictureBox;
+            increasePictureBoxSize(me, 20);
+        }
 
+        private void increasePictureBoxSize(PictureBox i_PictureBox, int i_Size)
+        {
+            int newWidth = i_PictureBox.Size.Width + i_Size;
+            int newHeight = i_PictureBox.Size.Height + i_Size;
+            i_PictureBox.Size = new Size(newWidth, newHeight);
         }
     }
 }

@@ -10,8 +10,8 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
     {
         public List<Album> AlbumsToLoad { get; set; }
 
-        public FacebookPhotosDataTable(User i_LoggedInUser)
-            : base(i_LoggedInUser, "Photos", typeof(Photo))
+        public FacebookPhotosDataTable()
+            : base("Photos", typeof(Photo))
         { }
 
         public override void FetchDataTableValues()
@@ -27,7 +27,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
                     TotalRows += album.Count != null ? (int)album.Count : 0;
                 }
 
-                ProgressBarWindow progressBarWindow = new ProgressBarWindow(0, TotalRows);
+                ProgressBarWindow progressBarWindow = new ProgressBarWindow(0, TotalRows, "photos");
                 progressBarWindow.Show();
                 foreach (Album album in AlbumsToLoad)
                 {
@@ -64,7 +64,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
             DataFetched = true;
         }
 
-        public override void OnRowDoubleClicked(object i_SelectedObject)
+        public override void DisplayObjectDetails(object i_SelectedObject)
         {
             Photo photoSelected = i_SelectedObject as Photo;
 

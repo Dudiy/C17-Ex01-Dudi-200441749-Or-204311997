@@ -47,7 +47,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             // TODO modify min num of comments to show progress bar
             if (numOfComments > 5)
             {
-                commentsProgressBar = new ProgressBarWindow(0, numOfComments);
+                commentsProgressBar = new ProgressBarWindow(0, numOfComments, "comments");
                 commentsProgressBar.Show();
             }
 

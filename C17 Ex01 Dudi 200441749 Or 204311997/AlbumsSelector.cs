@@ -12,12 +12,14 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
 {
     public partial class AlbumsSelector : Form
     {
-        User m_LoggedInUser;
+        private User m_LoggedInUser = FacebookApplication.LoggedInUser;
+        private const DialogResult k_AlbumSelectionSuccessful = DialogResult.Yes;
         public List<Album> SelectedAlbums { get; private set; }
-        public AlbumsSelector(User i_LoggedInUser)
+        private bool m_IgnoreCheckChangeEvents = false;
+
+        public AlbumsSelector()
         {
-            InitializeComponent();            
-            m_LoggedInUser = i_LoggedInUser;
+            InitializeComponent();
             initAlbumsList();
         }
 
@@ -27,7 +29,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             foreach (Album album in m_LoggedInUser.Albums)
             {
                 listBoxAlbums.Items.Add(album);
-            }            
+            }
         }
 
         private void buttonContinue_Click(object sender, EventArgs e)
@@ -38,7 +40,42 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                 SelectedAlbums.Add(selectedAlbum);
             }
 
-            DialogResult = DialogResult.OK;
+            DialogResult = k_AlbumSelectionSuccessful;
+        }
+
+        private void checkBoxSelectAll_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!m_IgnoreCheckChangeEvents)
+            {
+                setSelectedValueForAllItems(checkBoxSelectAll.Checked);
+            }
+        }
+
+        private void setSelectedValueForAllItems(bool i_Selected)
+        {
+            for (int i = 0; i < listBoxAlbums.Items.Count; i++)
+            {
+                listBoxAlbums.SetSelected(i, i_Selected);
+            }
+        }
+
+        private void listBoxAlbums_SelectedValueChanged(object sender, EventArgs e)
+        {
+            m_IgnoreCheckChangeEvents = true;
+            if (listBoxAlbums.SelectedIndices.Count == listBoxAlbums.Items.Count)
+            {
+                checkBoxSelectAll.CheckState = CheckState.Checked;
+            }
+            else if (listBoxAlbums.SelectedIndices.Count == 0)
+            {
+                checkBoxSelectAll.CheckState = CheckState.Unchecked;
+            }
+            else
+            {
+                checkBoxSelectAll.CheckState = CheckState.Indeterminate;
+            }
+
+            m_IgnoreCheckChangeEvents = false;
         }
     }
 }

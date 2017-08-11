@@ -31,6 +31,7 @@
             this.labelAlbumsSelect = new System.Windows.Forms.Label();
             this.buttonContinue = new System.Windows.Forms.Button();
             this.listBoxAlbums = new System.Windows.Forms.ListBox();
+            this.checkBoxSelectAll = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // labelAlbumsSelect
@@ -45,7 +46,7 @@
             // buttonContinue
             // 
             this.buttonContinue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonContinue.Location = new System.Drawing.Point(173, 332);
+            this.buttonContinue.Location = new System.Drawing.Point(173, 435);
             this.buttonContinue.Name = "buttonContinue";
             this.buttonContinue.Size = new System.Drawing.Size(86, 31);
             this.buttonContinue.TabIndex = 2;
@@ -60,17 +61,31 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listBoxAlbums.FormattingEnabled = true;
             this.listBoxAlbums.ItemHeight = 20;
-            this.listBoxAlbums.Location = new System.Drawing.Point(16, 40);
+            this.listBoxAlbums.Location = new System.Drawing.Point(16, 80);
             this.listBoxAlbums.Name = "listBoxAlbums";
             this.listBoxAlbums.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-            this.listBoxAlbums.Size = new System.Drawing.Size(243, 284);
+            this.listBoxAlbums.Size = new System.Drawing.Size(243, 344);
             this.listBoxAlbums.TabIndex = 3;
+            this.listBoxAlbums.SelectedValueChanged += new System.EventHandler(this.listBoxAlbums_SelectedValueChanged);
+            // 
+            // checkBoxSelectAll
+            // 
+            this.checkBoxSelectAll.AutoSize = true;
+            this.checkBoxSelectAll.Location = new System.Drawing.Point(16, 50);
+            this.checkBoxSelectAll.Name = "checkBoxSelectAll";
+            this.checkBoxSelectAll.Size = new System.Drawing.Size(92, 24);
+            this.checkBoxSelectAll.TabIndex = 4;
+            this.checkBoxSelectAll.Text = "Select all";
+            this.checkBoxSelectAll.ThreeState = true;
+            this.checkBoxSelectAll.UseVisualStyleBackColor = true;
+            this.checkBoxSelectAll.CheckedChanged += new System.EventHandler(this.checkBoxSelectAll_CheckedChanged);
             // 
             // AlbumsSelector
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(271, 375);
+            this.ClientSize = new System.Drawing.Size(271, 478);
+            this.Controls.Add(this.checkBoxSelectAll);
             this.Controls.Add(this.listBoxAlbums);
             this.Controls.Add(this.buttonContinue);
             this.Controls.Add(this.labelAlbumsSelect);
@@ -85,5 +100,6 @@
         private System.Windows.Forms.Label labelAlbumsSelect;
         private System.Windows.Forms.Button buttonContinue;
         private System.Windows.Forms.ListBox listBoxAlbums;
+        private System.Windows.Forms.CheckBox checkBoxSelectAll;
     }
 }

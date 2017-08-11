@@ -10,16 +10,12 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
     class FriendshipAnalyzer
     {
         public User Friend { get; set; }
-        User m_LoggedInUser;
-        public FriendshipAnalyzer(User i_LoggedInUser)
-        {
-            m_LoggedInUser = FacebookApplication.LoggedInUser;
-        }
+        private User m_LoggedInUser = FacebookApplication.LoggedInUser;
 
         public List<Photo> FetchPhotosTaggedTogether()
         {
             List<Photo> photos = new List<Photo>();
-            ProgressBarWindow progressBarWindow = new ProgressBarWindow(0, m_LoggedInUser.PhotosTaggedIn.Count);
+            ProgressBarWindow progressBarWindow = new ProgressBarWindow(0, m_LoggedInUser.PhotosTaggedIn.Count, "photos tagged in");
             progressBarWindow.Show();
 
             foreach (Photo photo in m_LoggedInUser.PhotosTaggedIn)
@@ -47,7 +43,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             if (Friend != null)
             {
                 int photosToSearch = 0;
-                AlbumsSelector albumSelector = new AlbumsSelector(m_LoggedInUser);
+                AlbumsSelector albumSelector = new AlbumsSelector();
 
                 DialogResult dialogResult = albumSelector.ShowDialog();
 
@@ -58,7 +54,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                         photosToSearch += album.Count != null ? (int)album.Count : 0;
                     }
 
-                    ProgressBarWindow progressBarWindow = new ProgressBarWindow(0, photosToSearch);
+                    ProgressBarWindow progressBarWindow = new ProgressBarWindow(0, photosToSearch, "photos");
                     progressBarWindow.Show();
                     foreach (Album album in albumSelector.SelectedAlbums)
                     {

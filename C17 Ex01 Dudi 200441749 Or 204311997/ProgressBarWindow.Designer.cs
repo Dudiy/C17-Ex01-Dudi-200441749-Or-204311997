@@ -30,7 +30,6 @@
         {
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.labelLoading = new System.Windows.Forms.Label();
-            this.buttonCancel = new System.Windows.Forms.Button();
             this.labelLoadedPercent = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -50,15 +49,6 @@
             this.labelLoading.TabIndex = 1;
             this.labelLoading.Text = "Loading...";
             // 
-            // buttonCancel
-            // 
-            this.buttonCancel.Location = new System.Drawing.Point(177, 73);
-            this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(83, 32);
-            this.buttonCancel.TabIndex = 2;
-            this.buttonCancel.Text = "Cancel";
-            this.buttonCancel.UseVisualStyleBackColor = true;
-            // 
             // labelLoadedPercent
             // 
             this.labelLoadedPercent.AutoSize = true;
@@ -73,15 +63,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(272, 117);
+            this.ClientSize = new System.Drawing.Size(272, 76);
             this.Controls.Add(this.labelLoadedPercent);
-            this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.labelLoading);
             this.Controls.Add(this.progressBar);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "ProgressBarWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "ProgressBarWindow";
+            this.Text = "Loading...";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -91,7 +80,6 @@
 
         private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.Label labelLoading;
-        private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Label labelLoadedPercent;
     }
 }

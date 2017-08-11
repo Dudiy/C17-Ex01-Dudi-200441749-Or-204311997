@@ -11,13 +11,12 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
     {
         private List<FacebookDataTable> m_DataTables = new List<FacebookDataTable>();
         // TODO delete after implementing singleton
-        private User m_LoggedInUser;
-        public FacebookDataTableManager(User i_LoggedInUser)
+        private User m_LoggedInUser = FacebookApplication.LoggedInUser;
+        public FacebookDataTableManager()
         {
-            m_LoggedInUser = i_LoggedInUser;
-            m_DataTables.Add(new FacebookFriendsDataTable(m_LoggedInUser));
-            m_DataTables.Add(new FacebookLikedPagesDataTable(m_LoggedInUser));
-            m_DataTables.Add(new FacebookPhotosDataTable(m_LoggedInUser));
+            m_DataTables.Add(new FacebookFriendsDataTable());
+            m_DataTables.Add(new FacebookLikedPagesDataTable());
+            m_DataTables.Add(new FacebookPhotosDataTable());
         }
 
         public FacebookDataTable[] GetDataTables()

@@ -8,8 +8,8 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
 {
     class FacebookLikedPagesDataTable : FacebookDataTable
     {
-        public FacebookLikedPagesDataTable(User i_LoggedInUser)
-            : base(i_LoggedInUser, "Liked Pages", typeof(Page))
+        public FacebookLikedPagesDataTable()
+            : base("Liked Pages", typeof(Page))
         {
         }
 
@@ -39,7 +39,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
             DataFetched = true;
         }
 
-        public override void OnRowDoubleClicked(object i_SelectedObject)
+        public override void DisplayObjectDetails(object i_SelectedObject)
         {
             Page pageSelected = i_SelectedObject as Page;
 
