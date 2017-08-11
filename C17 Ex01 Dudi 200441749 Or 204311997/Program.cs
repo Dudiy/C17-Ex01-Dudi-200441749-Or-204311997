@@ -15,9 +15,10 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            FormLogin formLogin = new FormLogin();
-            formLogin.ShowDialog();
-            //Application.Run(formLogin);
+            //Application.Run(new FormLogin());
+            FacebookApplication.Run();
+            //FormLogin formLogin = new FormLogin();
+            //formLogin.ShowDialog();
             //formLogin.Close();
         }
     }

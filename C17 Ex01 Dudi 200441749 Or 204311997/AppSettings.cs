@@ -1,71 +1,75 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using FacebookWrapper.ObjectModel;
+using System;
 using System.Drawing;
 using System.IO;
-using System.Xml.Serialization;
-using FacebookWrapper;
-using FacebookWrapper.ObjectModel;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997
 {
     public class AppSettings
     {
-        private static string m_Path = "AppSettings.xml";
-        private static AppSettings m_Instance;
+        private const string k_SettingsFilePath = "AppSettings.xml";
+        private static readonly object sr_CreationLock = new object();
+        private static AppSettings s_Instance;
         public Point LastWindowsLocation { get; set; }
         public Size LastWindowsSize { get; set; }
         public bool RememberUser { get; set; }
-        //public User LoginUser { get; set; }
         public string LastAccessToken { get; set; }
-        
+        //public User LoginUser { get; set; }
 
         private AppSettings()
         {
+            SetDefaultSettings();
+        }
+
+        private Point getDefaultStartingPointForMainForm()
+        {
+            int x = Screen.PrimaryScreen.WorkingArea.Width / 2;
+            int y = Screen.PrimaryScreen.WorkingArea.Height / 2;
+            return new Point(x - (LastWindowsSize.Width) / 2, y - (LastWindowsSize.Height) / 2);
         }
 
         public static AppSettings Instance
         {
             get
             {
-                // TODO lock ?
-                if (m_Instance == null)
+                if (s_Instance == null)
                 {
-                    m_Instance = new AppSettings();
+                    lock (sr_CreationLock)
+                    {
+                        if (s_Instance == null)
+                        {
+                            s_Instance = new AppSettings();
+                        }
+                    }
                 }
 
-                return m_Instance;
+                return s_Instance;
             }
+            // TODO singletons don't have set (it happens in the get) - Delete after reading
+            /*
             private set
             {
-                m_Instance = value;
-            }
+                s_Instance = value;
+            } 
+            */
         }
 
         public void SaveToFile()
         {
-            deleteSettingsFile();
-            using (Stream stream = new FileStream(m_Path, FileMode.CreateNew))
+            //deleteSettingsFile();
+            // TODO is this the right way to to this?
+            if (!File.Exists(k_SettingsFilePath))
+            {
+                FileStream tempFile = File.Create(k_SettingsFilePath);
+                tempFile.Dispose();
+            }
+
+            using (Stream stream = new FileStream(k_SettingsFilePath, FileMode.Truncate))
             {
                 XmlSerializer serializer = new XmlSerializer(this.GetType());
                 serializer.Serialize(stream, this);
-            }
-        }
-
-        private void deleteSettingsFile()
-        {
-            try
-            {
-                if (File.Exists(m_Path))
-                {
-                    File.Delete(m_Path);
-                }
-            }
-            catch
-            {
-                throw new Exception("Fail when try to delete the old settings file");
             }
         }
 
@@ -74,20 +78,19 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             AppSettings appSettings = null;
             Stream stream = null;
 
-            if (File.Exists(m_Path))
+            try
             {
-                try
-                {
-                    stream = new FileStream(m_Path, FileMode.Open);
-                    XmlSerializer serializer = new XmlSerializer(typeof(AppSettings));
-                    appSettings = serializer.Deserialize(stream) as AppSettings;
-                    m_Instance = appSettings;
-                }
-                catch(Exception e)
-                {
-                    throw new FileLoadException("Fail when tried to load " + m_Path + " file");
-                }
-                finally
+                stream = new FileStream(k_SettingsFilePath, FileMode.Open);
+                XmlSerializer serializer = new XmlSerializer(typeof(AppSettings));
+                appSettings = serializer.Deserialize(stream) as AppSettings;
+            }
+            catch (Exception e)
+            {
+                appSettings = new AppSettings();
+            }
+            finally
+            {
+                if (stream != null)
                 {
                     stream.Dispose();
                 }
@@ -96,16 +99,33 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             return appSettings;
         }
 
-        public void Clear()
-        {
-            deleteSettingsFile();
-        }
+        //private void deleteSettingsFile()
+        //{
+        //    try
+        //    {
+        //        if (File.Exists(m_Path))
+        //        {
+        //            File.Delete(m_Path);
+        //        }
+        //    }
+        //    catch
+        //    {
+        //        throw new Exception("Fail when try to delete the old settings file");
+        //    }
+        //}
 
-        public void DefaultSettings(FormMain i_Form)
+        //public void Clear()
+        //{
+        //    deleteSettingsFile();
+        //}
+
+        public void SetDefaultSettings()
         {
-            LastWindowsLocation = i_Form.Location;
-            LastWindowsSize = i_Form.Size;
-            RememberUser = i_Form.RememberMe;
+            //TODO isn't the initial size to big?
+            LastWindowsSize = new Size(1394, 867);
+            LastWindowsLocation = getDefaultStartingPointForMainForm();
+            LastAccessToken = null;
+            RememberUser = false;
         }
     }
 }

@@ -23,7 +23,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
             if (AlbumsToLoad.Count > 0)
             {
                 foreach (Album album in AlbumsToLoad)
-                {
+                {                
                     TotalRows += album.Count != null ? (int)album.Count : 0;
                 }
 

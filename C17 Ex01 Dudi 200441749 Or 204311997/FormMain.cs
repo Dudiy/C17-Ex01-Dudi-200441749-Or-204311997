@@ -7,6 +7,7 @@ using System.Threading;
 using C17_Ex01_Dudi_200441749_Or_204311997.DataTables;
 using System.Drawing;
 using System.IO;
+using System.ComponentModel;
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997
 {
@@ -14,8 +15,9 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
     {
         private FacebookDataTableManager m_DataTableManager;
         private FacebookDataTable m_DataTableBindedToView;
+        private FriendshipAnalyzer m_FriendshipAnalyzer;
         public AppSettings AppSettings { get; private set; } = AppSettings.Instance;
-        public User LoggedInUser { get; private set; }
+        //public User LoggedInUser { get; private set; }
         public bool RememberMe { get; set; }
         private string m_PostPictureURL;
 
@@ -23,38 +25,40 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         {
             InitializeComponent();
             // TODO delete, in order to save center position in default settings
+            //LoggedInUser = FormLogin.LoggedInUser;
             CenterToScreen();
         }
 
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
-            initLastUseSettings();
+            //initLastUseSettings();
             FacebookService.s_CollectionLimit = 500;
-            LoggedInUser = FacebookService.Connect(AppSettings.LastAccessToken).LoggedInUser;
+            //LoggedInUser = FacebookService.Connect(AppSettings.LastAccessToken).LoggedInUser;
             initMainForm();
             fetchProfileAndCoverPhotos();
             //Thread.Sleep(100000);
             // init tabs
             initAboutMeTab();
             initDataTablesTab();
+            initFriendshipAnalyzerTab();
         }
 
         private void initMainForm()
         {
             // init global form
-            Text = LoggedInUser.Name;
-            labelUserName.Text = LoggedInUser.Name;
+            Text = FacebookApplication.LoggedInUser.Name;
+            labelUserName.Text = FacebookApplication.LoggedInUser.Name;
 
-            MinimumSize = new System.Drawing.Size(Size.Width, Size.Height);
+            //MinimumSize = new System.Drawing.Size(Size.Width, Size.Height);
         }
 
         private void fetchProfileAndCoverPhotos()
         {
             // TODO check if there are pic
-            if (LoggedInUser.PictureNormalURL != null)
+            if (FacebookApplication.LoggedInUser.PictureNormalURL != null)
             {
-                pictureBoxProfilePicture.LoadAsync(LoggedInUser.PictureNormalURL);
+                pictureBoxProfilePicture.LoadAsync(FacebookApplication.LoggedInUser.PictureNormalURL);
                 pictureBoxProfilePicture.Visible = true;
             }
             else
@@ -62,47 +66,35 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                 // TODO add empty user picture
             }
 
-            if (LoggedInUser.Cover != null)
+            if (FacebookApplication.LoggedInUser.Cover != null)
             {
-                pictureBoxCoverPhoto.LoadAsync(LoggedInUser.Cover.SourceURL);
+                pictureBoxCoverPhoto.LoadAsync(FacebookApplication.LoggedInUser.Cover.SourceURL);
                 pictureBoxCoverPhoto.Visible = true;
             }
         }
 
         private void initLastUseSettings()
         {
-            AppSettings = AppSettings.Instance;StartPosition = FormStartPosition.Manual;
-            Location = AppSettings.LastWindowsLocation;
-            Size = AppSettings.LastWindowsSize;
-            if (AppSettings.RememberUser == true)
-            {
-                checkBoxRememberMe.Checked = true;
-            }
+            //AppSettings = AppSettings.Instance;
+            //StartPosition = FormStartPosition.Manual;
+            //Location = AppSettings.LastWindowsLocation;
+            //Size = AppSettings.LastWindowsSize;
         }
 
-        protected override void OnClosed(EventArgs e)
+        protected override void OnClosing(CancelEventArgs e)
         {
-            base.OnClosed(e);
+            base.OnClosing(e);
+            //TODO should we set exitSelected here? for the case where user hits the X button
+            FacebookApplication.ExitSelected = true;
+            FacebookApplication.AppSettings.LastWindowsLocation = Location;
+            FacebookApplication.AppSettings.LastWindowsSize = Size;
         }
-
-        protected override void OnFormClosing(FormClosingEventArgs e)
-        {
-            base.OnFormClosing(e);
-            // TODO if logout and exit is the same in that case
-            // TODO 
-            if(checkBoxRememberMe.Checked == true)
-            {
-                // access token update all the time to the current user
-                AppSettings.LastWindowsLocation = Location;
-                AppSettings.LastWindowsSize = Size;
-                AppSettings.RememberUser = checkBoxRememberMe.Checked;
-                AppSettings.SaveToFile();
-            }
-            else
-            {
-                AppSettings.Clear();
-            }
-        }
+        //protected override void OnFormClosing(FormClosingEventArgs e)
+        //{
+        //    base.OnFormClosing(e);
+        //    AppSettings.LastWindowsLocation = Location;
+        //    AppSettings.LastWindowsSize = Size;
+        //}
 
         // ================================================ About Me Tab ==============================================
         private void initAboutMeTab()
@@ -118,7 +110,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         {
             listBoxFriends.DisplayMember = "Name";
             comboBoxTagFriend.DisplayMember = "Name";
-            foreach (User friend in LoggedInUser.Friends)
+            foreach (User friend in FacebookApplication.LoggedInUser.Friends)
             {
                 listBoxFriends.Items.Add(friend);
                 comboBoxTagFriend.Items.Add(friend);
@@ -169,7 +161,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         private void updatePagesList()
         {
             listBoxLikedPages.DisplayMember = "Name";
-            foreach (Page page in LoggedInUser.LikedPages)
+            foreach (Page page in FacebookApplication.LoggedInUser.LikedPages)
             {
                 listBoxLikedPages.Items.Add(page);
             }
@@ -218,7 +210,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         private void updateEventsList()
         {
             listBoxEvents.DisplayMember = "Name";
-            foreach (Event upcomingEvent in LoggedInUser.Events)
+            foreach (Event upcomingEvent in FacebookApplication.LoggedInUser.Events)
             {
                 listBoxEvents.Items.Add(upcomingEvent);
             }
@@ -265,9 +257,9 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         // Birthday
         private void updateBirthday()
         {
-            if(LoggedInUser.Birthday != null)
+            if (FacebookApplication.LoggedInUser.Birthday != null)
             {
-                DateTime myBirthday = convertStringToDate(LoggedInUser.Birthday);
+                DateTime myBirthday = convertStringToDate(FacebookApplication.LoggedInUser.Birthday);
                 DateTime myNextBirthday = new DateTime(DateTime.Now.Year, myBirthday.Month, myBirthday.Day);
 
                 labelMyBirthdayTitle.Text = String.Format(
@@ -286,8 +278,10 @@ My birthday in {1} days",
         // ================================================ Close form ==============================================
         private void buttonLogout_Click(object sender, EventArgs e)
         {
-            DialogResult = DialogResult.Ignore;
             FacebookService.Logout(null);
+            FacebookApplication.AppSettings.SetDefaultSettings();
+            //DialogResult = DialogResult.Yes;
+            this.Close();
             // TODO bug after logout and try to login 
             //FacebookService.Logout(notifyLogout);
         }
@@ -301,13 +295,15 @@ My birthday in {1} days",
 
         private void buttonExit_Click(object sender, EventArgs e)
         {
+            FacebookApplication.ExitSelected = true;
+            DialogResult = DialogResult.No;
             Close();
         }
 
         // ================================================ DataTables Tab ==============================================
         private void initDataTablesTab()
         {
-            m_DataTableManager = new FacebookDataTableManager(LoggedInUser);
+            m_DataTableManager = new FacebookDataTableManager(FacebookApplication.LoggedInUser);
             initComboBoxDataTableBindingSelection();
         }
 
@@ -363,7 +359,7 @@ Fetching {0} data from server ... {1:P0} Complete   ",
         private List<Album> getAlbumsToLoadFromUser()
         {
             List<Album> selectedAlbums = new List<Album>();
-            AlbumsSelector albumsSelector = new AlbumsSelector(LoggedInUser);
+            AlbumsSelector albumsSelector = new AlbumsSelector(FacebookApplication.LoggedInUser);
 
             DialogResult dialogResult = albumsSelector.ShowDialog();
             if (dialogResult == DialogResult.OK)
@@ -392,6 +388,87 @@ Fetching {0} data from server ... {1:P0} Complete   ",
             object selectedObject = ((DataGridView)sender).SelectedCells[0].OwningRow.Cells["ObjectDisplayed"].Value;
             m_DataTableBindedToView.OnRowDoubleClicked(selectedObject);
         }
+
+        // ================================================ Friendship analyzer Tab ==============================================
+        private void initFriendshipAnalyzerTab()
+        {
+            m_FriendshipAnalyzer = new FriendshipAnalyzer(FacebookApplication.LoggedInUser);
+            initComboBoxFriendshipAnalyzer();
+        }
+
+        private void initComboBoxFriendshipAnalyzer()
+        {
+            comboBoxFriends.DisplayMember = "Name";
+
+            foreach (User friend in FacebookApplication.LoggedInUser.Friends)
+            {
+                comboBoxFriends.Items.Add(friend);
+            }
+        }
+
+        private void fetchPhotosTaggedTogether()
+        {
+            {
+                List<Photo> taggedTogether = m_FriendshipAnalyzer.FetchPhotosTaggedTogether();
+                Dictionary<string, List<Photo>> photos = new Dictionary<string, List<Photo>>();
+
+                foreach (Photo photo in taggedTogether)
+                {
+                    if (photos.ContainsKey(photo.From.Id))
+                    {
+                        photos[photo.From.Id].Add(photo);
+                    }
+                    else
+                    {
+                        List<Photo> photoList = new List<Photo>();
+                        photoList.Add(photo);
+                        photos.Add(photo.From.Id, photoList);
+                    }
+                }
+
+                foreach (KeyValuePair<string, List<Photo>> UserPhotos in photos)
+                {
+                    TreeNode fromNode = new TreeNode(String.Format("Photos by {0}", UserPhotos.Value[0].From.Name));
+
+                    fromNode.Tag = UserPhotos.Value[0].From;
+                    foreach (Photo photo in UserPhotos.Value)
+                    {
+                        TreeNode photoNode = new TreeNode(String.Format("{0} - {1}", photo.CreatedTime.ToString(), photo.Name));
+                        photoNode.Tag = photo;
+                        fromNode.Nodes.Add(photoNode);
+                    }
+
+                    treeViewTaggedTogether.Nodes.Add(fromNode);
+                }
+            }
+        }
+        private void fetchPhotosOfFriendInMyPhotos()
+        {
+            treeViewPhotosOfFriendInMyPhotos.Nodes.Clear();
+            m_FriendshipAnalyzer.Friend = (User)comboBoxFriends.SelectedItem;
+            Dictionary<Album, List<Photo>> photos = m_FriendshipAnalyzer.GetPhotosOfMineFriendIsIn();
+            foreach (Album album in photos.Keys)
+            {
+                TreeNode albumNode = new TreeNode(album.Name);
+                albumNode.Tag = album;
+
+                foreach (Photo photo in photos[album])
+                {
+                    string photoDescription = String.Format(@"
+{0} - {1}",
+photo.CreatedTime.ToString(),
+photo.Name != String.Empty ? photo.Name : "No name");
+                    TreeNode photoNode = new TreeNode(photoDescription);
+                    photoNode.Tag = photo;
+                    albumNode.Nodes.Add(photoNode);
+                }
+
+                treeViewPhotosOfFriendInMyPhotos.Nodes.Add(albumNode);
+            }
+        }
+
+
+
         // ================================================ utils ==============================================
         private DateTime convertStringToDate(string i_Birthdate)
         {
@@ -413,11 +490,6 @@ Fetching {0} data from server ... {1:P0} Complete   ",
             System.Diagnostics.Process.Start(linkLabelSite.Text);
         }
 
-        private void checkBoxRememberMe_CheckedChanged(object sender, EventArgs e)
-        {
-            RememberMe = ((CheckBox)sender).Checked;
-        }
-
         private void buttonPost_Click(object sender, EventArgs e)
         {
             // TODO multi tags
@@ -425,9 +497,9 @@ Fetching {0} data from server ... {1:P0} Complete   ",
             string friendID = friend != null ? friend.Id : null;
             // TODO work only with URL of web
             m_PostPictureURL = "https://ibb.co/g5SthF";
-            Status postedStatus = LoggedInUser.PostStatus(richTextBoxStatusPost.Text,
+            Status postedStatus = FacebookApplication.LoggedInUser.PostStatus(richTextBoxStatusPost.Text,
                 i_TaggedFriendIDs: friendID, i_PictureURL: m_PostPictureURL,
-                i_Link:m_PostPictureURL);
+                i_Link: m_PostPictureURL);
 
             MessageBox.Show("Status Posted! ID: " + postedStatus.Id);
         }
@@ -446,6 +518,44 @@ Fetching {0} data from server ... {1:P0} Complete   ",
                 //m_PostPictureURL = Path.GetFullPath(file.FileName);
                 //m_PostPictureURL = Image.FromFile(file.FileName);
             }
+        }
+
+        private void treeViewPhotosOfFriendInMyPhotos_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            TreeNode selectedNode = e.Node as TreeNode;
+            Photo selectedPhoto = selectedNode.Tag as Photo;
+            if (selectedPhoto != null)
+            {
+                pictureBox1.LoadAsync(selectedPhoto.PictureThumbURL);
+            }
+
+        }
+
+        private void treeViewTaggedTogether_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (treeViewTaggedTogether.SelectedNode.Tag is User)
+            {
+                User selectedUser = (User)treeViewTaggedTogether.SelectedNode.Tag;
+                PictureFrame profile = new PictureFrame(selectedUser.PictureLargeURL, selectedUser.Name);
+                profile.Show();
+            }
+            else
+            {
+                Photo selectedPhoto = (Photo)treeViewTaggedTogether.SelectedNode.Tag;
+                PhotoDetails photoDetails = new PhotoDetails(selectedPhoto);
+                photoDetails.Show();
+            }
+        }
+
+        private void buttonAnalyzeFriendship_Click(object sender, EventArgs e)
+        {
+            fetchPhotosOfFriendInMyPhotos();
+            fetchPhotosTaggedTogether();
+        }
+
+        private void tabPage1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
