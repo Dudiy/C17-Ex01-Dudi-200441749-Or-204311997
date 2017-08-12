@@ -6,7 +6,6 @@
  * 200441749 - Dudi Yecheskel 
 */
 using System.Collections.Generic;
-using FacebookWrapper.ObjectModel;
 using C17_Ex01_Dudi_200441749_Or_204311997.DataTables;
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997
@@ -14,8 +13,6 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
     public class FacebookDataTableManager
     {
         private List<FacebookDataTable> m_DataTables = new List<FacebookDataTable>();
-        // TODO delete after implementing singleton
-        //private User m_LoggedInUser = FacebookApplication.LoggedInUser;
         public FacebookDataTableManager()
         {
             m_DataTables.Add(new FacebookFriendsDataTable());

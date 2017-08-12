@@ -40,35 +40,38 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
                 {
                     foreach (Photo photo in album.Photos)
                     {
-                        StringBuilder photoTags = new StringBuilder();
-                        if (photo.Tags != null)
-                        {
-                            foreach (PhotoTag tag in photo.Tags)
-                            {
-                                photoTags.Append(tag.User.Name);
-                                photoTags.Append(", ");
-                            }
-                            photoTags.Remove(photoTags.Length - 2, 2);
-                        }
+                        string photoTags = buildTagsString(photo);
 
                         DataTable.Rows.Add(
                             photo,
                             photo.Album.Name,
-                            //TODO get most liked comment
-                            photo.CreatedTime != null ? photo.CreatedTime : null,   //TODO fix format
+                            photo.CreatedTime,
                             photo.LikedBy != null ? photo.LikedBy.Count : 0,
                             photo.Comments != null ? photo.Comments.Count : 0,
-                            photo.Tags != null ? photoTags.ToString() : string.Empty,
+                            buildTagsString(photo),
                             photo.URL
                             );
                         progressBarWindow.ProgressValue++;
-                        //PhotosDataLoadStatus = (float)++counter / totalRows;
-                        //PhotosDataLoadStatus.Value++;
                     }
                 }
             }
+        }
 
-            DataFetched = true;
+        private static string buildTagsString(Photo i_Photo)
+        {
+            StringBuilder photoTags = new StringBuilder();
+
+            if (i_Photo.Tags != null)
+            {
+                foreach (PhotoTag tag in i_Photo.Tags)
+                {
+                    photoTags.Append(tag.User.Name);
+                    photoTags.Append(", ");
+                }
+                photoTags.Remove(photoTags.Length - 2, 2);
+            }
+
+            return photoTags.ToString();
         }
 
         public override void DisplayObjectDetails(object i_SelectedObject)
@@ -82,7 +85,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
             }
         }
 
-        protected override void initColumns()
+        protected override void InitColumns()
         {
             DataTable.Columns.Add("Album Name", typeof(string));
             DataTable.Columns.Add("Created Time", typeof(DateTime));

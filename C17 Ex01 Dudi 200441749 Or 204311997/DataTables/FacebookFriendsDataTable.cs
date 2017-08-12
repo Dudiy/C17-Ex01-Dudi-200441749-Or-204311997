@@ -7,8 +7,6 @@
 */
 using FacebookWrapper.ObjectModel;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
@@ -21,36 +19,31 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
 
         public override void FetchDataTableValues()
         {
-            if (DataFetched == false || DataTable.Rows.Count == 0)
+            TotalRows = FacebookApplication.LoggedInUser.Friends.Count;
+            //add rows
+            foreach (User friend in FacebookApplication.LoggedInUser.Friends)
             {
-                TotalRows = FacebookApplication.LoggedInUser.Friends.Count;
-
-                //add rows
-                foreach (User friend in FacebookApplication.LoggedInUser.Friends)
-                {
-                    DataTable.Rows.Add(
-                        friend,
-                        friend.FirstName,
-                        friend.LastName,
-                        friend.Gender != null ? friend.Gender.ToString() : String.Empty
-                        //getMostRecentPost(friend)
-                        );
-                }
+                DataTable.Rows.Add(
+                    friend,
+                    friend.FirstName,
+                    friend.LastName,
+                    friend.Gender != null ? friend.Gender.ToString() : String.Empty,
+                    getMostRecentPost(friend)
+                    );
             }
-            DataFetched = true;
         }
 
         private string getMostRecentPost(User i_User)
         {
             StringBuilder mostRecentPostStr = new StringBuilder();
 
-            if (i_User != null && i_User.Posts[0] != null)
+            if (i_User != null && i_User.Posts.Count > 0)
             {
                 Post mostRecentPost = i_User.Posts[0];
                 mostRecentPostStr.Append(mostRecentPost.CreatedTime);
                 if (!string.IsNullOrEmpty(mostRecentPost.Message))
                 {
-                    mostRecentPostStr.Append(mostRecentPost.Message);
+                    mostRecentPostStr.Append(String.Format(" - {0}", mostRecentPost.Message));
                 }
             }
 
@@ -68,12 +61,12 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
             }
         }
 
-        protected override void initColumns()
+        protected override void InitColumns()
         {
             DataTable.Columns.Add("First Name", typeof(string));
             DataTable.Columns.Add("Last Name", typeof(string));
             DataTable.Columns.Add("Gender", typeof(string));
-            //DataTable.Columns.Add("Most Recent Post", typeof(string));
+            DataTable.Columns.Add("Most Recent Post", typeof(string));
         }
     }
 }

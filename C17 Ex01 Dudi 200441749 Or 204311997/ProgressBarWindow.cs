@@ -19,7 +19,6 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
     public partial class ProgressBarWindow : Form
     {
         public bool Finished { get; set; }
-
         public ProgressBarWindow(int i_MinValue, int i_MaxValue, string i_Description)
         {
             InitializeComponent();
@@ -28,6 +27,15 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             labelLoading.Text = String.Format("Loading {0}...", i_Description);
         }
 
+        public ProgressBarWindow(string i_Description)
+            : this(0, 0, i_Description)
+        { }
+
+        public int MaxValue
+        {
+            get { return progressBar.Maximum; }
+            set { progressBar.Maximum = value; }
+        }
         public int ProgressValue
         {
             get { return progressBar.Value; }

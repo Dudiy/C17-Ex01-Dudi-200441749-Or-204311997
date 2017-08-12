@@ -8,54 +8,61 @@
 using FacebookWrapper.ObjectModel;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
 {
     public static class FacebookPhotoUtils
     {
+        //public static int GetTotalPhotosUploadedByUser(User i_User)
+        //{
+        //    List<Album> albums = new List<Album>(i_User.Albums.Count);
+        //    int totalPhotos = 0;
 
-        public static int GetTotalPhotosUploadedByUser(User i_User)
-        {
-            int photoCounter = 0;
+        //    if (i_User.Albums.Count > 0)
+        //    {
+        //        albums.AddRange(i_User.Albums);
+        //        totalPhotos = GetTotalPhotosInAlbumArray(albums.ToArray());
+        //    }
 
-            foreach (Album album in i_User.Albums)
-            {
-                //cast to int - very unlikely that a user has that many albums
-                photoCounter += Math.Min((int)(album.Count ?? 0), FacebookApplication.k_MaxPhotosInAlbum);
-            }
+        //    return totalPhotos;
+        //    //int photoCounter = 0;
 
-            return photoCounter;
-        }
+        //    //foreach (Album album in i_User.Albums)
+        //    //{
+        //    //    //cast to int - very unlikely that a user has that many albums
+        //    //    photoCounter += Math.Min((int)(album.Count ?? 0), FacebookApplication.k_MaxPhotosInAlbum);
+        //    //}
 
-        public static int GetTotalPhotosInAlbumArray(Album[] i_Albums)
-        {
-            int photoCounter = 0;
+        //    //return photoCounter;
+        //}
 
-            foreach (Album album in i_Albums)
-            {
-                //cast to int - very unlikely that a user has that many albums
-                photoCounter += Math.Min((int)(album.Count ?? 0), FacebookApplication.k_MaxPhotosInAlbum);
-            }
+        //public static int GetTotalPhotosInAlbumArray(Album[] i_Albums)
+        //{
+        //    int photoCounter = 0;
 
-            return photoCounter;
-        }
+        //    foreach (Album album in i_Albums)
+        //    {
+        //        //cast to int - very unlikely that a user has that many albums
+        //        photoCounter += Math.Min((int)(album.Count ?? 0), FacebookApplication.k_MaxPhotosInAlbum);
+        //    }
 
-        public static List<Photo> GetAllUserPhotos(User i_User, ref int i_ProgressValue)
-        {
-            List<Photo> photos = new List<Photo>(GetTotalPhotosUploadedByUser(i_User));
+        //    return photoCounter;
+        //}
 
-            i_ProgressValue = 0;
-            foreach (Album album in i_User.Albums)
-            {
-                photos.AddRange(album.Photos);
-                i_ProgressValue += (int)(album.Count ?? 0);
-            }
+        //public static List<Photo> GetAllUserPhotos(User i_User, ref int i_ProgressValue)
+        //{
+        //    List<Photo> photos = new List<Photo>(GetTotalPhotosUploadedByUser(i_User));
 
-            return photos;
-        }
+        //    i_ProgressValue = 0;
+        //    foreach (Album album in i_User.Albums)
+        //    {
+        //        photos.AddRange(album.Photos);
+        //        i_ProgressValue += (int)(album.Count ?? 0);
+        //    }
+
+        //    return photos;
+        //}
 
         public static Dictionary<Album, List<Photo>> GetPhotosByOwnerAndTags(User i_User, User i_Tagged, Album[] albums, ProgressBar i_ProgressBar)
         {
