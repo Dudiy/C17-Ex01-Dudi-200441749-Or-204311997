@@ -104,7 +104,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
 
         private void buttonPost_Click(object sender, EventArgs e)
         {
-            if(richTextBoxStatusPost.Text != "")
+            if (richTextBoxStatusPost.Text != "")
             {
                 // TODO multi tags
                 User friend = comboBoxPostTags.SelectedItem as User;
@@ -119,6 +119,11 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                 MessageBox.Show("You mush enter a status text OR add photo");
             }
 
+        }
+
+        private void buttonClearPostTags_Click(object sender, EventArgs e)
+        {
+            comboBoxPostTags.SelectedIndex = -1;
         }
 
         // ================================================ DataTables Tab ==============================================
@@ -386,10 +391,6 @@ photo.Name != String.Empty ? photo.Name : "No name");
                 //m_PostPictureURL = Image.FromFile(file.FileName);
             }
         }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-            comboBoxPostTags.SelectedIndex = -1;
-        }
+        
     }
 }
