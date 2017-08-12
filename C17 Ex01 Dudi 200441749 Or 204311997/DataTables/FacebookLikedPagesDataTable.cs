@@ -1,4 +1,11 @@
-﻿using FacebookWrapper.ObjectModel;
+﻿/*
+ * C17_Ex01: FacebookLikedPagesDataTable.cs
+ * 
+ * Written by:
+ * 204311997 - Or Mantzur
+ * 200441749 - Dudi Yecheskel 
+*/
+using FacebookWrapper.ObjectModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;

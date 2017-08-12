@@ -1,17 +1,21 @@
-﻿using FacebookWrapper.ObjectModel;
-using System;
+﻿/*
+ * C17_Ex01: FacebookDataTableManager.cs
+ * 
+ * Written by:
+ * 204311997 - Or Mantzur
+ * 200441749 - Dudi Yecheskel 
+*/
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using FacebookWrapper.ObjectModel;
 using C17_Ex01_Dudi_200441749_Or_204311997.DataTables;
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997
 {
-    class FacebookDataTableManager
+    public class FacebookDataTableManager
     {
         private List<FacebookDataTable> m_DataTables = new List<FacebookDataTable>();
         // TODO delete after implementing singleton
-        private User m_LoggedInUser = FacebookApplication.LoggedInUser;
+        //private User m_LoggedInUser = FacebookApplication.LoggedInUser;
         public FacebookDataTableManager()
         {
             m_DataTables.Add(new FacebookFriendsDataTable());

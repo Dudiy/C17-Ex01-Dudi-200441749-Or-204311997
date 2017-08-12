@@ -1,4 +1,11 @@
-﻿using FacebookWrapper;
+﻿/*
+ * C17_Ex01: FacebookApplication.cs
+ * 
+ * Written by:
+ * 204311997 - Or Mantzur
+ * 200441749 - Dudi Yecheskel 
+*/
+using FacebookWrapper;
 using FacebookWrapper.ObjectModel;
 using System;
 using System.Windows.Forms;
@@ -109,7 +116,6 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             DialogResult loginSuccessful = DialogResult.No;
 
             while ((loginSuccessful != DialogResult.Yes && loginSuccessful != DialogResult.Cancel))
-                //|| ExitSelected == false)
             {
                 loginSuccessful = formLogin.ShowDialog();
                 if (loginSuccessful == DialogResult.Cancel)
@@ -143,6 +149,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         private static void closeAllForms()
         {
             int numOfOpenForms = Application.OpenForms.Count;
+
             for (int i = numOfOpenForms; i > 0; i--)
             {
                 Application.OpenForms[i - 1].Close();
