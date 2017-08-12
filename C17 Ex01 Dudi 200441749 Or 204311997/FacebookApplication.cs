@@ -17,13 +17,14 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         public static User LoggedInUser { get; private set; }
         public static AppSettings AppSettings { get; private set; }
         public static bool ExitSelected { get; set; }
-        private static bool isFirstLogoutCall = true;
-        private static Form m_MainForm;
+        private static bool s_IsFirstLogoutCall = true;
+        private static Form s_MainForm;
         public const byte k_MaxPhotosInAlbum = 100;
 
         public static void Run()
         {
             FacebookService.s_CollectionLimit = 500;
+
             ExitSelected = false;
             AppSettings = AppSettings.LoadFromFile();
             while (!ExitSelected)
@@ -34,6 +35,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                     showMainForm();
                 }
             }
+
             //We get here only after ExitSelected is true
             exitApplication();
         }
@@ -46,11 +48,11 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
 
         private static void showMainForm()
         {
-            m_MainForm = new FormMain();
-            m_MainForm.Size = AppSettings.LastWindowsSize;
-            m_MainForm.StartPosition = AppSettings.LastFormStartPosition;
-            m_MainForm.Location = AppSettings.LastWindowLocation;
-            m_MainForm.ShowDialog();
+            s_MainForm = new FormMain();
+            s_MainForm.Size = AppSettings.LastWindowsSize;
+            s_MainForm.StartPosition = AppSettings.LastFormStartPosition;
+            s_MainForm.Location = AppSettings.LastWindowLocation;
+            s_MainForm.ShowDialog();
         }
 
         private static void exitApplication()
@@ -134,7 +136,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         private static void logoutSuccessful()
         {
             // this is a patch to fix bug in facebookWrapper where this method is called twice when Logout is invoked            
-            if (isFirstLogoutCall)
+            if (s_IsFirstLogoutCall)
             {
                 AppSettings.SetDefaultSettings();
                 MessageBox.Show(String.Format("{0} logged out", LoggedInUser.Name));
@@ -143,7 +145,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             }
 
             // toggle isFirstLogoutCall
-            isFirstLogoutCall = isFirstLogoutCall ? false : true;
+            s_IsFirstLogoutCall = s_IsFirstLogoutCall ? false : true;
         }
 
         private static void closeAllForms()
