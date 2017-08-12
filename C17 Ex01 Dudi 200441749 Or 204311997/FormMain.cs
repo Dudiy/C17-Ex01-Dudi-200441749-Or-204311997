@@ -430,24 +430,32 @@ photo.Name != String.Empty ? photo.Name : "No name");
 
         private void treeViewPhotosOfFriendInMyPhotos_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            TreeNode selectedNode = e.Node as TreeNode;
-            Photo selectedPhoto = selectedNode.Tag as Photo;
+            photoTreeViewDoubleClicked(e.Node);
+        }
+
+        private void photoTreeViewDoubleClicked(TreeNode i_SelectedNode)
+        {
+            if (i_SelectedNode.Tag is User)
+            {
+                User selectedUser = i_SelectedNode.Tag as User;
+                PictureFrame profile = new PictureFrame(selectedUser.PictureLargeURL, selectedUser.Name);
+                profile.Show();
+            }
+            else if (i_SelectedNode.Tag is Photo)
+            {
+                Photo selectedPhoto = i_SelectedNode.Tag as Photo;
+                PhotoDetails photoDetails = new PhotoDetails(selectedPhoto);
+                photoDetails.Show();
+            }
+            else
+            {
+                //Do nothing
+            }
         }
 
         private void treeViewTaggedTogether_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            if (treeViewTaggedTogether.SelectedNode.Tag is User)
-            {
-                User selectedUser = (User)treeViewTaggedTogether.SelectedNode.Tag;
-                PictureFrame profile = new PictureFrame(selectedUser.PictureLargeURL, selectedUser.Name);
-                profile.Show();
-            }
-            else
-            {
-                Photo selectedPhoto = (Photo)treeViewTaggedTogether.SelectedNode.Tag;
-                PhotoDetails photoDetails = new PhotoDetails(selectedPhoto);
-                photoDetails.Show();
-            }
+            photoTreeViewDoubleClicked(e.Node);
         }
 
         private void buttonAnalyzeFriendship_Click(object sender, EventArgs e)
@@ -625,6 +633,11 @@ photo.Name != String.Empty ? photo.Name : "No name");
         private void tabPageAboutMe_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void treeViewPhotosOfFriendIAmTaggedIn_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            photoTreeViewDoubleClicked(e.Node);
         }
     }
 }
