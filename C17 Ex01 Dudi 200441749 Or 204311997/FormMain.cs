@@ -5,6 +5,7 @@ using FacebookWrapper.ObjectModel;
 using C17_Ex01_Dudi_200441749_Or_204311997.DataTables;
 using System.Drawing;
 using System.ComponentModel;
+using System.IO;
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997
 {
@@ -13,7 +14,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         private FacebookDataTableManager m_DataTableManager;
         private FacebookDataTable m_DataTableBindedToView;
         private FriendshipAnalyzer m_FriendshipAnalyzer;
-        private string m_PostPictureURL;
+        private string m_PostPicturePath;
         //TODO set value once we are done with the design
         private static readonly Size sr_MinimumWindowSize = new Size(800, 600);
         private bool m_LogoutClicked = false;
@@ -81,24 +82,60 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         {
             foreach (User friend in FacebookApplication.LoggedInUser.Friends)
             {
-                PictureBox profilePic = new PictureBox();
-                profilePic.Image = friend.ImageLarge;
-                profilePic.Size = new Size(90, 90);
-                profilePic.SizeMode = PictureBoxSizeMode.Zoom;
-                profilePic.Tag = friend;
-                profilePic.MouseEnter += ProfilePic_MouseEnter;
-                profilePic.MouseLeave += ProfilePic_MouseLeave;
-                profilePic.MouseClick += ProfilePic_MouseClick;
-                flowLayoutPanelAboutMeFriends.Controls.Add(profilePic);
+                PictureBox friendProfile = new PictureBox();
+                friendProfile.Image = friend.ImageLarge;
+                friendProfile.Size = new Size(90, 90);
+                friendProfile.SizeMode = PictureBoxSizeMode.Zoom;
+                friendProfile.Tag = friend;
+                friendProfile.MouseEnter += FriendProfile_MouseEnter;
+                friendProfile.MouseLeave += FriendProfile_MouseLeave;
+                friendProfile.MouseClick += FriendProfile_MouseClick;
+                flowLayoutPanelAboutMeFriends.Controls.Add(friendProfile);
             }
         }
 
-        private void uRLLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void FriendProfile_MouseEnter(object sender, EventArgs e)
+        {
+            PictureBox me = sender as PictureBox;
+
+            increasePictureBoxSize(me, 20);
+        }
+
+        private void FriendProfile_MouseLeave(object sender, EventArgs e)
+        {
+            PictureBox me = sender as PictureBox;
+
+            increasePictureBoxSize(me, -20);
+        }
+
+        private void FriendProfile_MouseClick(object sender, MouseEventArgs e)
+        {
+            User friend = ((PictureBox)sender).Tag as User;
+            m_FriendshipAnalyzer.Friend = friend;
+            //friendSelectionChanged();
+            FriendDetails friendDetails = new FriendDetails(friend);
+            friendDetails.ShowDialog();
+        }
+
+        private void buttonRefreshFriends_Click(object sender, EventArgs e)
+        {
+            FacebookApplication.LoggedInUser.ReFetch();
+            flowLayoutPanelAboutMeFriends.Controls.Clear();
+            updateAboutMeFriends();
+        }
+
+        private void URL_LinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             // Specify that the link was visited.
-            uRLLinkLabel.LinkVisited = true;
+            linkLabelLikedPageURL.LinkVisited = true;
             // Navigate to a URL.
-            System.Diagnostics.Process.Start(uRLLinkLabel.Text);
+            System.Diagnostics.Process.Start(linkLabelLikedPageURL.Text);
+        }
+
+        private void buttonRefreshLikedPage_Click(object sender, EventArgs e)
+        {
+            FacebookApplication.LoggedInUser.ReFetch();
+            listBoxLikedPage.DataSource = FacebookApplication.LoggedInUser.LikedPages;
         }
 
         private void buttonPost_Click(object sender, EventArgs e)
@@ -117,19 +154,54 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                 Status postedStatus = FacebookApplication.LoggedInUser.PostStatus(
                     richTextBoxStatusPost.Text, i_TaggedFriendIDs: friendID);
 
-                MessageBox.Show("Status Posted! ID: " + postedStatus.Id);
+                string successPostMessage = string.Format(
+"The Status: \"{0}\" is post !",
+postedStatus.Message);
+                MessageBox.Show(successPostMessage);
                 richTextBoxStatusPost.Clear();
                 listBoxPostTags.ClearSelected();
             }
             else
             {
-                MessageBox.Show("You mush enter a status text OR add photo");
+                MessageBox.Show("You mush enter a status text");
             }
+        }
+
+        private void buttonRefreshTagFriends_Click(object sender, EventArgs e)
+        {
+            FacebookApplication.LoggedInUser.ReFetch();
+            listBoxPostTags.DataSource = FacebookApplication.LoggedInUser.Friends;
+            listBoxPostTags.ClearSelected();
         }
 
         private void buttonClearPostTags_Click(object sender, EventArgs e)
         {
             listBoxPostTags.ClearSelected();
+        }
+
+        private void buttonAddPicture_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog file = new OpenFileDialog();
+
+            if (file.ShowDialog() == DialogResult.OK)
+            {
+                m_PostPicturePath = Path.GetFullPath(file.FileName);
+                pictureBoxPostPhoto.Image = Image.FromFile(file.FileName);
+            }
+        }
+
+        private void buttonPostPhoto_Click(object sender, EventArgs e)
+        {
+            if (m_PostPicturePath != null)
+            {
+                Post postedItem = FacebookApplication.LoggedInUser.PostPhoto(m_PostPicturePath, i_Title: richTextBoxPostPhoto.Text);
+                MessageBox.Show("Photo Post !");
+                richTextBoxPostPhoto.Clear();
+            }
+            else
+            {
+                MessageBox.Show("You mush add a photo");
+            }
         }
 
         // ================================================ DataTables Tab ==============================================
@@ -382,24 +454,6 @@ photo.Name != String.Empty ? photo.Name : "No name");
             Close();
         }
 
-
-
-
-
-
-        private void buttonAddPicture_Click(object sender, EventArgs e)
-        {
-            //Image file;
-            OpenFileDialog file = new OpenFileDialog();
-
-            //file.Filter = "JPG(*.JPG|*.jpg";
-            //file.Filter = "PNG(*.PNG|*.png";
-            if (file.ShowDialog() == DialogResult.OK)
-            {
-                m_PostPictureURL = new Uri(file.FileName).AbsoluteUri;
-                //m_PostPictureURL = Path.GetFullPath(file.FileName);
-                //m_PostPictureURL = Image.FromFile(file.FileName);
-            }
-        }
+        
     }
 }

@@ -18,25 +18,33 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         {
             InitializeComponent();
             m_Friend = i_Friend;
-            init();
-        }
-
-        private void init()
-        {
             userBindingSource.DataSource = m_Friend;
         }
 
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            labelLikedPage.Text = string.Format(
+@"Look about pages that
+{0} liked",
+m_Friend.FirstName);
+            if (labelBirthday.Text == "")
+            {
+                labelBirthdayTitle.Visible = false;
+                labelBirthday.Visible = false;
+            }
+        }
+        private void listBoxLikedPage_SelectedIndexChanged(object sender, EventArgs e)
         {
             likedPagesBindingSource.DataSource = ((ListBox)sender).SelectedItem as Page;
         }
 
-        private void uRLLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void linkLabelLikedPageURL_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             // Specify that the link was visited.
-            uRLLinkLabel.LinkVisited = true;
+            linkLabelLikedPageURL.LinkVisited = true;
             // Navigate to a URL.
-            System.Diagnostics.Process.Start(uRLLinkLabel.Text);
+            System.Diagnostics.Process.Start(linkLabelLikedPageURL.Text);
         }
     }
 }
