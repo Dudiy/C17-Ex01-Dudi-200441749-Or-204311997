@@ -88,5 +88,66 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
 
             return photos;
         }
+
+        public int GetNumberOfPhotosFriendLiked()
+        {
+            int numLikes = 0;
+            int totalPhotos = 0;
+            foreach (Album album in m_LoggedInUser.Albums)
+            {
+                totalPhotos += Math.Min((int)(album.Count ?? 0), FacebookApplication.k_MaxPhotosInAlbum);
+            }
+
+            ProgressBarWindow progressWindow = new ProgressBarWindow(0, totalPhotos, "Likes");
+            progressWindow.Show();
+            foreach (Album album in m_LoggedInUser.Albums)
+            {
+                foreach (Photo photo in album.Photos)
+                {
+                    progressWindow.ProgressValue++;
+                    foreach (User user in photo.LikedBy)
+                    {
+                        if (user.Id == Friend.Id)
+                        {
+                            numLikes++;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return numLikes;
+        }
+
+        public int GetNumberOfPhotosFriendCommented()
+        {
+            int numComments = 0;
+            int totalPhotos = 0;
+
+            foreach (Album album in m_LoggedInUser.Albums)
+            {
+                totalPhotos += Math.Min((int)(album.Count ?? 0), FacebookApplication.k_MaxPhotosInAlbum);
+            }
+
+            ProgressBarWindow progressWindow = new ProgressBarWindow(0, totalPhotos, "Likes");
+            progressWindow.Show();
+            foreach (Album album in m_LoggedInUser.Albums)
+            {
+                foreach (Photo photo in album.Photos)
+                {
+                    progressWindow.ProgressValue++;
+                    foreach (Comment comment in photo.Comments)
+                    {
+                        if (comment.From.Id == Friend.Id)
+                        {
+                            numComments++;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return numComments;
+        }
     }
 }

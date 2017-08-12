@@ -12,6 +12,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         public static bool ExitSelected { get; set; }
         private static bool isFirstLogoutCall = true;
         private static Form m_MainForm;
+        public const byte k_MaxPhotosInAlbum = 100;
 
         public static void Run()
         {

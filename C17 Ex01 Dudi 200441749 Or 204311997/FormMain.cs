@@ -110,8 +110,8 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                 {
                     friendID += friend.Id + ",";
                 }
-                friendID = friendID != "" ? 
-                    friendID.Remove(friendID.Length - 1) : 
+                friendID = friendID != "" ?
+                    friendID.Remove(friendID.Length - 1) :
                     null;
 
                 Status postedStatus = FacebookApplication.LoggedInUser.PostStatus(
@@ -286,11 +286,6 @@ photo.Name != String.Empty ? photo.Name : "No name");
         {
             TreeNode selectedNode = e.Node as TreeNode;
             Photo selectedPhoto = selectedNode.Tag as Photo;
-            if (selectedPhoto != null)
-            {
-                pictureBox1.LoadAsync(selectedPhoto.PictureThumbURL);
-            }
-
         }
 
         private void treeViewTaggedTogether_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -352,9 +347,18 @@ photo.Name != String.Empty ? photo.Name : "No name");
         private void ProfilePic_MouseClick(object sender, MouseEventArgs e)
         {
             User friend = ((PictureBox)sender).Tag as User;
-            FriendDetails friendDetails = new FriendDetails(friend);
+            m_FriendshipAnalyzer.Friend = friend;
+            friendSelectionChanged();
+            //FriendDetails friendDetails = new FriendDetails(friend);
+            //friendDetails.ShowDialog();
+        }
 
-            friendDetails.ShowDialog();
+        private void friendSelectionChanged()
+        {
+            User selectedFriend = m_FriendshipAnalyzer.Friend;
+            labelName.Text = selectedFriend.Name;
+            labelNumLikes.Text = String.Format("Number of times {0} liked my photos: {1}", selectedFriend.Name, m_FriendshipAnalyzer.GetNumberOfPhotosFriendLiked());
+            labelNumComments.Text = String.Format("Number of times {0} commented on my photos: {1}", selectedFriend.Name, m_FriendshipAnalyzer.GetNumberOfPhotosFriendCommented());
         }
 
         private void increasePictureBoxSize(PictureBox i_PictureBox, int i_Size)
@@ -382,7 +386,7 @@ photo.Name != String.Empty ? photo.Name : "No name");
 
 
 
-        
+
         private void buttonAddPicture_Click(object sender, EventArgs e)
         {
             //Image file;
@@ -397,6 +401,5 @@ photo.Name != String.Empty ? photo.Name : "No name");
                 //m_PostPictureURL = Image.FromFile(file.FileName);
             }
         }
-        
     }
 }
