@@ -464,9 +464,7 @@ photo.Name != String.Empty ? photo.Name : "No name");
             foreach (User friend in FacebookApplication.LoggedInUser.Friends)
             {
                 PictureBox friendshipAnalyzerFriendsDockPhoto = new PictureBox();
-                friendshipAnalyzerFriendsDockPhoto.LoadAsync(friend.PictureSqaureURL);
-                //TODO delete
-                //friendshipAnalyzerFriendsDockPhoto.Image = friend.ImageLarge;
+                friendshipAnalyzerFriendsDockPhoto.Image = friend.ImageLarge;
                 friendshipAnalyzerFriendsDockPhoto.Size = new Size(90, 90);
                 friendshipAnalyzerFriendsDockPhoto.SizeMode = PictureBoxSizeMode.Zoom;
                 friendshipAnalyzerFriendsDockPhoto.Tag = friend;
@@ -507,13 +505,16 @@ photo.Name != String.Empty ? photo.Name : "No name");
             int numOfPhotosFriendCommented = m_FriendshipAnalyzer.GetNumberOfPhotosFriendCommented(progressBarAnalyzingFriendship);
             labelAnalyzingFriendship.Text = "Searching for most recent photo together";
             Refresh();
-            Photo mostRecentTaggedTogether = m_FriendshipAnalyzer.GetMostRecentPhotoTaggedTogether();
             labelFirstName.Text = selectedFriend.FirstName;
             labelLastName.Text = selectedFriend.LastName;
             labelNumLikes.Text = String.Format("Number of times {0} liked my photos: {1}", selectedFriend.FirstName, numPhotosFriendLiked);
             labelNumComments.Text = String.Format("Number of times {0} commented on my photos: {1}", selectedFriend.FirstName, numOfPhotosFriendCommented);
-            pictureBoxMostRecentTaggedTogether.LoadAsync(mostRecentTaggedTogether.PictureNormalURL);
-            pictureBoxMostRecentTaggedTogether.Tag = mostRecentTaggedTogether;            
+            Photo mostRecentTaggedTogether = m_FriendshipAnalyzer.GetMostRecentPhotoTaggedTogether();
+            if (mostRecentTaggedTogether != null)
+            {
+                pictureBoxMostRecentTaggedTogether.LoadAsync(mostRecentTaggedTogether.PictureNormalURL);
+                pictureBoxMostRecentTaggedTogether.Tag = mostRecentTaggedTogether;
+            }
             buttonFetchMyPhotosFriendIsIn.Text = String.Format("Fetch photos of mine {0} is in", selectedFriend.FirstName);
             buttonFetchPhotosOfFriendIAmTaggedIn.Text = String.Format("Fetch {0}'s Photos I am Tagged in", selectedFriend.FirstName);
             panelGeneralInfo.Visible = true;
