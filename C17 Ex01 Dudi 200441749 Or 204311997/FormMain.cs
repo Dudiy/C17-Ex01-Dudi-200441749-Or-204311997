@@ -620,5 +620,10 @@ photo.Name != String.Empty ? photo.Name : "No name");
                 photoDetails.Show();
             }
         }
+
+        private void tabPageAboutMe_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
