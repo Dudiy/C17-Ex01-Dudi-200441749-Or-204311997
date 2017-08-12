@@ -6,6 +6,7 @@ using C17_Ex01_Dudi_200441749_Or_204311997.DataTables;
 using System.Drawing;
 using System.ComponentModel;
 using System.Threading;
+using System.IO;
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997
 {
@@ -14,7 +15,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         private FacebookDataTableManager m_DataTableManager;
         private FacebookDataTable m_DataTableBindedToView;
         private FriendshipAnalyzer m_FriendshipAnalyzer;
-        private string m_PostPictureURL;
+        private string m_PostPicturePath;
         //TODO set value once we are done with the design
         private static readonly Size sr_MinimumWindowSize = new Size(800, 600);
         private bool m_LogoutClicked = false;
@@ -51,8 +52,10 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
 
         private void initMainForm()
         {
-            Text = FacebookApplication.LoggedInUser.Name;
-            labelUserName.Text = FacebookApplication.LoggedInUser.Name;
+            Text = FacebookApplication.LoggedInUser.Name != null ? 
+                FacebookApplication.LoggedInUser.Name : "";
+            labelUserName.Text = FacebookApplication.LoggedInUser.Name != null ? 
+                FacebookApplication.LoggedInUser.Name : "";
             MinimumSize = sr_MinimumWindowSize;
         }
 
@@ -81,57 +84,149 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
 
         private void updateAboutMeFriends()
         {
-            foreach (User friend in FacebookApplication.LoggedInUser.Friends)
+            try
             {
-                PictureBox profilePic = new PictureBox();
-                profilePic.LoadAsync(friend.PictureSqaureURL);
-                profilePic.Size = new Size(90, 90);
-                profilePic.SizeMode = PictureBoxSizeMode.Zoom;
-                profilePic.Tag = friend;
-                profilePic.MouseEnter += friendshipAnalyzerFriendsDockPhoto_MouseEnter;
-                profilePic.MouseLeave += friendshipAnalyzerFriendsDockPhoto_MouseLeave;
-                profilePic.MouseClick += friendshipAnalyzerFriendsDockPhoto_MouseClick;
-                flowLayoutPanelAboutMeFriends.Controls.Add(profilePic);
+                foreach (User friend in FacebookApplication.LoggedInUser.Friends)
+                {
+                    PictureBox friendProfile = new PictureBox();
+                    friendProfile.Image = friend.ImageLarge;
+                    friendProfile.Size = new Size(90, 90);
+                    friendProfile.SizeMode = PictureBoxSizeMode.Zoom;
+                    friendProfile.Tag = friend;
+                    friendProfile.MouseEnter += FriendProfile_MouseEnter;
+                    friendProfile.MouseLeave += FriendProfile_MouseLeave;
+                    friendProfile.MouseClick += FriendProfile_MouseClick;
+                    flowLayoutPanelAboutMeFriends.Controls.Add(friendProfile);
+                }
+            }
+            catch
+            {
+                throw new Exception("Error when loading user's friend");
             }
         }
 
-        private void uRLLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void FriendProfile_MouseEnter(object sender, EventArgs e)
+        {
+            PictureBox me = sender as PictureBox;
+
+            increasePictureBoxSize(me, 20);
+        }
+
+        private void FriendProfile_MouseLeave(object sender, EventArgs e)
+        {
+            PictureBox me = sender as PictureBox;
+
+            increasePictureBoxSize(me, -20);
+        }
+
+        private void FriendProfile_MouseClick(object sender, MouseEventArgs e)
+        {
+            User friend = ((PictureBox)sender).Tag as User;
+            m_FriendshipAnalyzer.Friend = friend;
+            //friendSelectionChanged();
+            FriendDetails friendDetails = new FriendDetails(friend);
+            friendDetails.ShowDialog();
+        }
+
+        private void buttonRefreshFriends_Click(object sender, EventArgs e)
+        {
+            FacebookApplication.LoggedInUser.ReFetch();
+            flowLayoutPanelAboutMeFriends.Controls.Clear();
+            updateAboutMeFriends();
+        }
+
+        private void URL_LinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             // Specify that the link was visited.
-            uRLLinkLabel.LinkVisited = true;
+            linkLabelLikedPageURL.LinkVisited = true;
             // Navigate to a URL.
-            System.Diagnostics.Process.Start(uRLLinkLabel.Text);
+            System.Diagnostics.Process.Start(linkLabelLikedPageURL.Text);
+        }
+
+        private void buttonRefreshLikedPage_Click(object sender, EventArgs e)
+        {
+            FacebookApplication.LoggedInUser.ReFetch();
+            listBoxLikedPage.DataSource = FacebookApplication.LoggedInUser.LikedPages;
         }
 
         private void buttonPost_Click(object sender, EventArgs e)
         {
-            if (richTextBoxStatusPost.Text != "")
+            try
             {
-                string friendID = string.Empty;
-                foreach (User friend in listBoxPostTags.SelectedItems)
+                if (richTextBoxStatusPost.Text != "")
                 {
-                    friendID += friend.Id + ",";
+                    string friendID = string.Empty;
+                    foreach (User friend in listBoxPostTags.SelectedItems)
+                    {
+                        friendID += friend.Id + ",";
+                    }
+                    friendID = friendID != "" ?
+                        friendID.Remove(friendID.Length - 1) :
+                        null;
+
+                    Status postedStatus = FacebookApplication.LoggedInUser.PostStatus(
+                        richTextBoxStatusPost.Text, i_TaggedFriendIDs: friendID);
+
+                    string successPostMessage = string.Format(
+    "The Status: \"{0}\" is post !",
+    postedStatus.Message);
+                    MessageBox.Show(successPostMessage);
+                    richTextBoxStatusPost.Clear();
+                    listBoxPostTags.ClearSelected();
                 }
-                friendID = friendID != "" ?
-                    friendID.Remove(friendID.Length - 1) :
-                    null;
-
-                Status postedStatus = FacebookApplication.LoggedInUser.PostStatus(
-                    richTextBoxStatusPost.Text, i_TaggedFriendIDs: friendID);
-
-                MessageBox.Show("Status Posted! ID: " + postedStatus.Id);
-                richTextBoxStatusPost.Clear();
-                listBoxPostTags.ClearSelected();
+                else
+                {
+                    MessageBox.Show("You mush enter a status text");
+                }
             }
-            else
+            catch
             {
-                MessageBox.Show("You mush enter a status text OR add photo");
+                throw new Exception("Post status failed");
             }
+        }
+
+        private void buttonRefreshTagFriends_Click(object sender, EventArgs e)
+        {
+            FacebookApplication.LoggedInUser.ReFetch();
+            listBoxPostTags.DataSource = FacebookApplication.LoggedInUser.Friends;
+            listBoxPostTags.ClearSelected();
         }
 
         private void buttonClearPostTags_Click(object sender, EventArgs e)
         {
             listBoxPostTags.ClearSelected();
+        }
+
+        private void buttonAddPicture_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog file = new OpenFileDialog();
+
+            if (file.ShowDialog() == DialogResult.OK)
+            {
+                m_PostPicturePath = Path.GetFullPath(file.FileName);
+                pictureBoxPostPhoto.Image = Image.FromFile(file.FileName);
+            }
+        }
+
+        private void buttonPostPhoto_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (m_PostPicturePath != null)
+                {
+                    Post postedItem = FacebookApplication.LoggedInUser.PostPhoto(m_PostPicturePath, i_Title: richTextBoxPostPhoto.Text);
+                    MessageBox.Show("Photo Post !");
+                    richTextBoxPostPhoto.Clear();
+                }
+                else
+                {
+                    MessageBox.Show("You mush add a photo");
+                }
+            }
+            catch
+            {
+                throw new Exception("Post photo failed");
+            }
         }
 
         // ================================================ DataTables Tab ==============================================
