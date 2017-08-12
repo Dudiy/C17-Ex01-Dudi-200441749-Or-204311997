@@ -37,12 +37,14 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             if (!File.Exists(k_SettingsFilePath))
             {
                 FileStream tempFile = File.Create(k_SettingsFilePath);
+
                 tempFile.Dispose();
             }
 
             using (Stream stream = new FileStream(k_SettingsFilePath, FileMode.Truncate))
             {
                 XmlSerializer serializer = new XmlSerializer(this.GetType());
+
                 serializer.Serialize(stream, this);
             }
         }
@@ -56,6 +58,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             {
                 stream = new FileStream(k_SettingsFilePath, FileMode.Open);
                 XmlSerializer serializer = new XmlSerializer(typeof(AppSettings));
+
                 appSettings = serializer.Deserialize(stream) as AppSettings;
             }
             catch

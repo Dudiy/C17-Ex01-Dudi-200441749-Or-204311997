@@ -35,6 +35,14 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             }
         }
 
+        public Album[] GetAlbumsSelection()
+        {
+            List<Album> selectedAlbums = new List<Album>();
+            DialogResult dialogResult = this.ShowDialog();
+
+            return SelectedAlbums.ToArray();
+        }
+
         private void buttonContinue_Click(object sender, EventArgs e)
         {
             SelectedAlbums = new List<Album>(listBoxAlbums.SelectedIndices.Count);
@@ -79,14 +87,6 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             }
 
             m_IgnoreCheckChangeEvents = false;
-        }
-
-        public Album[] GetAlbumsSelection()
-        {
-            List<Album> selectedAlbums = new List<Album>();
-            DialogResult dialogResult = this.ShowDialog();
-            
-            return SelectedAlbums.ToArray();
         }
     }
 }
