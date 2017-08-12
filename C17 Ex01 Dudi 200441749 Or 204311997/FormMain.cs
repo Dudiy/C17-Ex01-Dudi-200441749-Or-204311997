@@ -76,9 +76,9 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         private void initAboutMeTab()
         {
             updateAboutMeFriends();
-            //likedPagesBindingSource.DataSource = FacebookApplication.LoggedInUser.LikedPages;
-            //postsBindingSource.DataSource = FacebookApplication.LoggedInUser.Posts;
-            //friendsBindingSource.DataSource = FacebookApplication.LoggedInUser.Friends;
+            likedPagesBindingSource.DataSource = FacebookApplication.LoggedInUser.LikedPages;
+            postsBindingSource.DataSource = FacebookApplication.LoggedInUser.Posts;
+            friendsBindingSource.DataSource = FacebookApplication.LoggedInUser.Friends;
             listBoxPostTags.ClearSelected();
         }
 
@@ -506,21 +506,6 @@ photo.Name != String.Empty ? photo.Name : "No name");
         }
 
         // ====================================== Event handlers ======================================
-        private void buttonAddPicture_Click(object sender, EventArgs e)
-        {
-            //Image file;
-            OpenFileDialog file = new OpenFileDialog();
-
-            //file.Filter = "JPG(*.JPG|*.jpg";
-            //file.Filter = "PNG(*.PNG|*.png";
-            if (file.ShowDialog() == DialogResult.OK)
-            {
-                m_PostPictureURL = new Uri(file.FileName).AbsoluteUri;
-                //m_PostPictureURL = Path.GetFullPath(file.FileName);
-                //m_PostPictureURL = Image.FromFile(file.FileName);
-            }
-        }
-
         private void buttonFetchTaggedTogether_Click(object sender, EventArgs e)
         {
             fetchPhotosTaggedTogether();
