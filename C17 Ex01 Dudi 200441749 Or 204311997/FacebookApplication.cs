@@ -77,6 +77,11 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                         loginResult = loginWithForm();
                     }
 
+                    if(ExitSelected == true)
+                    {
+                        break;
+                    }
+
                     if (loginResult == null)
                     {
                         throw new Exception("Login returned null");
@@ -91,8 +96,11 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                 }
             }
 
-            AppSettings.LastAccessToken = loginResult.AccessToken;
-            LoggedInUser = loginResult.LoggedInUser;
+            if (ExitSelected == false)
+            {
+                AppSettings.LastAccessToken = loginResult.AccessToken;
+                LoggedInUser = loginResult.LoggedInUser;
+            }
         }
 
         private static LoginResult loginWithForm()
@@ -100,8 +108,8 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             FormLogin formLogin = new FormLogin();
             DialogResult loginSuccessful = DialogResult.No;
 
-            while (loginSuccessful != DialogResult.Yes &&
-                loginSuccessful != DialogResult.Cancel)
+            while ((loginSuccessful != DialogResult.Yes && loginSuccessful != DialogResult.Cancel))
+                //|| ExitSelected == false)
             {
                 loginSuccessful = formLogin.ShowDialog();
                 if (loginSuccessful == DialogResult.Cancel)

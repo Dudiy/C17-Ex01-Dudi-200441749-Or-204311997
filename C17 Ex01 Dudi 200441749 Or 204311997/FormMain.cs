@@ -50,8 +50,10 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
 
         private void initMainForm()
         {
-            Text = FacebookApplication.LoggedInUser.Name;
-            labelUserName.Text = FacebookApplication.LoggedInUser.Name;
+            Text = FacebookApplication.LoggedInUser.Name != null ? 
+                FacebookApplication.LoggedInUser.Name : "";
+            labelUserName.Text = FacebookApplication.LoggedInUser.Name != null ? 
+                FacebookApplication.LoggedInUser.Name : "";
             MinimumSize = sr_MinimumWindowSize;
         }
 
@@ -80,17 +82,24 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
 
         private void updateAboutMeFriends()
         {
-            foreach (User friend in FacebookApplication.LoggedInUser.Friends)
+            try
             {
-                PictureBox friendProfile = new PictureBox();
-                friendProfile.Image = friend.ImageLarge;
-                friendProfile.Size = new Size(90, 90);
-                friendProfile.SizeMode = PictureBoxSizeMode.Zoom;
-                friendProfile.Tag = friend;
-                friendProfile.MouseEnter += FriendProfile_MouseEnter;
-                friendProfile.MouseLeave += FriendProfile_MouseLeave;
-                friendProfile.MouseClick += FriendProfile_MouseClick;
-                flowLayoutPanelAboutMeFriends.Controls.Add(friendProfile);
+                foreach (User friend in FacebookApplication.LoggedInUser.Friends)
+                {
+                    PictureBox friendProfile = new PictureBox();
+                    friendProfile.Image = friend.ImageLarge;
+                    friendProfile.Size = new Size(90, 90);
+                    friendProfile.SizeMode = PictureBoxSizeMode.Zoom;
+                    friendProfile.Tag = friend;
+                    friendProfile.MouseEnter += FriendProfile_MouseEnter;
+                    friendProfile.MouseLeave += FriendProfile_MouseLeave;
+                    friendProfile.MouseClick += FriendProfile_MouseClick;
+                    flowLayoutPanelAboutMeFriends.Controls.Add(friendProfile);
+                }
+            }
+            catch
+            {
+                throw new Exception("Error when loading user's friend");
             }
         }
 
@@ -140,30 +149,37 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
 
         private void buttonPost_Click(object sender, EventArgs e)
         {
-            if (richTextBoxStatusPost.Text != "")
+            try
             {
-                string friendID = string.Empty;
-                foreach (User friend in listBoxPostTags.SelectedItems)
+                if (richTextBoxStatusPost.Text != "")
                 {
-                    friendID += friend.Id + ",";
+                    string friendID = string.Empty;
+                    foreach (User friend in listBoxPostTags.SelectedItems)
+                    {
+                        friendID += friend.Id + ",";
+                    }
+                    friendID = friendID != "" ?
+                        friendID.Remove(friendID.Length - 1) :
+                        null;
+
+                    Status postedStatus = FacebookApplication.LoggedInUser.PostStatus(
+                        richTextBoxStatusPost.Text, i_TaggedFriendIDs: friendID);
+
+                    string successPostMessage = string.Format(
+    "The Status: \"{0}\" is post !",
+    postedStatus.Message);
+                    MessageBox.Show(successPostMessage);
+                    richTextBoxStatusPost.Clear();
+                    listBoxPostTags.ClearSelected();
                 }
-                friendID = friendID != "" ?
-                    friendID.Remove(friendID.Length - 1) :
-                    null;
-
-                Status postedStatus = FacebookApplication.LoggedInUser.PostStatus(
-                    richTextBoxStatusPost.Text, i_TaggedFriendIDs: friendID);
-
-                string successPostMessage = string.Format(
-"The Status: \"{0}\" is post !",
-postedStatus.Message);
-                MessageBox.Show(successPostMessage);
-                richTextBoxStatusPost.Clear();
-                listBoxPostTags.ClearSelected();
+                else
+                {
+                    MessageBox.Show("You mush enter a status text");
+                }
             }
-            else
+            catch
             {
-                MessageBox.Show("You mush enter a status text");
+                throw new Exception("Post status failed");
             }
         }
 
@@ -192,15 +208,22 @@ postedStatus.Message);
 
         private void buttonPostPhoto_Click(object sender, EventArgs e)
         {
-            if (m_PostPicturePath != null)
+            try
             {
-                Post postedItem = FacebookApplication.LoggedInUser.PostPhoto(m_PostPicturePath, i_Title: richTextBoxPostPhoto.Text);
-                MessageBox.Show("Photo Post !");
-                richTextBoxPostPhoto.Clear();
+                if (m_PostPicturePath != null)
+                {
+                    Post postedItem = FacebookApplication.LoggedInUser.PostPhoto(m_PostPicturePath, i_Title: richTextBoxPostPhoto.Text);
+                    MessageBox.Show("Photo Post !");
+                    richTextBoxPostPhoto.Clear();
+                }
+                else
+                {
+                    MessageBox.Show("You mush add a photo");
+                }
             }
-            else
+            catch
             {
-                MessageBox.Show("You mush add a photo");
+                throw new Exception("Post photo failed");
             }
         }
 
@@ -453,7 +476,5 @@ photo.Name != String.Empty ? photo.Name : "No name");
             FacebookApplication.ExitSelected = true;
             Close();
         }
-
-        
     }
 }
