@@ -77,10 +77,37 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         {
             updateAboutMeFriends();
             likedPagesBindingSource.DataSource = FacebookApplication.LoggedInUser.LikedPages;
-            postsBindingSource.DataSource = FacebookApplication.LoggedInUser.Posts;
+            initLastPost();
+            listBoxPostLiked.MouseDoubleClick += ListBoxPostLiked_MouseDoubleClick;
+            listBoxPostComment.MouseDoubleClick += ListBoxPostComment_MouseDoubleClick;
             friendsBindingSource.DataSource = FacebookApplication.LoggedInUser.Friends;
             listBoxPostTags.ClearSelected();
         }
+        private void ListBoxPostLiked_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            User friend = ((ListBox)sender).SelectedItem as User;
+
+            if (friend != null)
+            {
+                MessageBox.Show(friend.Name + " Liked your post !");
+            }
+        }
+
+        private void ListBoxPostComment_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            Comment comment = ((ListBox)sender).SelectedItem as Comment;
+
+            if (comment != null)
+            {
+                User friendWhoCommented = comment.From;
+                string message = string.Format(
+@"{0} commented: {1}",
+friendWhoCommented.Name,
+comment.Message);
+                MessageBox.Show(message);
+            }
+        }
+
 
         private void updateAboutMeFriends()
         {
@@ -102,6 +129,39 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             catch
             {
                 throw new Exception("Error when loading user's friend");
+            }
+        }
+
+        private void initLastPost()
+        {
+            Post myLastPosts = FacebookApplication.LoggedInUser.Posts[0];
+            if(myLastPosts.Message != null)
+            {
+                textBoxLastPostMessage.Text = myLastPosts.Message;
+            }
+            else
+            {
+                textBoxLastPostMessage.Text = "";
+            }
+
+            pictureBoxLastPost.Hide();
+            listBoxPostLiked.Items.Clear();
+            listBoxPostComment.Items.Clear();
+            if (myLastPosts.PictureURL != null)
+            {
+                pictureBoxLastPost.Load(myLastPosts.PictureURL);
+                pictureBoxLastPost.Show();
+                listBoxPostLiked.DisplayMember = "Name";
+                foreach (User friendWhoLiked in myLastPosts.LikedBy)
+                {
+                    listBoxPostLiked.Items.Add(friendWhoLiked);
+                }
+
+                listBoxPostComment.DisplayMember = "Message";
+                foreach (Comment comment in myLastPosts.Comments)
+                {
+                    listBoxPostComment.Items.Add(comment);
+                }
             }
         }
 
@@ -174,6 +234,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                     MessageBox.Show(successPostMessage);
                     richTextBoxStatusPost.Clear();
                     listBoxPostTags.ClearSelected();
+                    refreshLastPost();
                 }
                 else
                 {
@@ -219,6 +280,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                     Post postedItem = FacebookApplication.LoggedInUser.PostPhoto(m_PostPicturePath, i_Title: richTextBoxPostPhoto.Text);
                     MessageBox.Show("Photo Post !");
                     richTextBoxPostPhoto.Clear();
+                    refreshLastPost();
                 }
                 else
                 {
@@ -516,6 +578,24 @@ photo.Name != String.Empty ? photo.Name : "No name");
         private void buttonFetchMyPhotosFriendIsIn_Click(object sender, EventArgs e)
         {
             fetchPhotosOfFriendInMyPhotos();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Post lastPost = FacebookApplication.LoggedInUser.Posts[0];
+            //PhotoDetails photoDetailsForm = new PhotoDetails(lastPost.Pho);
+
+        }
+
+        private void buttonRefreshLastPost_Click(object sender, EventArgs e)
+        {
+            refreshLastPost();
+        }
+
+        private void refreshLastPost()
+        {
+            FacebookApplication.LoggedInUser.ReFetch();
+            initLastPost();
         }
     }
 }
