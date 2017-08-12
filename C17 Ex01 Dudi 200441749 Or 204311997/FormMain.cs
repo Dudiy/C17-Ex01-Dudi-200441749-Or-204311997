@@ -23,7 +23,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
 
         public FormMain()
         {
-            InitializeComponent();
+            InitializeComponent();            
         }
 
         protected override void OnShown(EventArgs e)
@@ -338,9 +338,12 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             treeViewPhotosOfFriendInMyPhotos.Nodes.Clear();
             AlbumsSelector albumSelector = new AlbumsSelector(FacebookApplication.LoggedInUser);
             Album[] selectedAlbums = albumSelector.GetAlbumsSelection();
+            progressBarPhotosOfFriendInMine.Visible = true;
+            Refresh();
             Dictionary<Album, List<Photo>> photos = FacebookPhotoUtils.GetPhotosByOwnerAndTags(
                 FacebookApplication.LoggedInUser, m_FriendshipAnalyzer.Friend, selectedAlbums, progressBarPhotosOfFriendInMine);
-
+            progressBarPhotosOfFriendInMine.Visible = false;
+            Refresh();
             foreach (Album album in photos.Keys)
             {
                 TreeNode albumNode = new TreeNode(album.Name);
@@ -431,21 +434,25 @@ photo.Name != String.Empty ? photo.Name : "No name");
         {
             User selectedFriend = m_FriendshipAnalyzer.Friend;
             panelAnalyzingFriendship.Visible = true;
-            panelGeneralInfo.Visible = false;            
+            panelGeneralInfo.Visible = false;
             labelAnalyzingFriendship.Text = "Counting likes";
+            Refresh();
             int numPhotosFriendLiked = m_FriendshipAnalyzer.GetNumberOfPhotosFriendLiked(progressBarAnalyzingFriendship);
             labelAnalyzingFriendship.Text = "Counting comments";
+            Refresh();
             int numOfPhotosFriendCommented = m_FriendshipAnalyzer.GetNumberOfPhotosFriendCommented(progressBarAnalyzingFriendship);
             labelAnalyzingFriendship.Text = "Searching for most recent photo together";
+            Refresh();
             Photo mostRecentTaggedTogether = m_FriendshipAnalyzer.GetMostRecentPhotoTaggedTogether();
             labelName.Text = selectedFriend.Name;
-            labelNumLikes.Text = String.Format("Number of times {0} liked my photos: {1}", selectedFriend.Name, numPhotosFriendLiked);
-            labelNumComments.Text = String.Format("Number of times {0} commented on my photos: {1}", selectedFriend.Name, numOfPhotosFriendCommented);
+            labelNumLikes.Text = String.Format("Number of times {0} liked my photos: {1}", selectedFriend.FirstName, numPhotosFriendLiked);
+            labelNumComments.Text = String.Format("Number of times {0} commented on my photos: {1}", selectedFriend.FirstName, numOfPhotosFriendCommented);
             pictureBoxMostRecentTaggedTogether.LoadAsync(mostRecentTaggedTogether.PictureNormalURL);
             buttonFetchMyPhotosFriendIsIn.Text = String.Format("Fetch photos of mine {0} is in", selectedFriend.FirstName);
             buttonFetchPhotosOfFriendIAmTaggedIn.Text = String.Format("Fetch {0}'s Photos I am Tagged in", selectedFriend.FirstName);
             panelGeneralInfo.Visible = true;
             panelAnalyzingFriendship.Visible = false;
+            Refresh();
         }
 
         private void increasePictureBoxSize(PictureBox i_PictureBox, int i_Size)
@@ -460,9 +467,13 @@ photo.Name != String.Empty ? photo.Name : "No name");
         {
             AlbumsSelector albumSelector = new AlbumsSelector(m_FriendshipAnalyzer.Friend);            
             Album[] selectedAlbums = albumSelector.GetAlbumsSelection();
+            progressBarPhotosOfMeInFriendsPhotos.Visible = true;
+            Refresh();
             Dictionary<Album, List<Photo>> photos = 
                 FacebookPhotoUtils.GetPhotosByOwnerAndTags(m_FriendshipAnalyzer.Friend, FacebookApplication.LoggedInUser, selectedAlbums, progressBarPhotosOfMeInFriendsPhotos);
-            
+            progressBarPhotosOfMeInFriendsPhotos.Visible = false;
+            Refresh();
+
             treeViewPhotosOfFriendIAmTaggedIn.Nodes.Clear();
             progressBarPhotosOfMeInFriendsPhotos.Visible = true;
             foreach (Album album in photos.Keys)

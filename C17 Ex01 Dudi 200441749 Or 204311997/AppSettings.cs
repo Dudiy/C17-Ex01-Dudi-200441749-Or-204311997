@@ -11,7 +11,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
     {
         private const string k_SettingsFilePath = "AppSettings.xml";
         //TODO set the default size after done with design
-        private static readonly Size sr_DefaultFormSize = new Size(1394, 867);
+        private static readonly Size sr_DefaultFormSize = new Size(1200, 800);
         private static readonly object sr_CreationLock = new object();
         public Point LastWindowLocation { get; set; }
         public Size LastWindowsSize { get; set; }
