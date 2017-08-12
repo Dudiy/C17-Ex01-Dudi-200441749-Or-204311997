@@ -74,6 +74,12 @@
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="FriendDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FriendDetails.Designer.cs">
+      <DependentUpon>FriendDetails.cs</DependentUpon>
+    </Compile>
     <Compile Include="FriendshipAnalyzer.cs" />
     <Compile Include="PhotoDetails.cs">
       <SubType>Form</SubType>
@@ -104,6 +110,9 @@
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FriendDetails.resx">
+      <DependentUpon>FriendDetails.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PhotoDetails.resx">
       <DependentUpon>PhotoDetails.cs</DependentUpon>
     </EmbeddedResource>
@@ -118,6 +127,7 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Properties\DataSources\FacebookWrapper.ObjectModel.User.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

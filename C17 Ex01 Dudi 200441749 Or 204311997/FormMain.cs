@@ -70,193 +70,33 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         // ================================================ About Me Tab ==============================================
         private void initAboutMeTab()
         {
-            updateFriendsList();
-            updatePagesList();
-            updateEventsList();
-            updateBirthday();
+            updateAboutMeFriends();
+            likedPagesBindingSource.DataSource = FacebookApplication.LoggedInUser.LikedPages;
+            postsBindingSource.DataSource = FacebookApplication.LoggedInUser.Posts;
         }
 
-        // friends
-        private void updateFriendsList()
+        private void updateAboutMeFriends()
         {
-            listBoxFriends.DisplayMember = "Name";
-            comboBoxTagFriend.DisplayMember = "Name";
             foreach (User friend in FacebookApplication.LoggedInUser.Friends)
             {
-                listBoxFriends.Items.Add(friend);
-                comboBoxTagFriend.Items.Add(friend);
+                PictureBox profilePic = new PictureBox();
+                profilePic.Image = friend.ImageLarge;
+                profilePic.Size = new Size(90, 90);
+                profilePic.SizeMode = PictureBoxSizeMode.Zoom;
+                profilePic.Tag = friend;
+                profilePic.MouseEnter += ProfilePic_MouseEnter;
+                profilePic.MouseLeave += ProfilePic_MouseLeave;
+                profilePic.MouseClick += ProfilePic_MouseClick;
+                flowLayoutPanelAboutMeFriends.Controls.Add(profilePic);
             }
         }
 
-        private void listBoxFriends_SelectedIndexChanged(object sender, EventArgs e)
+        private void uRLLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (listBoxFriends.SelectedItems.Count == 1)
-            {
-                User selectedFriend = listBoxFriends.SelectedItem as User;
-                if (selectedFriend.PictureLargeURL != null)
-                {
-                    pictureBoxFriend.LoadAsync(selectedFriend.PictureLargeURL);
-                }
-                else
-                {
-                    // TODO add empty user picture
-                }
-                pictureBoxFriend.Visible = true;
-                labelFriendName.Text = selectedFriend.Name;
-                labelFriendName.Visible = true;
-                labelMailTitle.Visible = true;
-                labelMail.Text = selectedFriend.Email != null ? selectedFriend.Email : "Not defined";
-                labelMail.Visible = true;
-                labelBithdayTitle.Visible = true;
-                ;
-                labelBirthday.Text = selectedFriend.Birthday != null ?
-                    convertStringToDate(selectedFriend.Birthday).ToString("dd/MM/yyyy") :
-                    "Not defined";
-                labelBirthday.Visible = true;
-                buttonClearFriendDetails.Visible = true;
-            }
-        }
-
-        private void buttonClearFriendDetails_Click(object sender, EventArgs e)
-        {
-            pictureBoxFriend.Visible = false;
-            labelFriendName.Visible = false;
-            labelMailTitle.Visible = false;
-            labelMail.Visible = false;
-            labelBithdayTitle.Visible = false;
-            labelBirthday.Visible = false;
-            buttonClearFriendDetails.Visible = false;
-        }
-
-        // liked pages
-        private void updatePagesList()
-        {
-            listBoxLikedPages.DisplayMember = "Name";
-            foreach (Page page in FacebookApplication.LoggedInUser.LikedPages)
-            {
-                listBoxLikedPages.Items.Add(page);
-            }
-
-        }
-
-        private void listBoxLikedPages_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (listBoxLikedPages.SelectedItems.Count == 1)
-            {
-                Page selectedPage = listBoxLikedPages.SelectedItem as Page;
-                if (selectedPage.PictureLargeURL != null)
-                {
-                    pictureBoxPage.LoadAsync(selectedPage.PictureLargeURL);
-                }
-                else
-                {
-                    // TODO add empty page
-                }
-                pictureBoxPage.Visible = true;
-                labelPageName.Text = selectedPage.Name;
-                labelPageName.Visible = true;
-                labelSiteTitle.Visible = true;
-                linkLabelSite.Text = selectedPage.URL;
-                linkLabelSite.Name = selectedPage.URL;
-                linkLabelSite.Visible = true;
-                labelPhoneTitle.Visible = true;
-                labelPhone.Text = selectedPage.Phone != null ? selectedPage.Phone : "Not defined";
-                labelPhone.Visible = true;
-                buttonClearPageDetails.Visible = true;
-            }
-        }
-
-        private void buttonClearPageDetails_Click(object sender, EventArgs e)
-        {
-            pictureBoxPage.Visible = false;
-            labelPageName.Visible = false;
-            labelSiteTitle.Visible = false;
-            linkLabelSite.Visible = false;
-            labelPhoneTitle.Visible = false;
-            labelPhone.Visible = false;
-            buttonClearPageDetails.Visible = false;
-        }
-
-        // Events
-        private void updateEventsList()
-        {
-            listBoxEvents.DisplayMember = "Name";
-            foreach (Event upcomingEvent in FacebookApplication.LoggedInUser.Events)
-            {
-                listBoxEvents.Items.Add(upcomingEvent);
-            }
-        }
-
-        private void listBoxEvents_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (listBoxEvents.SelectedItems.Count == 1)
-            {
-                Event selectedEvent = listBoxEvents.SelectedItem as Event;
-                if (selectedEvent.PictureLargeURL != null)
-                {
-                    pictureBoxEvent.LoadAsync(selectedEvent.PictureLargeURL);
-                }
-                else
-                {
-                    // TODO add empty event
-                }
-                pictureBoxEvent.Visible = true;
-                labelEventName.Text = selectedEvent.Name;
-                labelEventName.Visible = true;
-                labelEventWhenTitle.Visible = true;
-                labelEventWhen.Text = selectedEvent.TimeString;
-                labelEventWhen.Visible = true;
-                labelEventWhereTitle.Visible = true;
-                try { labelEventWhere.Text = selectedEvent.Place.Location.City + selectedEvent.Place.Location.Street; }
-                catch { labelEventWhere.Text = ""; }
-                labelEventWhere.Visible = true;
-                buttonClearEventDetails.Visible = true;
-            }
-        }
-
-        private void buttonClearEventDetails_Click(object sender, EventArgs e)
-        {
-            pictureBoxEvent.Visible = false;
-            labelEventName.Visible = false;
-            labelEventWhenTitle.Visible = false;
-            labelEventWhen.Visible = false;
-            labelEventWhereTitle.Visible = false;
-            labelEventWhere.Visible = false;
-            buttonClearEventDetails.Visible = false;
-        }
-
-        // Birthday
-        private void updateBirthday()
-        {
-            if (FacebookApplication.LoggedInUser.Birthday != null)
-            {
-                DateTime myBirthday = convertStringToDate(FacebookApplication.LoggedInUser.Birthday);
-                DateTime myNextBirthday = new DateTime(DateTime.Now.Year, myBirthday.Month, myBirthday.Day);
-
-                labelMyBirthdayTitle.Text = String.Format(
-@"Born on {0}
-My birthday is in {1} days",
-    myBirthday.ToString("dd/MM/yyyy"),
-    (myNextBirthday - DateTime.Now).Days);
-            }
-            else
-            {
-                labelMyBirthdayTitle.Visible = false;
-            }
-        }
-
-
-        // ================================================ Close form ==============================================
-        private void buttonLogout_Click(object sender, EventArgs e)
-        {
-            m_LogoutClicked = true;
-            FacebookApplication.Logout();
-        }
-
-        private void buttonExit_Click(object sender, EventArgs e)
-        {
-            FacebookApplication.ExitSelected = true;
-            Close();
+            // Specify that the link was visited.
+            uRLLinkLabel.LinkVisited = true;
+            // Navigate to a URL.
+            System.Diagnostics.Process.Start(uRLLinkLabel.Text);
         }
 
         // ================================================ DataTables Tab ==============================================
@@ -334,6 +174,7 @@ My birthday is in {1} days",
         {
             ((DataGridView)sender).SelectedCells[0].OwningRow.Selected = true;
         }
+
         // ================================================ Friendship analyzer Tab ==============================================
         private void initFriendshipAnalyzerTab()
         {
@@ -441,26 +282,72 @@ photo.Name != String.Empty ? photo.Name : "No name");
             fetchPhotosTaggedTogether();
         }
 
-        // ================================================ utils ==============================================
-        private DateTime convertStringToDate(string i_Birthdate)
+        private void initFriendsPhotosBar()
         {
-            string[] splitDate = i_Birthdate.Split('/');
-            DateTime date = new DateTime(
-                int.Parse(splitDate[2]),
-                int.Parse(splitDate[0]),
-                int.Parse(splitDate[1])
-                );
+            flowLayoutPanelFriendshipAnalyzer.Width = 110;
+            flowLayoutPanelFriendshipAnalyzer.Padding = new Padding(0, 0, 20, 0);
 
-            return date;
+            foreach (User friend in FacebookApplication.LoggedInUser.Friends)
+            {
+                PictureBox profilePic = new PictureBox();
+                //profilePic.LoadAsync(friend.PictureSqaureURL);
+                profilePic.Image = friend.ImageLarge;
+                profilePic.Size = new Size(90, 90);
+                profilePic.SizeMode = PictureBoxSizeMode.Zoom;
+                profilePic.Tag = friend;
+                profilePic.MouseEnter += ProfilePic_MouseEnter;
+                profilePic.MouseLeave += ProfilePic_MouseLeave;
+                profilePic.MouseClick += ProfilePic_MouseClick;
+                flowLayoutPanelFriendshipAnalyzer.Controls.Add(profilePic);
+            }
         }
 
-        private void linkLabelSite_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void ProfilePic_MouseLeave(object sender, EventArgs e)
         {
-            // Specify that the link was visited.
-            linkLabelSite.LinkVisited = true;
-            // Navigate to a URL.
-            System.Diagnostics.Process.Start(linkLabelSite.Text);
+            PictureBox me = sender as PictureBox;
+
+            increasePictureBoxSize(me, -20);
         }
+
+        private void ProfilePic_MouseEnter(object sender, EventArgs e)
+        {
+            PictureBox me = sender as PictureBox;
+
+            increasePictureBoxSize(me, 20);
+        }
+
+        private void ProfilePic_MouseClick(object sender, MouseEventArgs e)
+        {
+            User friend = ((PictureBox)sender).Tag as User;
+            FriendDetails friendDetails = new FriendDetails(friend);
+
+            friendDetails.ShowDialog();
+        }
+
+        private void increasePictureBoxSize(PictureBox i_PictureBox, int i_Size)
+        {
+            int newWidth = i_PictureBox.Size.Width + i_Size;
+            int newHeight = i_PictureBox.Size.Height + i_Size;
+
+            i_PictureBox.Size = new Size(newWidth, newHeight);
+        }
+
+        // ================================================ Close form ==============================================
+        private void buttonLogout_Click(object sender, EventArgs e)
+        {
+            m_LogoutClicked = true;
+            FacebookApplication.Logout();
+        }
+
+        private void buttonExit_Click(object sender, EventArgs e)
+        {
+            FacebookApplication.ExitSelected = true;
+            Close();
+        }
+
+
+
+
 
         private void buttonPost_Click(object sender, EventArgs e)
         {
@@ -475,8 +362,6 @@ photo.Name != String.Empty ? photo.Name : "No name");
 
             MessageBox.Show("Status Posted! ID: " + postedStatus.Id);
         }
-
-        // TODO bug
         private void buttonAddPicture_Click(object sender, EventArgs e)
         {
             //Image file;
@@ -491,42 +376,6 @@ photo.Name != String.Empty ? photo.Name : "No name");
                 //m_PostPictureURL = Image.FromFile(file.FileName);
             }
         }
-
-        private void initFriendsPhotosBar()
-        {
-            flowLayoutPanelFriendshipAnalyzer.Width = 110;
-            flowLayoutPanelFriendshipAnalyzer.Padding = new Padding(0,0,20,0);
-            
-            foreach (User friend in FacebookApplication.LoggedInUser.Friends)
-            {
-                PictureBox profilePic = new PictureBox();
-                profilePic.LoadAsync(friend.PictureSqaureURL);
-                profilePic.Size = new Size(90, 90);
-                profilePic.SizeMode = PictureBoxSizeMode.Zoom;
-                profilePic.Tag = friend;
-                profilePic.MouseEnter += ProfilePic_MouseEnter;
-                profilePic.MouseLeave += ProfilePic_MouseLeave;
-                flowLayoutPanelFriendshipAnalyzer.Controls.Add(profilePic);
-            }
-        }
-
-        private void ProfilePic_MouseLeave(object sender, EventArgs e)
-        {
-            PictureBox me = sender as PictureBox;
-            increasePictureBoxSize(me, -20);
-        }
-
-        private void ProfilePic_MouseEnter(object sender, EventArgs e)
-        {
-            PictureBox me = sender as PictureBox;
-            increasePictureBoxSize(me, 20);
-        }
-
-        private void increasePictureBoxSize(PictureBox i_PictureBox, int i_Size)
-        {
-            int newWidth = i_PictureBox.Size.Width + i_Size;
-            int newHeight = i_PictureBox.Size.Height + i_Size;
-            i_PictureBox.Size = new Size(newWidth, newHeight);
-        }
+        
     }
 }
