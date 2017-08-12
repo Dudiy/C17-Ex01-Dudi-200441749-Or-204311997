@@ -74,8 +74,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             likedPagesBindingSource.DataSource = FacebookApplication.LoggedInUser.LikedPages;
             postsBindingSource.DataSource = FacebookApplication.LoggedInUser.Posts;
             friendsBindingSource.DataSource = FacebookApplication.LoggedInUser.Friends;
-            comboBoxPostTags.SelectedIndex = -1;
-
+            listBoxPostTags.ClearSelected();
         }
 
         private void updateAboutMeFriends()
@@ -106,24 +105,31 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         {
             if (richTextBoxStatusPost.Text != "")
             {
-                // TODO multi tags
-                User friend = comboBoxPostTags.SelectedItem as User;
-                string friendID = friend != null ? friend.Id : null;
+                string friendID = string.Empty;
+                foreach (User friend in listBoxPostTags.SelectedItems)
+                {
+                    friendID += friend.Id + ",";
+                }
+                friendID = friendID != "" ? 
+                    friendID.Remove(friendID.Length - 1) : 
+                    null;
+
                 Status postedStatus = FacebookApplication.LoggedInUser.PostStatus(
                     richTextBoxStatusPost.Text, i_TaggedFriendIDs: friendID);
 
                 MessageBox.Show("Status Posted! ID: " + postedStatus.Id);
+                richTextBoxStatusPost.Clear();
+                listBoxPostTags.ClearSelected();
             }
             else
             {
                 MessageBox.Show("You mush enter a status text OR add photo");
             }
-
         }
 
         private void buttonClearPostTags_Click(object sender, EventArgs e)
         {
-            comboBoxPostTags.SelectedIndex = -1;
+            listBoxPostTags.ClearSelected();
         }
 
         // ================================================ DataTables Tab ==============================================
