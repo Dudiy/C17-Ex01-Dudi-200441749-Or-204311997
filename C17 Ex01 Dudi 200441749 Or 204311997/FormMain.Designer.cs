@@ -66,6 +66,7 @@
             this.labelFriendTitle = new System.Windows.Forms.Label();
             this.flowLayoutPanelAboutMeFriends = new System.Windows.Forms.FlowLayoutPanel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             this.messageTextBox = new System.Windows.Forms.TextBox();
             this.postsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.newsFeedListBox = new System.Windows.Forms.ListBox();
@@ -74,20 +75,19 @@
             this.panelPost = new System.Windows.Forms.Panel();
             this.panelPostPhoto = new System.Windows.Forms.Panel();
             this.pictureBoxPostPhoto = new System.Windows.Forms.PictureBox();
+            this.labelPostPhoto = new System.Windows.Forms.Label();
             this.buttonPostPhoto = new System.Windows.Forms.Button();
             this.richTextBoxPostPhoto = new System.Windows.Forms.RichTextBox();
             this.buttonAddPicture = new System.Windows.Forms.Button();
-            this.labelPostPhoto = new System.Windows.Forms.Label();
             this.panelPostStatus = new System.Windows.Forms.Panel();
+            this.buttonRefreshTagFriends = new System.Windows.Forms.Button();
             this.buttonPostStatus = new System.Windows.Forms.Button();
             this.buttonClearPostTags = new System.Windows.Forms.Button();
+            this.labelPostStatus = new System.Windows.Forms.Label();
             this.richTextBoxStatusPost = new System.Windows.Forms.RichTextBox();
             this.listBoxPostTags = new System.Windows.Forms.ListBox();
             this.labelTagFriends = new System.Windows.Forms.Label();
-            this.labelPostStatus = new System.Windows.Forms.Label();
             this.tabControl = new System.Windows.Forms.TabControl();
-            this.buttonRefreshTagFriends = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProfilePicture)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCoverPhoto)).BeginInit();
             this.tabPageFriendshipAnalyzer.SuspendLayout();
@@ -503,6 +503,15 @@
             this.panel3.Size = new System.Drawing.Size(261, 200);
             this.panel3.TabIndex = 9;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(67, 38);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(163, 87);
+            this.button1.TabIndex = 20;
+            this.button1.Text = "CHANGE";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // messageTextBox
             // 
             this.messageTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.postsBindingSource, "Message", true));
@@ -581,6 +590,17 @@
             this.pictureBoxPostPhoto.TabIndex = 14;
             this.pictureBoxPostPhoto.TabStop = false;
             // 
+            // labelPostPhoto
+            // 
+            this.labelPostPhoto.AutoSize = true;
+            this.labelPostPhoto.Font = new System.Drawing.Font("Castellar", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelPostPhoto.Location = new System.Drawing.Point(26, 3);
+            this.labelPostPhoto.Name = "labelPostPhoto";
+            this.labelPostPhoto.Size = new System.Drawing.Size(177, 23);
+            this.labelPostPhoto.TabIndex = 12;
+            this.labelPostPhoto.Text = "Post A Photo";
+            this.labelPostPhoto.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
             // buttonPostPhoto
             // 
             this.buttonPostPhoto.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -614,17 +634,6 @@
             this.buttonAddPicture.UseVisualStyleBackColor = true;
             this.buttonAddPicture.Click += new System.EventHandler(this.buttonAddPicture_Click);
             // 
-            // labelPostPhoto
-            // 
-            this.labelPostPhoto.AutoSize = true;
-            this.labelPostPhoto.Font = new System.Drawing.Font("Castellar", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelPostPhoto.Location = new System.Drawing.Point(26, 3);
-            this.labelPostPhoto.Name = "labelPostPhoto";
-            this.labelPostPhoto.Size = new System.Drawing.Size(177, 23);
-            this.labelPostPhoto.TabIndex = 12;
-            this.labelPostPhoto.Text = "Post A Photo";
-            this.labelPostPhoto.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
             // panelPostStatus
             // 
             this.panelPostStatus.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -639,6 +648,17 @@
             this.panelPostStatus.Name = "panelPostStatus";
             this.panelPostStatus.Size = new System.Drawing.Size(234, 208);
             this.panelPostStatus.TabIndex = 11;
+            // 
+            // buttonRefreshTagFriends
+            // 
+            this.buttonRefreshTagFriends.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonRefreshTagFriends.Location = new System.Drawing.Point(130, 92);
+            this.buttonRefreshTagFriends.Name = "buttonRefreshTagFriends";
+            this.buttonRefreshTagFriends.Size = new System.Drawing.Size(93, 25);
+            this.buttonRefreshTagFriends.TabIndex = 21;
+            this.buttonRefreshTagFriends.Text = "Refresh Friend";
+            this.buttonRefreshTagFriends.UseVisualStyleBackColor = true;
+            this.buttonRefreshTagFriends.Click += new System.EventHandler(this.buttonRefreshTagFriends_Click);
             // 
             // buttonPostStatus
             // 
@@ -662,6 +682,17 @@
             this.buttonClearPostTags.Text = "Clear Tags";
             this.buttonClearPostTags.UseVisualStyleBackColor = true;
             this.buttonClearPostTags.Click += new System.EventHandler(this.buttonClearPostTags_Click);
+            // 
+            // labelPostStatus
+            // 
+            this.labelPostStatus.AutoSize = true;
+            this.labelPostStatus.Font = new System.Drawing.Font("Castellar", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelPostStatus.Location = new System.Drawing.Point(27, 12);
+            this.labelPostStatus.Name = "labelPostStatus";
+            this.labelPostStatus.Size = new System.Drawing.Size(180, 23);
+            this.labelPostStatus.TabIndex = 8;
+            this.labelPostStatus.Text = "Post A Status";
+            this.labelPostStatus.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // richTextBoxStatusPost
             // 
@@ -695,17 +726,6 @@
             this.labelTagFriends.TabIndex = 12;
             this.labelTagFriends.Text = "Tag Friends";
             // 
-            // labelPostStatus
-            // 
-            this.labelPostStatus.AutoSize = true;
-            this.labelPostStatus.Font = new System.Drawing.Font("Castellar", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelPostStatus.Location = new System.Drawing.Point(27, 12);
-            this.labelPostStatus.Name = "labelPostStatus";
-            this.labelPostStatus.Size = new System.Drawing.Size(180, 23);
-            this.labelPostStatus.TabIndex = 8;
-            this.labelPostStatus.Text = "Post A Status";
-            this.labelPostStatus.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
             // tabControl
             // 
             this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -722,26 +742,6 @@
             this.tabControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabControl.TabIndex = 0;
             this.tabControl.Tag = "";
-            // 
-            // buttonRefreshTagFriends
-            // 
-            this.buttonRefreshTagFriends.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonRefreshTagFriends.Location = new System.Drawing.Point(130, 92);
-            this.buttonRefreshTagFriends.Name = "buttonRefreshTagFriends";
-            this.buttonRefreshTagFriends.Size = new System.Drawing.Size(93, 25);
-            this.buttonRefreshTagFriends.TabIndex = 21;
-            this.buttonRefreshTagFriends.Text = "Refresh Friend";
-            this.buttonRefreshTagFriends.UseVisualStyleBackColor = true;
-            this.buttonRefreshTagFriends.Click += new System.EventHandler(this.buttonRefreshTagFriends_Click);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(67, 38);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(163, 87);
-            this.button1.TabIndex = 20;
-            this.button1.Text = "CHANGE";
-            this.button1.UseVisualStyleBackColor = true;
             // 
             // FormMain
             // 
