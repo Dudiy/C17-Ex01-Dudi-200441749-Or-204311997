@@ -102,6 +102,7 @@
             this.labelTagFriends = new System.Windows.Forms.Label();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.labelPhotoPreview = new System.Windows.Forms.Label();
+            this.progressBarTaggedTogether = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProfilePicture)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMostRecentTaggedTogether)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCoverPhoto)).BeginInit();
@@ -295,6 +296,7 @@
             this.panelGeneralInfo.Controls.Add(this.labelLastName);
             this.panelGeneralInfo.Controls.Add(this.labelFirstName);
             this.panelGeneralInfo.Controls.Add(this.progressBarPhotosOfFriendInMine);
+            this.panelGeneralInfo.Controls.Add(this.progressBarTaggedTogether);
             this.panelGeneralInfo.Controls.Add(this.progressBarPhotosOfMeInFriendsPhotos);
             this.panelGeneralInfo.Controls.Add(this.buttonFetchMyPhotosFriendIsIn);
             this.panelGeneralInfo.Controls.Add(this.buttonFetchTaggedTogether);
@@ -905,6 +907,15 @@
             this.labelPhotoPreview.TabIndex = 15;
             this.labelPhotoPreview.Text = "Photo preview:";
             // 
+            // progressBarTaggedTogether
+            // 
+            this.progressBarTaggedTogether.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBarTaggedTogether.Location = new System.Drawing.Point(597, 276);
+            this.progressBarTaggedTogether.Name = "progressBarTaggedTogether";
+            this.progressBarTaggedTogether.Size = new System.Drawing.Size(194, 23);
+            this.progressBarTaggedTogether.TabIndex = 12;
+            this.progressBarTaggedTogether.Visible = false;
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1029,5 +1040,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label labelLastName;
         private System.Windows.Forms.Label labelPhotoPreview;
+        private System.Windows.Forms.ProgressBar progressBarTaggedTogether;
     }
 }
