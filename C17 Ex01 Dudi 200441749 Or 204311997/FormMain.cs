@@ -146,7 +146,8 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         private void buttonRefreshLikedPage_Click(object sender, EventArgs e)
         {
             FacebookApplication.LoggedInUser.ReFetch();
-            listBoxLikedPage.DataSource = FacebookApplication.LoggedInUser.LikedPages;
+            likedPagesBindingSource.DataSource = FacebookApplication.LoggedInUser.LikedPages;
+            listBoxLikedPage.ClearSelected();
         }
 
         private void buttonPost_Click(object sender, EventArgs e)
@@ -188,7 +189,8 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         private void buttonRefreshTagFriends_Click(object sender, EventArgs e)
         {
             FacebookApplication.LoggedInUser.ReFetch();
-            listBoxPostTags.DataSource = FacebookApplication.LoggedInUser.Friends;
+            //listBoxPostTags.DataSource = FacebookApplication.LoggedInUser.Friends;
+            friendsBindingSource.DataSource = FacebookApplication.LoggedInUser.Friends;
             listBoxPostTags.ClearSelected();
         }
 

@@ -36,13 +36,22 @@
             this.pictureBoxProfilePicture = new System.Windows.Forms.PictureBox();
             this.pictureBoxCoverPhoto = new System.Windows.Forms.PictureBox();
             this.tabPageFriendshipAnalyzer = new System.Windows.Forms.TabPage();
+            this.panelAnalyzingFriendship = new System.Windows.Forms.Panel();
+            this.labelAnalyzingFriendship = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.progressBarAnalyzingFriendship = new System.Windows.Forms.ProgressBar();
+            this.panelGeneralInfo = new System.Windows.Forms.Panel();
+            this.labelNumComments = new System.Windows.Forms.Label();
+            this.labelName = new System.Windows.Forms.Label();
+            this.labelNumLikes = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.pictureBoxMostRecentTaggedTogether = new System.Windows.Forms.PictureBox();
+            this.buttonFetchMyPhotosFriendIsIn = new System.Windows.Forms.Button();
+            this.buttonFetchTaggedTogether = new System.Windows.Forms.Button();
+            this.progressBarPhotosOfFriendInMine = new System.Windows.Forms.ProgressBar();
+            this.progressBarTaggedTogether = new System.Windows.Forms.ProgressBar();
             this.progressBarPhotosOfMeInFriendsPhotos = new System.Windows.Forms.ProgressBar();
             this.buttonFetchPhotosOfFriendIAmTaggedIn = new System.Windows.Forms.Button();
-            this.pictureBoxMostRecentTaggedTogether = new System.Windows.Forms.PictureBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.labelNumComments = new System.Windows.Forms.Label();
-            this.labelNumLikes = new System.Windows.Forms.Label();
-            this.labelName = new System.Windows.Forms.Label();
             this.treeViewPhotosOfFriendIAmTaggedIn = new System.Windows.Forms.TreeView();
             this.treeViewPhotosOfFriendInMyPhotos = new System.Windows.Forms.TreeView();
             this.flowLayoutPanelFriendshipAnalyzer = new System.Windows.Forms.FlowLayoutPanel();
@@ -91,18 +100,11 @@
             this.listBoxPostTags = new System.Windows.Forms.ListBox();
             this.labelTagFriends = new System.Windows.Forms.Label();
             this.tabControl = new System.Windows.Forms.TabControl();
-            this.buttonFetchTaggedTogether = new System.Windows.Forms.Button();
-            this.buttonFetchMyPhotosFriendIsIn = new System.Windows.Forms.Button();
-            this.progressBarTaggedTogether = new System.Windows.Forms.ProgressBar();
-            this.progressBarPhotosOfFriendInMine = new System.Windows.Forms.ProgressBar();
-            this.progressBarAnalyzingFriendship = new System.Windows.Forms.ProgressBar();
-            this.panelGeneralInfo = new System.Windows.Forms.Panel();
-            this.panelAnalyzingFriendship = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.labelAnalyzingFriendship = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProfilePicture)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCoverPhoto)).BeginInit();
             this.tabPageFriendshipAnalyzer.SuspendLayout();
+            this.panelAnalyzingFriendship.SuspendLayout();
+            this.panelGeneralInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMostRecentTaggedTogether)).BeginInit();
             this.tabPageDataTables.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
@@ -120,8 +122,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPostPhoto)).BeginInit();
             this.panelPostStatus.SuspendLayout();
             this.tabControl.SuspendLayout();
-            this.panelGeneralInfo.SuspendLayout();
-            this.panelAnalyzingFriendship.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelUserName
@@ -202,6 +202,146 @@
             this.tabPageFriendshipAnalyzer.Text = "Friendship Analyzer";
             this.tabPageFriendshipAnalyzer.UseVisualStyleBackColor = true;
             // 
+            // panelAnalyzingFriendship
+            // 
+            this.panelAnalyzingFriendship.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.panelAnalyzingFriendship.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelAnalyzingFriendship.Controls.Add(this.labelAnalyzingFriendship);
+            this.panelAnalyzingFriendship.Controls.Add(this.label2);
+            this.panelAnalyzingFriendship.Controls.Add(this.progressBarAnalyzingFriendship);
+            this.panelAnalyzingFriendship.Cursor = System.Windows.Forms.Cursors.WaitCursor;
+            this.panelAnalyzingFriendship.Location = new System.Drawing.Point(534, 360);
+            this.panelAnalyzingFriendship.Name = "panelAnalyzingFriendship";
+            this.panelAnalyzingFriendship.Size = new System.Drawing.Size(317, 161);
+            this.panelAnalyzingFriendship.TabIndex = 17;
+            this.panelAnalyzingFriendship.UseWaitCursor = true;
+            this.panelAnalyzingFriendship.Visible = false;
+            // 
+            // labelAnalyzingFriendship
+            // 
+            this.labelAnalyzingFriendship.AutoSize = true;
+            this.labelAnalyzingFriendship.Location = new System.Drawing.Point(21, 62);
+            this.labelAnalyzingFriendship.Name = "labelAnalyzingFriendship";
+            this.labelAnalyzingFriendship.Size = new System.Drawing.Size(54, 13);
+            this.labelAnalyzingFriendship.TabIndex = 16;
+            this.labelAnalyzingFriendship.Text = "Loading...";
+            this.labelAnalyzingFriendship.UseWaitCursor = true;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(85, 11);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(100, 13);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Analyzing friendship";
+            this.label2.UseWaitCursor = true;
+            // 
+            // progressBarAnalyzingFriendship
+            // 
+            this.progressBarAnalyzingFriendship.Location = new System.Drawing.Point(25, 85);
+            this.progressBarAnalyzingFriendship.Name = "progressBarAnalyzingFriendship";
+            this.progressBarAnalyzingFriendship.Size = new System.Drawing.Size(158, 23);
+            this.progressBarAnalyzingFriendship.TabIndex = 15;
+            this.progressBarAnalyzingFriendship.UseWaitCursor = true;
+            // 
+            // panelGeneralInfo
+            // 
+            this.panelGeneralInfo.Controls.Add(this.labelNumComments);
+            this.panelGeneralInfo.Controls.Add(this.labelName);
+            this.panelGeneralInfo.Controls.Add(this.labelNumLikes);
+            this.panelGeneralInfo.Controls.Add(this.label1);
+            this.panelGeneralInfo.Controls.Add(this.pictureBoxMostRecentTaggedTogether);
+            this.panelGeneralInfo.Location = new System.Drawing.Point(138, 69);
+            this.panelGeneralInfo.Name = "panelGeneralInfo";
+            this.panelGeneralInfo.Size = new System.Drawing.Size(369, 422);
+            this.panelGeneralInfo.TabIndex = 16;
+            this.panelGeneralInfo.Visible = false;
+            // 
+            // labelNumComments
+            // 
+            this.labelNumComments.AutoSize = true;
+            this.labelNumComments.Location = new System.Drawing.Point(14, 109);
+            this.labelNumComments.Name = "labelNumComments";
+            this.labelNumComments.Size = new System.Drawing.Size(224, 13);
+            this.labelNumComments.TabIndex = 7;
+            this.labelNumComments.Text = "Number of times {0} commented on my photos";
+            // 
+            // labelName
+            // 
+            this.labelName.AutoSize = true;
+            this.labelName.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.labelName.Location = new System.Drawing.Point(6, 11);
+            this.labelName.Name = "labelName";
+            this.labelName.Size = new System.Drawing.Size(107, 37);
+            this.labelName.TabIndex = 5;
+            this.labelName.Text = "Name";
+            // 
+            // labelNumLikes
+            // 
+            this.labelNumLikes.AutoSize = true;
+            this.labelNumLikes.Location = new System.Drawing.Point(14, 72);
+            this.labelNumLikes.Name = "labelNumLikes";
+            this.labelNumLikes.Size = new System.Drawing.Size(176, 13);
+            this.labelNumLikes.TabIndex = 6;
+            this.labelNumLikes.Text = "Number of times {0} liked my photos";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(14, 146);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(171, 13);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "Most recent photo tagged together";
+            // 
+            // pictureBoxMostRecentTaggedTogether
+            // 
+            this.pictureBoxMostRecentTaggedTogether.Location = new System.Drawing.Point(13, 172);
+            this.pictureBoxMostRecentTaggedTogether.Name = "pictureBoxMostRecentTaggedTogether";
+            this.pictureBoxMostRecentTaggedTogether.Size = new System.Drawing.Size(303, 182);
+            this.pictureBoxMostRecentTaggedTogether.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxMostRecentTaggedTogether.TabIndex = 9;
+            this.pictureBoxMostRecentTaggedTogether.TabStop = false;
+            // 
+            // buttonFetchMyPhotosFriendIsIn
+            // 
+            this.buttonFetchMyPhotosFriendIsIn.Location = new System.Drawing.Point(513, 33);
+            this.buttonFetchMyPhotosFriendIsIn.Name = "buttonFetchMyPhotosFriendIsIn";
+            this.buttonFetchMyPhotosFriendIsIn.Size = new System.Drawing.Size(300, 29);
+            this.buttonFetchMyPhotosFriendIsIn.TabIndex = 14;
+            this.buttonFetchMyPhotosFriendIsIn.Text = "Fetch photos of mine {friend} is in";
+            this.buttonFetchMyPhotosFriendIsIn.UseVisualStyleBackColor = true;
+            this.buttonFetchMyPhotosFriendIsIn.Click += new System.EventHandler(this.buttonFetchMyPhotosFriendIsIn_Click);
+            // 
+            // buttonFetchTaggedTogether
+            // 
+            this.buttonFetchTaggedTogether.Location = new System.Drawing.Point(819, 33);
+            this.buttonFetchTaggedTogether.Name = "buttonFetchTaggedTogether";
+            this.buttonFetchTaggedTogether.Size = new System.Drawing.Size(300, 29);
+            this.buttonFetchTaggedTogether.TabIndex = 13;
+            this.buttonFetchTaggedTogether.Text = "Fetch photos tagged together";
+            this.buttonFetchTaggedTogether.UseVisualStyleBackColor = true;
+            this.buttonFetchTaggedTogether.Click += new System.EventHandler(this.buttonFetchTaggedTogether_Click);
+            // 
+            // progressBarPhotosOfFriendInMine
+            // 
+            this.progressBarPhotosOfFriendInMine.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBarPhotosOfFriendInMine.Location = new System.Drawing.Point(564, 269);
+            this.progressBarPhotosOfFriendInMine.Name = "progressBarPhotosOfFriendInMine";
+            this.progressBarPhotosOfFriendInMine.Size = new System.Drawing.Size(194, 23);
+            this.progressBarPhotosOfFriendInMine.TabIndex = 12;
+            this.progressBarPhotosOfFriendInMine.Visible = false;
+            // 
+            // progressBarTaggedTogether
+            // 
+            this.progressBarTaggedTogether.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBarTaggedTogether.Location = new System.Drawing.Point(872, 269);
+            this.progressBarTaggedTogether.Name = "progressBarTaggedTogether";
+            this.progressBarTaggedTogether.Size = new System.Drawing.Size(194, 23);
+            this.progressBarTaggedTogether.TabIndex = 12;
+            this.progressBarTaggedTogether.Visible = false;
+            // 
             // progressBarPhotosOfMeInFriendsPhotos
             // 
             this.progressBarPhotosOfMeInFriendsPhotos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -220,52 +360,6 @@
             this.buttonFetchPhotosOfFriendIAmTaggedIn.Text = "Fetch Friend\'s Photos I am Tagged in";
             this.buttonFetchPhotosOfFriendIAmTaggedIn.UseVisualStyleBackColor = true;
             this.buttonFetchPhotosOfFriendIAmTaggedIn.Click += new System.EventHandler(this.buttonFetchPhotosOfFriendIAmTaggedIn_Click);
-            // 
-            // pictureBoxMostRecentTaggedTogether
-            // 
-            this.pictureBoxMostRecentTaggedTogether.Location = new System.Drawing.Point(13, 172);
-            this.pictureBoxMostRecentTaggedTogether.Name = "pictureBoxMostRecentTaggedTogether";
-            this.pictureBoxMostRecentTaggedTogether.Size = new System.Drawing.Size(303, 182);
-            this.pictureBoxMostRecentTaggedTogether.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBoxMostRecentTaggedTogether.TabIndex = 9;
-            this.pictureBoxMostRecentTaggedTogether.TabStop = false;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(14, 146);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(256, 20);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "Most recent photo tagged together";
-            // 
-            // labelNumComments
-            // 
-            this.labelNumComments.AutoSize = true;
-            this.labelNumComments.Location = new System.Drawing.Point(14, 109);
-            this.labelNumComments.Name = "labelNumComments";
-            this.labelNumComments.Size = new System.Drawing.Size(335, 20);
-            this.labelNumComments.TabIndex = 7;
-            this.labelNumComments.Text = "Number of times {0} commented on my photos";
-            // 
-            // labelNumLikes
-            // 
-            this.labelNumLikes.AutoSize = true;
-            this.labelNumLikes.Location = new System.Drawing.Point(14, 72);
-            this.labelNumLikes.Name = "labelNumLikes";
-            this.labelNumLikes.Size = new System.Drawing.Size(261, 20);
-            this.labelNumLikes.TabIndex = 6;
-            this.labelNumLikes.Text = "Number of times {0} liked my photos";
-            // 
-            // labelName
-            // 
-            this.labelName.AutoSize = true;
-            this.labelName.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.labelName.Location = new System.Drawing.Point(6, 11);
-            this.labelName.Name = "labelName";
-            this.labelName.Size = new System.Drawing.Size(107, 37);
-            this.labelName.TabIndex = 5;
-            this.labelName.Text = "Name";
             // 
             // treeViewPhotosOfFriendIAmTaggedIn
             // 
@@ -782,100 +876,6 @@
             this.tabControl.TabIndex = 0;
             this.tabControl.Tag = "";
             // 
-            // buttonFetchTaggedTogether
-            // 
-            this.buttonFetchTaggedTogether.Location = new System.Drawing.Point(819, 33);
-            this.buttonFetchTaggedTogether.Name = "buttonFetchTaggedTogether";
-            this.buttonFetchTaggedTogether.Size = new System.Drawing.Size(300, 29);
-            this.buttonFetchTaggedTogether.TabIndex = 13;
-            this.buttonFetchTaggedTogether.Text = "Fetch photos tagged together";
-            this.buttonFetchTaggedTogether.UseVisualStyleBackColor = true;
-            this.buttonFetchTaggedTogether.Click += new System.EventHandler(this.buttonFetchTaggedTogether_Click);
-            // 
-            // buttonFetchMyPhotosFriendIsIn
-            // 
-            this.buttonFetchMyPhotosFriendIsIn.Location = new System.Drawing.Point(513, 33);
-            this.buttonFetchMyPhotosFriendIsIn.Name = "buttonFetchMyPhotosFriendIsIn";
-            this.buttonFetchMyPhotosFriendIsIn.Size = new System.Drawing.Size(300, 29);
-            this.buttonFetchMyPhotosFriendIsIn.TabIndex = 14;
-            this.buttonFetchMyPhotosFriendIsIn.Text = "Fetch photos of mine {friend} is in";
-            this.buttonFetchMyPhotosFriendIsIn.UseVisualStyleBackColor = true;
-            this.buttonFetchMyPhotosFriendIsIn.Click += new System.EventHandler(this.buttonFetchMyPhotosFriendIsIn_Click);
-            // 
-            // progressBarTaggedTogether
-            // 
-            this.progressBarTaggedTogether.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBarTaggedTogether.Location = new System.Drawing.Point(872, 269);
-            this.progressBarTaggedTogether.Name = "progressBarTaggedTogether";
-            this.progressBarTaggedTogether.Size = new System.Drawing.Size(194, 23);
-            this.progressBarTaggedTogether.TabIndex = 12;
-            this.progressBarTaggedTogether.Visible = false;
-            // 
-            // progressBarPhotosOfFriendInMine
-            // 
-            this.progressBarPhotosOfFriendInMine.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBarPhotosOfFriendInMine.Location = new System.Drawing.Point(564, 269);
-            this.progressBarPhotosOfFriendInMine.Name = "progressBarPhotosOfFriendInMine";
-            this.progressBarPhotosOfFriendInMine.Size = new System.Drawing.Size(194, 23);
-            this.progressBarPhotosOfFriendInMine.TabIndex = 12;
-            this.progressBarPhotosOfFriendInMine.Visible = false;
-            // 
-            // progressBarAnalyzingFriendship
-            // 
-            this.progressBarAnalyzingFriendship.Location = new System.Drawing.Point(25, 85);
-            this.progressBarAnalyzingFriendship.Name = "progressBarAnalyzingFriendship";
-            this.progressBarAnalyzingFriendship.Size = new System.Drawing.Size(158, 23);
-            this.progressBarAnalyzingFriendship.TabIndex = 15;
-            this.progressBarAnalyzingFriendship.UseWaitCursor = true;
-            // 
-            // panelGeneralInfo
-            // 
-            this.panelGeneralInfo.Controls.Add(this.labelNumComments);
-            this.panelGeneralInfo.Controls.Add(this.labelName);
-            this.panelGeneralInfo.Controls.Add(this.labelNumLikes);
-            this.panelGeneralInfo.Controls.Add(this.label1);
-            this.panelGeneralInfo.Controls.Add(this.pictureBoxMostRecentTaggedTogether);
-            this.panelGeneralInfo.Location = new System.Drawing.Point(138, 69);
-            this.panelGeneralInfo.Name = "panelGeneralInfo";
-            this.panelGeneralInfo.Size = new System.Drawing.Size(369, 422);
-            this.panelGeneralInfo.TabIndex = 16;
-            this.panelGeneralInfo.Visible = false;
-            // 
-            // panelAnalyzingFriendship
-            // 
-            this.panelAnalyzingFriendship.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.panelAnalyzingFriendship.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelAnalyzingFriendship.Controls.Add(this.labelAnalyzingFriendship);
-            this.panelAnalyzingFriendship.Controls.Add(this.label2);
-            this.panelAnalyzingFriendship.Controls.Add(this.progressBarAnalyzingFriendship);
-            this.panelAnalyzingFriendship.Cursor = System.Windows.Forms.Cursors.WaitCursor;
-            this.panelAnalyzingFriendship.Location = new System.Drawing.Point(534, 360);
-            this.panelAnalyzingFriendship.Name = "panelAnalyzingFriendship";
-            this.panelAnalyzingFriendship.Size = new System.Drawing.Size(317, 161);
-            this.panelAnalyzingFriendship.TabIndex = 17;
-            this.panelAnalyzingFriendship.UseWaitCursor = true;
-            this.panelAnalyzingFriendship.Visible = false;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(85, 11);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(150, 20);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "Analyzing friendship";
-            this.label2.UseWaitCursor = true;
-            // 
-            // labelAnalyzingFriendship
-            // 
-            this.labelAnalyzingFriendship.AutoSize = true;
-            this.labelAnalyzingFriendship.Location = new System.Drawing.Point(21, 62);
-            this.labelAnalyzingFriendship.Name = "labelAnalyzingFriendship";
-            this.labelAnalyzingFriendship.Size = new System.Drawing.Size(78, 20);
-            this.labelAnalyzingFriendship.TabIndex = 16;
-            this.labelAnalyzingFriendship.Text = "Loading...";
-            this.labelAnalyzingFriendship.UseWaitCursor = true;
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -895,6 +895,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProfilePicture)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCoverPhoto)).EndInit();
             this.tabPageFriendshipAnalyzer.ResumeLayout(false);
+            this.panelAnalyzingFriendship.ResumeLayout(false);
+            this.panelAnalyzingFriendship.PerformLayout();
+            this.panelGeneralInfo.ResumeLayout(false);
+            this.panelGeneralInfo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMostRecentTaggedTogether)).EndInit();
             this.tabPageDataTables.ResumeLayout(false);
             this.tabPageDataTables.PerformLayout();
@@ -919,10 +923,6 @@
             this.panelPostStatus.ResumeLayout(false);
             this.panelPostStatus.PerformLayout();
             this.tabControl.ResumeLayout(false);
-            this.panelGeneralInfo.ResumeLayout(false);
-            this.panelGeneralInfo.PerformLayout();
-            this.panelAnalyzingFriendship.ResumeLayout(false);
-            this.panelAnalyzingFriendship.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
