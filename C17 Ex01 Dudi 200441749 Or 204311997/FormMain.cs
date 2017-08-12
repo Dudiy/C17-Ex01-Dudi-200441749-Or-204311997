@@ -73,6 +73,9 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             updateAboutMeFriends();
             likedPagesBindingSource.DataSource = FacebookApplication.LoggedInUser.LikedPages;
             postsBindingSource.DataSource = FacebookApplication.LoggedInUser.Posts;
+            friendsBindingSource.DataSource = FacebookApplication.LoggedInUser.Friends;
+            comboBoxPostTags.SelectedIndex = -1;
+
         }
 
         private void updateAboutMeFriends()
@@ -97,6 +100,25 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             uRLLinkLabel.LinkVisited = true;
             // Navigate to a URL.
             System.Diagnostics.Process.Start(uRLLinkLabel.Text);
+        }
+
+        private void buttonPost_Click(object sender, EventArgs e)
+        {
+            if(richTextBoxStatusPost.Text != "")
+            {
+                // TODO multi tags
+                User friend = comboBoxPostTags.SelectedItem as User;
+                string friendID = friend != null ? friend.Id : null;
+                Status postedStatus = FacebookApplication.LoggedInUser.PostStatus(
+                    richTextBoxStatusPost.Text, i_TaggedFriendIDs: friendID);
+
+                MessageBox.Show("Status Posted! ID: " + postedStatus.Id);
+            }
+            else
+            {
+                MessageBox.Show("You mush enter a status text OR add photo");
+            }
+
         }
 
         // ================================================ DataTables Tab ==============================================
@@ -349,19 +371,7 @@ photo.Name != String.Empty ? photo.Name : "No name");
 
 
 
-        private void buttonPost_Click(object sender, EventArgs e)
-        {
-            // TODO multi tags
-            User friend = comboBoxTagFriend.SelectedItem as User;
-            string friendID = friend != null ? friend.Id : null;
-            // TODO work only with URL of web
-            m_PostPictureURL = "https://ibb.co/g5SthF";
-            Status postedStatus = FacebookApplication.LoggedInUser.PostStatus(richTextBoxStatusPost.Text,
-                i_TaggedFriendIDs: friendID, i_PictureURL: m_PostPictureURL,
-                i_Link: m_PostPictureURL);
-
-            MessageBox.Show("Status Posted! ID: " + postedStatus.Id);
-        }
+        
         private void buttonAddPicture_Click(object sender, EventArgs e)
         {
             //Image file;
@@ -376,6 +386,10 @@ photo.Name != String.Empty ? photo.Name : "No name");
                 //m_PostPictureURL = Image.FromFile(file.FileName);
             }
         }
-        
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            comboBoxPostTags.SelectedIndex = -1;
+        }
     }
 }
