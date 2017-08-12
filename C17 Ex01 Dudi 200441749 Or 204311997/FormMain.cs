@@ -23,7 +23,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
 
         public FormMain()
         {
-            InitializeComponent();            
+            InitializeComponent();
         }
 
         protected override void OnShown(EventArgs e)
@@ -52,9 +52,9 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
 
         private void initMainForm()
         {
-            Text = FacebookApplication.LoggedInUser.Name != null ? 
+            Text = FacebookApplication.LoggedInUser.Name != null ?
                 FacebookApplication.LoggedInUser.Name : "";
-            labelUserName.Text = FacebookApplication.LoggedInUser.Name != null ? 
+            labelUserName.Text = FacebookApplication.LoggedInUser.Name != null ?
                 FacebookApplication.LoggedInUser.Name : "";
             MinimumSize = sr_MinimumWindowSize;
         }
@@ -135,7 +135,7 @@ comment.Message);
         private void initLastPost()
         {
             Post myLastPosts = FacebookApplication.LoggedInUser.Posts[0];
-            if(myLastPosts.Message != null)
+            if (myLastPosts.Message != null)
             {
                 textBoxLastPostMessage.Text = myLastPosts.Message;
             }
@@ -379,7 +379,7 @@ comment.Message);
         private void fetchPhotosTaggedTogether()
         {
             List<Photo> taggedTogether = m_FriendshipAnalyzer.FetchPhotosTaggedTogether(progressBarTaggedTogether);
-            Dictionary<string, List<Photo>> photosGroupedByOwner = m_FriendshipAnalyzer.groupPhotoListByOwner(taggedTogether);                
+            Dictionary<string, List<Photo>> photosGroupedByOwner = m_FriendshipAnalyzer.groupPhotoListByOwner(taggedTogether);
 
             foreach (KeyValuePair<string, List<Photo>> UserPhotos in photosGroupedByOwner)
             {
@@ -508,10 +508,12 @@ photo.Name != String.Empty ? photo.Name : "No name");
             labelAnalyzingFriendship.Text = "Searching for most recent photo together";
             Refresh();
             Photo mostRecentTaggedTogether = m_FriendshipAnalyzer.GetMostRecentPhotoTaggedTogether();
-            labelName.Text = selectedFriend.Name;
+            labelFirstName.Text = selectedFriend.FirstName;
+            labelLastName.Text = selectedFriend.LastName;
             labelNumLikes.Text = String.Format("Number of times {0} liked my photos: {1}", selectedFriend.FirstName, numPhotosFriendLiked);
             labelNumComments.Text = String.Format("Number of times {0} commented on my photos: {1}", selectedFriend.FirstName, numOfPhotosFriendCommented);
             pictureBoxMostRecentTaggedTogether.LoadAsync(mostRecentTaggedTogether.PictureNormalURL);
+            pictureBoxMostRecentTaggedTogether.Tag = mostRecentTaggedTogether;            
             buttonFetchMyPhotosFriendIsIn.Text = String.Format("Fetch photos of mine {0} is in", selectedFriend.FirstName);
             buttonFetchPhotosOfFriendIAmTaggedIn.Text = String.Format("Fetch {0}'s Photos I am Tagged in", selectedFriend.FirstName);
             panelGeneralInfo.Visible = true;
@@ -529,11 +531,11 @@ photo.Name != String.Empty ? photo.Name : "No name");
 
         private void fetchPhotosOfMeInFriendsPhotos()
         {
-            AlbumsSelector albumSelector = new AlbumsSelector(m_FriendshipAnalyzer.Friend);            
+            AlbumsSelector albumSelector = new AlbumsSelector(m_FriendshipAnalyzer.Friend);
             Album[] selectedAlbums = albumSelector.GetAlbumsSelection();
             progressBarPhotosOfMeInFriendsPhotos.Visible = true;
             Refresh();
-            Dictionary<Album, List<Photo>> photos = 
+            Dictionary<Album, List<Photo>> photos =
                 FacebookPhotoUtils.GetPhotosByOwnerAndTags(m_FriendshipAnalyzer.Friend, FacebookApplication.LoggedInUser, selectedAlbums, progressBarPhotosOfMeInFriendsPhotos);
             progressBarPhotosOfMeInFriendsPhotos.Visible = false;
             Refresh();
@@ -607,6 +609,16 @@ photo.Name != String.Empty ? photo.Name : "No name");
         {
             FacebookApplication.LoggedInUser.ReFetch();
             initLastPost();
+        }
+
+        private void pictureBoxMostRecentTaggedTogether_MouseClick(object sender, MouseEventArgs e)
+        {
+            Photo photo = ((PictureBox)sender).Tag as Photo;
+            if (photo != null)
+            {
+                PhotoDetails photoDetails = new PhotoDetails(photo);
+                photoDetails.Show();
+            }
         }
     }
 }
