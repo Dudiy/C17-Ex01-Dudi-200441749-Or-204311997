@@ -1,4 +1,11 @@
-﻿using System;
+﻿/*
+ * C17_Ex01: PictureFrame.cs
+ * 
+ * Written by:
+ * 204311997 - Or Mantzur
+ * 200441749 - Dudi Yecheskel 
+*/
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;

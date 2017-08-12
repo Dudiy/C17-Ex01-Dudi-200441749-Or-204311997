@@ -63,12 +63,6 @@
     <Compile Include="DataTables\FacebookFriendsDataTable.cs" />
     <Compile Include="DataTables\FacebookLikedPagesDataTable.cs" />
     <Compile Include="DataTables\FacebookPhotosDataTable.cs" />
-    <Compile Include="PostDetails.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PostDetails.Designer.cs">
-      <DependentUpon>PostDetails.cs</DependentUpon>
-    </Compile>
     <Compile Include="FormLogin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -125,9 +119,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PictureFrame.resx">
       <DependentUpon>PictureFrame.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PostDetails.resx">
-      <DependentUpon>PostDetails.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ProgressBarWindow.resx">
       <DependentUpon>ProgressBarWindow.cs</DependentUpon>
