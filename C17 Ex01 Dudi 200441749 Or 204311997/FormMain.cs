@@ -149,7 +149,7 @@ comment.Message);
             listBoxPostComment.Items.Clear();
             if (myLastPosts.PictureURL != null)
             {
-                pictureBoxLastPost.Load(myLastPosts.PictureURL);
+                pictureBoxLastPost.LoadAsync(myLastPosts.PictureURL);
                 pictureBoxLastPost.Show();
                 listBoxPostLiked.DisplayMember = "Name";
                 foreach (User friendWhoLiked in myLastPosts.LikedBy)
@@ -388,7 +388,10 @@ comment.Message);
                 fromNode.Tag = UserPhotos.Value[0].From;
                 foreach (Photo photo in UserPhotos.Value)
                 {
-                    TreeNode photoNode = new TreeNode(String.Format("{0} - {1}", photo.CreatedTime.ToString(), photo.Name));
+                    TreeNode photoNode = new TreeNode(String.Format(
+@"{0} - {1}", 
+photo.CreatedTime.ToString(), 
+String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name));
                     photoNode.Tag = photo;
                     fromNode.Nodes.Add(photoNode);
                 }
@@ -418,7 +421,7 @@ comment.Message);
                     string photoDescription = String.Format(@"
 {0} - {1}",
 photo.CreatedTime.ToString(),
-photo.Name != String.Empty ? photo.Name : "No name");
+String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name);
                     TreeNode photoNode = new TreeNode(photoDescription);
                     photoNode.Tag = photo;
                     albumNode.Nodes.Add(photoNode);
@@ -426,6 +429,41 @@ photo.Name != String.Empty ? photo.Name : "No name");
 
                 treeViewPhotosOfFriendInMyPhotos.Nodes.Add(albumNode);
             }
+        }
+
+        private void fetchPhotosOfMeInFriendsPhotos()
+        {
+            AlbumsSelector albumSelector = new AlbumsSelector(m_FriendshipAnalyzer.Friend);
+            Album[] selectedAlbums = albumSelector.GetAlbumsSelection();
+            progressBarPhotosOfMeInFriendsPhotos.Visible = true;
+            Refresh();
+            Dictionary<Album, List<Photo>> photos =
+                FacebookPhotoUtils.GetPhotosByOwnerAndTags(m_FriendshipAnalyzer.Friend, FacebookApplication.LoggedInUser, selectedAlbums, progressBarPhotosOfMeInFriendsPhotos);
+            progressBarPhotosOfMeInFriendsPhotos.Visible = false;
+            Refresh();
+
+            treeViewPhotosOfFriendIAmTaggedIn.Nodes.Clear();
+            progressBarPhotosOfMeInFriendsPhotos.Visible = true;
+            foreach (Album album in photos.Keys)
+            {
+                TreeNode albumNode = new TreeNode(album.Name);
+                albumNode.Tag = album;
+
+                foreach (Photo photo in photos[album])
+                {
+                    string photoDescription = String.Format(@"
+{0} - {1}",
+photo.CreatedTime.ToString(),
+String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name);
+                    TreeNode photoNode = new TreeNode(photoDescription);
+                    photoNode.Tag = photo;
+                    albumNode.Nodes.Add(photoNode);
+                }
+
+                treeViewPhotosOfFriendIAmTaggedIn.Nodes.Add(albumNode);
+            }
+
+            progressBarPhotosOfMeInFriendsPhotos.Visible = false;
         }
 
         private void treeViewPhotosOfFriendInMyPhotos_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -538,41 +576,6 @@ photo.Name != String.Empty ? photo.Name : "No name");
             i_PictureBox.Size = new Size(newWidth, newHeight);
         }
 
-        private void fetchPhotosOfMeInFriendsPhotos()
-        {
-            AlbumsSelector albumSelector = new AlbumsSelector(m_FriendshipAnalyzer.Friend);
-            Album[] selectedAlbums = albumSelector.GetAlbumsSelection();
-            progressBarPhotosOfMeInFriendsPhotos.Visible = true;
-            Refresh();
-            Dictionary<Album, List<Photo>> photos =
-                FacebookPhotoUtils.GetPhotosByOwnerAndTags(m_FriendshipAnalyzer.Friend, FacebookApplication.LoggedInUser, selectedAlbums, progressBarPhotosOfMeInFriendsPhotos);
-            progressBarPhotosOfMeInFriendsPhotos.Visible = false;
-            Refresh();
-
-            treeViewPhotosOfFriendIAmTaggedIn.Nodes.Clear();
-            progressBarPhotosOfMeInFriendsPhotos.Visible = true;
-            foreach (Album album in photos.Keys)
-            {
-                TreeNode albumNode = new TreeNode(album.Name);
-                albumNode.Tag = album;
-
-                foreach (Photo photo in photos[album])
-                {
-                    string photoDescription = String.Format(@"
-{0} - {1}",
-photo.CreatedTime.ToString(),
-photo.Name != String.Empty ? photo.Name : "No name");
-                    TreeNode photoNode = new TreeNode(photoDescription);
-                    photoNode.Tag = photo;
-                    albumNode.Nodes.Add(photoNode);
-                }
-
-                treeViewPhotosOfFriendIAmTaggedIn.Nodes.Add(albumNode);
-            }
-
-            progressBarPhotosOfMeInFriendsPhotos.Visible = false;
-        }
-
         // ====================================== Buttons ==================================
         private void buttonFetchPhotosOfFriendIAmTaggedIn_Click(object sender, EventArgs e)
         {
@@ -638,6 +641,27 @@ photo.Name != String.Empty ? photo.Name : "No name");
         private void treeViewPhotosOfFriendIAmTaggedIn_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             photoTreeViewDoubleClicked(e.Node);
+        }
+
+        private void pictureBoxLastPost_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            Photo photo = ((PictureBox)sender).Tag as Photo;
+
+            if (photo != null)
+            {
+                PhotoDetails photoDetails = new PhotoDetails(photo);
+                photoDetails.Show();
+            }
+        }
+
+        private void pictureBoxMostRecentTaggedTogether_MouseHover(object sender, EventArgs e)
+        {
+            increasePictureBoxSize(sender as PictureBox, k_PictureBoxIncreaseSizeOnMouseHover);
+        }
+
+        private void pictureBoxMostRecentTaggedTogether_MouseLeave(object sender, EventArgs e)
+        {
+            increasePictureBoxSize(sender as PictureBox, -k_PictureBoxIncreaseSizeOnMouseHover);
         }
     }
 }

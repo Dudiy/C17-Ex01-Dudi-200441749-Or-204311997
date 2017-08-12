@@ -17,17 +17,16 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
     {
         public FacebookFriendsDataTable()
             : base("Friends", typeof(User))
-        {
-        }
+        { }
 
         public override void FetchDataTableValues()
         {
             if (DataFetched == false || DataTable.Rows.Count == 0)
             {
-                TotalRows = m_LoggedInUser.Friends.Count;
+                TotalRows = FacebookApplication.LoggedInUser.Friends.Count;
 
                 //add rows
-                foreach (User friend in m_LoggedInUser.Friends)
+                foreach (User friend in FacebookApplication.LoggedInUser.Friends)
                 {
                     DataTable.Rows.Add(
                         friend,

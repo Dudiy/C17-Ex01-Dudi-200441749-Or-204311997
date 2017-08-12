@@ -24,10 +24,10 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
         {
             if (DataFetched == false || DataTable.Rows.Count == 0)
                 {
-                TotalRows = m_LoggedInUser.LikedPages.Count;
+                TotalRows = FacebookApplication.LoggedInUser.LikedPages.Count;
                 
                 //add rows
-                foreach (Page page in m_LoggedInUser.LikedPages)
+                foreach (Page page in FacebookApplication.LoggedInUser.LikedPages)
                 {
                     DataTable.Rows.Add(
                         page,
