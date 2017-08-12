@@ -9,18 +9,24 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
 {
     class FriendshipAnalyzer
     {
-        public User Friend { get; set; }
         private User m_LoggedInUser = FacebookApplication.LoggedInUser;
+        public User Friend { get; set; }
 
-        public List<Photo> FetchPhotosTaggedTogether()
+        public List<Photo> FetchPhotosTaggedTogether(ProgressBar i_ProgressBar)
         {
             List<Photo> photos = new List<Photo>();
-            ProgressBarWindow progressBarWindow = new ProgressBarWindow(0, m_LoggedInUser.PhotosTaggedIn.Count, "photos tagged in");
-            progressBarWindow.Show();
+            if (i_ProgressBar == null)
+            {
+                i_ProgressBar = new ProgressBar();
+            }
+
+            i_ProgressBar.Maximum = m_LoggedInUser.PhotosTaggedIn.Count;
+            i_ProgressBar.Minimum = 0;
+            i_ProgressBar.Value = 0;
 
             foreach (Photo photo in m_LoggedInUser.PhotosTaggedIn)
             {
-                progressBarWindow.ProgressValue++;
+                i_ProgressBar.Value++;
                 if (photo.Tags != null)
                 {
                     foreach (PhotoTag tag in photo.Tags)
@@ -34,16 +40,38 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                 }
             }
 
+            photos.OrderBy(photo => photo.CreatedTime);
             return photos;
         }
 
-        public Dictionary<Album, List<Photo>> GetPhotosOfMineFriendIsIn()
+        public Dictionary<string, List<Photo>> groupPhotoListByOwner(List<Photo> i_Photos)
+        {
+            Dictionary<string, List<Photo>> groupedPhotos = new Dictionary<string, List<Photo>>();
+
+            foreach (Photo photo in i_Photos)
+            {
+                if (groupedPhotos.ContainsKey(photo.From.Id))
+                {
+                    groupedPhotos[photo.From.Id].Add(photo);
+                }
+                else
+                {
+                    List<Photo> photoList = new List<Photo>();
+                    photoList.Add(photo);
+                    groupedPhotos.Add(photo.From.Id, photoList);
+                }
+            }
+
+            return groupedPhotos;
+        }
+
+        public Dictionary<Album, List<Photo>> GetPhotosByOwnerAndTags()
         {
             Dictionary<Album, List<Photo>> photos = new Dictionary<Album, List<Photo>>();
             if (Friend != null)
             {
                 int photosToSearch = 0;
-                AlbumsSelector albumSelector = new AlbumsSelector();
+                AlbumsSelector albumSelector = new AlbumsSelector(FacebookApplication.LoggedInUser);
 
                 DialogResult dialogResult = albumSelector.ShowDialog();
 
@@ -88,8 +116,13 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
 
             return photos;
         }
+        public Photo GetMostRecentPhotoTaggedTogether()
+        {
+            List<Photo> photosTaggedTogether = FetchPhotosTaggedTogether(null);
+            return photosTaggedTogether.Count > 0 ? photosTaggedTogether[0] : null;
+        }
 
-        public int GetNumberOfPhotosFriendLiked()
+        public int GetNumberOfPhotosFriendLiked(ProgressBar i_ProgressBar)
         {
             int numLikes = 0;
             int totalPhotos = 0;
@@ -98,13 +131,14 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                 totalPhotos += Math.Min((int)(album.Count ?? 0), FacebookApplication.k_MaxPhotosInAlbum);
             }
 
-            ProgressBarWindow progressWindow = new ProgressBarWindow(0, totalPhotos, "Likes");
-            progressWindow.Show();
+            i_ProgressBar.Maximum = totalPhotos;
+            i_ProgressBar.Minimum = 0;
+            i_ProgressBar.Value = 0;
             foreach (Album album in m_LoggedInUser.Albums)
             {
                 foreach (Photo photo in album.Photos)
                 {
-                    progressWindow.ProgressValue++;
+                    i_ProgressBar.Value++;
                     foreach (User user in photo.LikedBy)
                     {
                         if (user.Id == Friend.Id)
@@ -119,7 +153,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             return numLikes;
         }
 
-        public int GetNumberOfPhotosFriendCommented()
+        public int GetNumberOfPhotosFriendCommented(ProgressBar i_ProgressBar)
         {
             int numComments = 0;
             int totalPhotos = 0;
@@ -129,13 +163,14 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                 totalPhotos += Math.Min((int)(album.Count ?? 0), FacebookApplication.k_MaxPhotosInAlbum);
             }
 
-            ProgressBarWindow progressWindow = new ProgressBarWindow(0, totalPhotos, "Likes");
-            progressWindow.Show();
+            i_ProgressBar.Maximum = totalPhotos;
+            i_ProgressBar.Minimum = 0;
+            i_ProgressBar.Value = 0;
             foreach (Album album in m_LoggedInUser.Albums)
             {
                 foreach (Photo photo in album.Photos)
                 {
-                    progressWindow.ProgressValue++;
+                    i_ProgressBar.Value++;
                     foreach (Comment comment in photo.Comments)
                     {
                         if (comment.From.Id == Friend.Id)

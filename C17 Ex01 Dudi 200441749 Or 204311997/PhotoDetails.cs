@@ -24,7 +24,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         private void initDetailsPane()
         {
             labelName.Text = String.Format("Name: {0}", m_Photo.Name);
-            labelAlbum.Text = String.Format("Album: {0}", m_Photo.Album.Name);
+            labelAlbum.Text = String.Format("Album: {0}", m_Photo.Album != null ? m_Photo.Album.Name : "No Album Name");
             labelLikes.Text = String.Format("Likes ({0}):", m_Photo.LikedBy.Count);
             initLikes();
             initComments();

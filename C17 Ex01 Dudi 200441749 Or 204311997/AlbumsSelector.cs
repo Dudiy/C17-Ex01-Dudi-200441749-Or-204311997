@@ -12,21 +12,22 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
 {
     public partial class AlbumsSelector : Form
     {
-        private User m_LoggedInUser = FacebookApplication.LoggedInUser;
+        private User m_AlbumsOwner;
         private const DialogResult k_AlbumSelectionSuccessful = DialogResult.Yes;
         public List<Album> SelectedAlbums { get; private set; }
         private bool m_IgnoreCheckChangeEvents = false;
 
-        public AlbumsSelector()
+        public AlbumsSelector(User i_User)
         {
             InitializeComponent();
+            m_AlbumsOwner = i_User;
             initAlbumsList();
         }
 
         private void initAlbumsList()
         {
             listBoxAlbums.DisplayMember = "Name";
-            foreach (Album album in m_LoggedInUser.Albums)
+            foreach (Album album in m_AlbumsOwner.Albums)
             {
                 listBoxAlbums.Items.Add(album);
             }
@@ -76,6 +77,14 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             }
 
             m_IgnoreCheckChangeEvents = false;
+        }
+
+        public Album[] GetAlbumsSelection()
+        {
+            List<Album> selectedAlbums = new List<Album>();
+            DialogResult dialogResult = this.ShowDialog();
+            
+            return SelectedAlbums.ToArray();
         }
     }
 }
