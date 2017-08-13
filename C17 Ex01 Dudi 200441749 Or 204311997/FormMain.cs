@@ -437,7 +437,7 @@ String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name));
                 Tuple<int, int, object> progressBarValue = i_ProgressOfFetchData.Current;
                 ProgressBarWindow progressBarWindow = new ProgressBarWindow(
                     progressBarValue.Item1, progressBarValue.Item2, i_Title);
-                progressBarWindow.StartPosition = FormStartPosition.CenterParent;
+                progressBarWindow.StartPosition = FormStartPosition.CenterScreen;                
                 progressBarWindow.Show();
 
                 while (i_ProgressOfFetchData.MoveNext())
@@ -489,11 +489,9 @@ String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name);
             AlbumsSelector albumSelector = new AlbumsSelector(m_FriendshipAnalyzer.Friend);
             Album[] selectedAlbums = albumSelector.GetAlbumsSelection();
             progressBarPhotosOfMeInFriendsPhotos.Visible = true;
-            Refresh();
             Dictionary<Album, List<Photo>> photos =
                 FacebookPhotoUtils.GetPhotosByOwnerAndTags(m_FriendshipAnalyzer.Friend, FacebookApplication.LoggedInUser, selectedAlbums, progressBarPhotosOfMeInFriendsPhotos);
             progressBarPhotosOfMeInFriendsPhotos.Visible = false;
-            Refresh();
 
             treeViewPhotosOfFriendIAmTaggedIn.Nodes.Clear();
             progressBarPhotosOfMeInFriendsPhotos.Visible = true;
