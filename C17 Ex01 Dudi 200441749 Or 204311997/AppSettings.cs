@@ -5,8 +5,6 @@
  * 204311997 - Or Mantzur
  * 200441749 - Dudi Yecheskel 
 */
-using FacebookWrapper.ObjectModel;
-using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -17,7 +15,6 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
     public class AppSettings
     {
         private const string k_SettingsFilePath = "AppSettings.xml";
-        //TODO set the default size after done with design
         private static readonly Size sr_DefaultFormSize = new Size(1200, 800);
         private static readonly object sr_CreationLock = new object();
         public Point LastWindowLocation { get; set; }
@@ -29,24 +26,6 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         private AppSettings()
         {
             SetDefaultSettings();
-        }
-
-        public void SaveToFile()
-        {
-            // TODO is this the right way to to this?
-            if (!File.Exists(k_SettingsFilePath))
-            {
-                FileStream tempFile = File.Create(k_SettingsFilePath);
-
-                tempFile.Dispose();
-            }
-
-            using (Stream stream = new FileStream(k_SettingsFilePath, FileMode.Truncate))
-            {
-                XmlSerializer serializer = new XmlSerializer(this.GetType());
-
-                serializer.Serialize(stream, this);
-            }
         }
 
         public static AppSettings LoadFromFile()
@@ -76,11 +55,26 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             return appSettings;
         }
 
+        public void SaveToFile()
+        {
+            if (!File.Exists(k_SettingsFilePath))
+            {
+                File.Create(k_SettingsFilePath).Close();
+            }
+
+            using (Stream stream = new FileStream(k_SettingsFilePath, FileMode.Truncate))
+            {
+                XmlSerializer serializer = new XmlSerializer(this.GetType());
+
+                serializer.Serialize(stream, this);
+            }
+        }
+
         public void SetDefaultSettings()
         {            
             LastWindowsSize = sr_DefaultFormSize;
             LastFormStartPosition = FormStartPosition.CenterScreen;
-            LastWindowLocation = new Point(0,0);
+            LastWindowLocation = new Point();
             LastAccessToken = null;
             RememberUser = false;
         }

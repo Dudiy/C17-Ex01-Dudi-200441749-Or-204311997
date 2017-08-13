@@ -1,15 +1,13 @@
-﻿using FacebookWrapper.ObjectModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 using System.Windows.Forms;
+using FacebookWrapper.ObjectModel;
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997
 {
-    static class FacebookObjectDisplayer
+    public static class FacebookObjectDisplayer
     {
-        public static void Display(IDisplayable i_ObjectToDisplay)
+        // Extension method
+        public static void DisplayObject(this IDisplayable i_ObjectToDisplay)
         {
             object objectToDisplay = i_ObjectToDisplay.ObjectToDisplay;
             if (objectToDisplay is Photo)
@@ -25,11 +23,11 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             else if (objectToDisplay is Page)
             {
                 PictureFrame pictureFrame = new PictureFrame(((Page)objectToDisplay).PictureLargeURL);
-                pictureFrame.Show();                    
+                pictureFrame.Show();
             }
             else
             {
-                MessageBox.Show(String.Format("Showing toString(): ",objectToDisplay.ToString()));
+                MessageBox.Show(string.Format("Showing toString(): ", objectToDisplay.ToString()));
             }
         }
     }

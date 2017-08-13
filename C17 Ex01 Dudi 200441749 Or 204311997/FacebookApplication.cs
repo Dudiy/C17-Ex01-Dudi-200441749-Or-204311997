@@ -5,25 +5,26 @@
  * 204311997 - Or Mantzur
  * 200441749 - Dudi Yecheskel 
 */
-using FacebookWrapper;
-using FacebookWrapper.ObjectModel;
 using System;
 using System.Windows.Forms;
+using FacebookWrapper;
+using FacebookWrapper.ObjectModel;
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997
 {
     public static class FacebookApplication
     {
+        private const int k_CollectionLimit = 500;
+        public const byte k_MaxPhotosInAlbum = 100;
         public static User LoggedInUser { get; private set; }
         public static AppSettings AppSettings { get; private set; }
         public static bool ExitSelected { get; set; }
         private static bool s_IsFirstLogoutCall = true;
         private static Form s_MainForm;
-        public const byte k_MaxPhotosInAlbum = 100;
 
         public static void Run()
         {
-            FacebookService.s_CollectionLimit = 500;
+            FacebookService.s_CollectionLimit = k_CollectionLimit;
 
             ExitSelected = false;
             AppSettings = AppSettings.LoadFromFile();
@@ -36,7 +37,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                 }
             }
 
-            //We get here only after ExitSelected is true
+            // We get here only after ExitSelected is true
             exitApplication();
         }
 
@@ -48,10 +49,13 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
 
         private static void showMainForm()
         {
-            s_MainForm = new FormMain();
-            s_MainForm.Size = AppSettings.LastWindowsSize;
-            s_MainForm.StartPosition = AppSettings.LastFormStartPosition;
-            s_MainForm.Location = AppSettings.LastWindowLocation;
+            s_MainForm = new FormMain()
+            {
+                Size = AppSettings.LastWindowsSize,
+                StartPosition = AppSettings.LastFormStartPosition,
+                Location = AppSettings.LastWindowLocation
+            };
+
             s_MainForm.ShowDialog();
         }
 
@@ -76,7 +80,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                 try
                 {
                     if (AppSettings.RememberUser &&
-                        !String.IsNullOrEmpty(AppSettings.LastAccessToken) &&
+                        !string.IsNullOrEmpty(AppSettings.LastAccessToken) &&
                         isFirstLoginAttempt)
                     {
                         loginResult = FacebookService.Connect(AppSettings.LastAccessToken);
@@ -86,7 +90,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                         loginResult = loginWithForm();
                     }
 
-                    if(ExitSelected == true)
+                    if (ExitSelected)
                     {
                         break;
                     }
@@ -105,7 +109,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                 }
             }
 
-            if (ExitSelected == false)
+            if (!ExitSelected)
             {
                 AppSettings.LastAccessToken = loginResult.AccessToken;
                 LoggedInUser = loginResult.LoggedInUser;
@@ -117,7 +121,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             FormLogin formLogin = new FormLogin();
             DialogResult loginSuccessful = DialogResult.No;
 
-            while ((loginSuccessful != DialogResult.Yes && loginSuccessful != DialogResult.Cancel))
+            while (loginSuccessful != DialogResult.Yes && loginSuccessful != DialogResult.Cancel)
             {
                 loginSuccessful = formLogin.ShowDialog();
                 if (loginSuccessful == DialogResult.Cancel)
@@ -139,7 +143,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             if (s_IsFirstLogoutCall)
             {
                 AppSettings.SetDefaultSettings();
-                MessageBox.Show(String.Format("{0} logged out", LoggedInUser.Name));
+                MessageBox.Show(string.Format("{0} logged out", LoggedInUser.Name));
                 LoggedInUser = null;
                 closeAllForms();
             }

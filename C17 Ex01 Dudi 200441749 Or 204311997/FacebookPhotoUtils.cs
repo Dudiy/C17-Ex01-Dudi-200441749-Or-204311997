@@ -5,10 +5,10 @@
  * 204311997 - Or Mantzur
  * 200441749 - Dudi Yecheskel 
 */
-using FacebookWrapper.ObjectModel;
 using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Collections.Generic;
+using FacebookWrapper.ObjectModel;
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
 {
@@ -37,18 +37,18 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
         //    //return photoCounter;
         //}
 
-        //public static int GetTotalPhotosInAlbumArray(Album[] i_Albums)
-        //{
-        //    int photoCounter = 0;
+        public static int GetTotalPhotosInAlbumArray(Album[] i_Albums)
+        {
+            int photoCounter = 0;
 
-        //    foreach (Album album in i_Albums)
-        //    {
-        //        //cast to int - very unlikely that a user has that many albums
-        //        photoCounter += Math.Min((int)(album.Count ?? 0), FacebookApplication.k_MaxPhotosInAlbum);
-        //    }
+            foreach (Album album in i_Albums)
+            {
+                //cast to int - very unlikely that a user has that many albums
+                photoCounter += Math.Min((int)(album.Count ?? 0), FacebookApplication.k_MaxPhotosInAlbum);
+            }
 
-        //    return photoCounter;
-        //}
+            return photoCounter;
+        }
 
         //public static List<Photo> GetAllUserPhotos(User i_User, ref int i_ProgressValue)
         //{
@@ -65,21 +65,16 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
         //}
 
         //Dictionary<Album, List<Photo>> 
-        public static IEnumerable<Tuple<int, int, object>> GetPhotosByOwnerAndTags(User i_User, User i_Tagged, Album[] albums, ProgressBar i_ProgressBar)
+        public static IEnumerable<Tuple<int, int, object>> GetPhotosByOwnerAndTags(User i_User, User i_Tagged, Album[] albums)
         {
             Dictionary<Album, List<Photo>> photos = new Dictionary<Album, List<Photo>>();
             int currPhoto = 0;
-            int photosToSearch = 0;
-            //i_ProgressBar.Value = 0;
+            int photosToSearch;
 
             if (albums.Length > 0)
             {
-                foreach (Album album in albums)
-                {
-                    photosToSearch += album.Count != null ? (int)album.Count : 0;
-                }
+                photosToSearch = GetTotalPhotosInAlbumArray(albums);
 
-                //i_ProgressBar.Maximum = photosToSearch;
                 foreach (Album album in albums)
                 {
                     List<Photo> photosInAlbum = new List<Photo>();
@@ -87,7 +82,6 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
                     {
                         yield return Tuple.Create<int, int, object>(currPhoto, photosToSearch, null);
 
-                        //i_ProgressBar.Value++;
                         if (photo.Tags != null)
                         {
                             foreach (PhotoTag tag in photo.Tags)
@@ -108,7 +102,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
                 }
             }
 
-           // return photos;
+            yield return Tuple.Create<int, int, object>(1, 1, null);
         }
     }
 }

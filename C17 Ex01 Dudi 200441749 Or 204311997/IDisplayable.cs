@@ -5,7 +5,7 @@ using System.Text;
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997
 {
-    interface IDisplayable
+    public interface IDisplayable
     {
         object ObjectToDisplay { get; set; }
     }

@@ -22,21 +22,13 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         public IEnumerable<Tuple<int, int, object>> FetchPhotosTaggedTogether()
         {
             List<Photo> photos = new List<Photo>();
-            //if (i_ProgressBar == null)
-            //{
-            //    i_ProgressBar = new ProgressBar();
-            //}
-
-            //i_ProgressBar.Maximum = m_LoggedInUser.PhotosTaggedIn.Count;
-            //i_ProgressBar.Minimum = 0;
-            //i_ProgressBar.Value = 0;
             int currTag = 0;
             int totalTag = m_LoggedInUser.PhotosTaggedIn.Count;
 
             foreach (Photo photo in m_LoggedInUser.PhotosTaggedIn)
             {
-                //i_ProgressBar.Value++;
                 yield return Tuple.Create(++currTag, totalTag, (object)photos);
+
                 if (photo.Tags != null)
                 {
                     foreach (PhotoTag tag in photo.Tags)
@@ -51,7 +43,6 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             }
 
             photos.OrderBy(photo => photo.CreatedTime);
-            //return photos;
         }
 
         public Dictionary<string, List<Photo>> groupPhotoListByOwner(List<Photo> i_Photos)

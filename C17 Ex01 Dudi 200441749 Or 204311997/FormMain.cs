@@ -52,10 +52,8 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
 
         private void initMainForm()
         {
-            Text = FacebookApplication.LoggedInUser.Name != null ?
-                FacebookApplication.LoggedInUser.Name : "";
-            labelUserName.Text = FacebookApplication.LoggedInUser.Name != null ?
-                FacebookApplication.LoggedInUser.Name : "";
+            Text = FacebookApplication.LoggedInUser.Name ?? string.Empty;
+            labelUserName.Text = FacebookApplication.LoggedInUser.Name ?? string.Empty;
             MinimumSize = sr_MinimumWindowSize;
         }
 
@@ -89,7 +87,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
 
             if (friend != null)
             {
-                MessageBox.Show(friend.Name + " Liked your post !");
+                MessageBox.Show(friend.Name + " Liked your post!");
             }
         }
 
@@ -115,11 +113,14 @@ comment.Message);
             {
                 foreach (User friend in FacebookApplication.LoggedInUser.Friends)
                 {
-                    PictureBox friendProfile = new PictureBox();
-                    friendProfile.Image = friend.ImageLarge;
-                    friendProfile.Size = new Size(90, 90);
-                    friendProfile.SizeMode = PictureBoxSizeMode.Zoom;
-                    friendProfile.Tag = friend;
+                    PictureBox friendProfile = new PictureBox()
+                    {
+                        Image = friend.ImageLarge,
+                        Size = new Size(90, 90),
+                        SizeMode = PictureBoxSizeMode.Zoom,
+                        Tag = friend
+                    };
+
                     friendProfile.MouseEnter += FriendProfile_MouseEnter;
                     friendProfile.MouseLeave += FriendProfile_MouseLeave;
                     friendProfile.MouseClick += FriendProfile_MouseClick;
@@ -385,8 +386,7 @@ comment.Message);
         {
             object selectedObject = i_RowSelected.Cells["ObjectDisplayed"].Value;
             m_DataTableBindedToView.ObjectToDisplay = selectedObject;
-            FacebookObjectDisplayer.Display(m_DataTableBindedToView);
-            //m_DataTableBindedToView.DisplayObjectDetails(selectedObject);
+            m_DataTableBindedToView.DisplayObject();
         }
 
         private void dataGridView_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -404,9 +404,9 @@ comment.Message);
         private void fetchPhotosTaggedTogether()
         {
             //List<Photo> taggedTogether = m_FriendshipAnalyzer.FetchPhotosTaggedTogether(progressBarTaggedTogether);
-            IEnumerator<Tuple<int,int,object>> i_ProgressOfFetchData = m_FriendshipAnalyzer.FetchPhotosTaggedTogether().GetEnumerator();
+            IEnumerator<Tuple<int, int, object>> i_ProgressOfFetchData = m_FriendshipAnalyzer.FetchPhotosTaggedTogether().GetEnumerator();
             List<Photo> taggedTogether = (List<Photo>)fetchDataWithProgressBar(i_ProgressOfFetchData, "Photos tagged together");
-            Dictionary <string, List<Photo>> photosGroupedByOwner = m_FriendshipAnalyzer.groupPhotoListByOwner(taggedTogether);
+            Dictionary<string, List<Photo>> photosGroupedByOwner = m_FriendshipAnalyzer.groupPhotoListByOwner(taggedTogether);
 
             treeViewTaggedTogether.Nodes.Clear();
             foreach (KeyValuePair<string, List<Photo>> UserPhotos in photosGroupedByOwner)
@@ -417,8 +417,8 @@ comment.Message);
                 foreach (Photo photo in UserPhotos.Value)
                 {
                     TreeNode photoNode = new TreeNode(String.Format(
-@"{0} - {1}", 
-photo.CreatedTime.ToString(), 
+@"{0} - {1}",
+photo.CreatedTime.ToString(),
 String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name));
                     photoNode.Tag = photo;
                     fromNode.Nodes.Add(photoNode);
@@ -430,14 +430,13 @@ String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name));
 
         private object fetchDataWithProgressBar(IEnumerator<Tuple<int, int, object>> i_ProgressOfFetchData, string i_Title)
         {
-            object taggedTogether = new List<Photo>();
+            object returnedObject = new object();
 
             if (i_ProgressOfFetchData.MoveNext())
             {
                 Tuple<int, int, object> progressBarValue = i_ProgressOfFetchData.Current;
-                ProgressBarWindow progressBarWindow = new ProgressBarWindow(
-                    progressBarValue.Item1, progressBarValue.Item2, i_Title);
-                progressBarWindow.StartPosition = FormStartPosition.CenterScreen;                
+                ProgressBarWindow progressBarWindow = new ProgressBarWindow(progressBarValue.Item1, progressBarValue.Item2, i_Title);
+                progressBarWindow.StartPosition = FormStartPosition.CenterScreen;
                 progressBarWindow.Show();
 
                 while (i_ProgressOfFetchData.MoveNext())
@@ -447,10 +446,10 @@ String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name));
                 }
 
                 progressBarWindow.Close();
-                taggedTogether = progressBarValue.Item3;
+                returnedObject = progressBarValue.Item3;
             }
 
-            return taggedTogether;
+            return returnedObject;
         }
 
         private void fetchPhotosOfFriendInMyPhotos()
@@ -459,35 +458,37 @@ String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name));
             AlbumsSelector albumSelector = new AlbumsSelector(FacebookApplication.LoggedInUser);
             Album[] selectedAlbums = albumSelector.GetAlbumsSelection();
             progressBarPhotosOfFriendInMine.Visible = true;
-            Refresh();
-
-
 
             IEnumerator<Tuple<int, int, object>> progressOfFetchData = FacebookPhotoUtils.GetPhotosByOwnerAndTags(
-                FacebookApplication.LoggedInUser, m_FriendshipAnalyzer.Friend, selectedAlbums, 
-                progressBarPhotosOfFriendInMine).GetEnumerator();
+                FacebookApplication.LoggedInUser, m_FriendshipAnalyzer.Friend, selectedAlbums).GetEnumerator();
             Dictionary<Album, List<Photo>> photos = (Dictionary<Album, List<Photo>>)
                 fetchDataWithProgressBar(progressOfFetchData, "photos by owner and tags");
 
             progressBarPhotosOfFriendInMine.Visible = false;
-            Refresh();
-            foreach (Album album in photos.Keys)
+            if (photos == null)
             {
-                TreeNode albumNode = new TreeNode(album.Name);
-                albumNode.Tag = album;
-
-                foreach (Photo photo in photos[album])
+                MessageBox.Show("No photos found");
+            }
+            else
+            {
+                foreach (Album album in photos.Keys)
                 {
-                    string photoDescription = String.Format(@"
-{0} - {1}",
-photo.CreatedTime.ToString(),
-String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name);
-                    TreeNode photoNode = new TreeNode(photoDescription);
-                    photoNode.Tag = photo;
-                    albumNode.Nodes.Add(photoNode);
-                }
+                    TreeNode albumNode = new TreeNode(album.Name);
+                    albumNode.Tag = album;
 
-                treeViewPhotosOfFriendInMyPhotos.Nodes.Add(albumNode);
+                    foreach (Photo photo in photos[album])
+                    {
+                        string photoDescription = String.Format(@"
+{0} - {1}",
+    photo.CreatedTime.ToString(),
+    String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name);
+                        TreeNode photoNode = new TreeNode(photoDescription);
+                        photoNode.Tag = photo;
+                        albumNode.Nodes.Add(photoNode);
+                    }
+
+                    treeViewPhotosOfFriendInMyPhotos.Nodes.Add(albumNode);
+                }
             }
         }
 
@@ -501,8 +502,7 @@ String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name);
 
 
             IEnumerator<Tuple<int, int, object>> progressOfFetchData = FacebookPhotoUtils.GetPhotosByOwnerAndTags(
-                m_FriendshipAnalyzer.Friend, FacebookApplication.LoggedInUser, 
-                selectedAlbums, progressBarPhotosOfMeInFriendsPhotos).GetEnumerator();
+                m_FriendshipAnalyzer.Friend, FacebookApplication.LoggedInUser, selectedAlbums).GetEnumerator();
             Dictionary<Album, List<Photo>> photos = (Dictionary<Album, List<Photo>>)
                 fetchDataWithProgressBar(progressOfFetchData, "photos by owner and tags");
 
@@ -512,23 +512,29 @@ String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name);
 
             treeViewPhotosOfFriendIAmTaggedIn.Nodes.Clear();
             progressBarPhotosOfMeInFriendsPhotos.Visible = true;
-            foreach (Album album in photos.Keys)
+            if (photos == null)
             {
-                TreeNode albumNode = new TreeNode(album.Name);
-                albumNode.Tag = album;
-
-                foreach (Photo photo in photos[album])
+                MessageBox.Show("No photos found");
+            }
+            else
+            {
+                foreach (Album album in photos.Keys)
                 {
-                    string photoDescription = String.Format(@"
-{0} - {1}",
-photo.CreatedTime.ToString(),
-String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name);
-                    TreeNode photoNode = new TreeNode(photoDescription);
-                    photoNode.Tag = photo;
-                    albumNode.Nodes.Add(photoNode);
-                }
+                    TreeNode albumNode = new TreeNode(album.Name) { Tag = album };
 
-                treeViewPhotosOfFriendIAmTaggedIn.Nodes.Add(albumNode);
+                    foreach (Photo photo in photos[album])
+                    {
+                        string photoDescription = String.Format(@"
+{0} - {1}",
+    photo.CreatedTime.ToString(),
+    String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name);
+                        TreeNode photoNode = new TreeNode(photoDescription);
+                        photoNode.Tag = photo;
+                        albumNode.Nodes.Add(photoNode);
+                    }
+
+                    treeViewPhotosOfFriendIAmTaggedIn.Nodes.Add(albumNode);
+                }
             }
 
             progressBarPhotosOfMeInFriendsPhotos.Visible = false;
@@ -605,7 +611,7 @@ String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name);
             User selectedFriend = m_FriendshipAnalyzer.Friend;
             panelGeneralInfo.Visible = false;
             clearAllTreeViews();
-            
+
             //List<Photo> taggedTogether = (List<Photo>)showProgressBarOfPhotoAnalyzer(i_ProgressOfFetchData);
             //int numPhotosFriendLiked = m_FriendshipAnalyzer.GetNumberOfPhotosFriendLiked(progressBarAnalyzingFriendship);
             //List<Photo> taggedTogether = (List<Photo>)showProgressBarOfPhotoAnalyzer(i_ProgressOfFetchData);

@@ -14,9 +14,9 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
 {
     public partial class AlbumsSelector : Form
     {
+        private const DialogResult k_AlbumSelectionSuccessful = DialogResult.Yes;
         public List<Album> SelectedAlbums { get; private set; }
         private User m_AlbumsOwner;
-        private const DialogResult k_AlbumSelectionSuccessful = DialogResult.Yes;
         private bool m_IgnoreCheckChangeEvents = false;
 
         public AlbumsSelector(User i_User)
