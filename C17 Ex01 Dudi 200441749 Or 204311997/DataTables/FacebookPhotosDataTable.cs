@@ -56,17 +56,6 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
             }
         }
 
-        public override void DisplayObjectDetails(object i_SelectedObject)
-        {
-            Photo photoSelected = i_SelectedObject as Photo;
-
-            if (photoSelected != null)
-            {
-                PhotoDetails photoDetails = new PhotoDetails(photoSelected);
-                photoDetails.Show();
-            }
-        }
-
         protected override void InitColumns()
         {
             DataTable.Columns.Add("Album Name", typeof(string));

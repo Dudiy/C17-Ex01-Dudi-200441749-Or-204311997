@@ -34,17 +34,6 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
             }
         }
 
-        public override void DisplayObjectDetails(object i_SelectedObject)
-        {
-            Page pageSelected = i_SelectedObject as Page;
-
-            if (pageSelected != null)
-            {
-                PictureFrame pictureFrame = new PictureFrame(pageSelected.PictureLargeURL, pageSelected.Name);
-                pictureFrame.Show();
-            }
-        }
-
         protected override void InitColumns()
         {
             DataTable.Columns.Add("Name", typeof(string));

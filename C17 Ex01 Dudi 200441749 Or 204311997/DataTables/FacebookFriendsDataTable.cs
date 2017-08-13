@@ -33,17 +33,6 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
             }
         }
 
-        public override void DisplayObjectDetails(object i_SelectedObject)
-        {
-            User friendSelected = i_SelectedObject as User;
-
-            if (friendSelected != null)
-            {
-                PictureFrame pictureFrame = new PictureFrame(friendSelected.PictureLargeURL, friendSelected.Name);
-                pictureFrame.Show();
-            }
-        }
-
         protected override void InitColumns()
         {
             DataTable.Columns.Add("First Name", typeof(string));
@@ -68,6 +57,5 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
 
             return mostRecentPostStr.ToString();
         }
-
     }
 }

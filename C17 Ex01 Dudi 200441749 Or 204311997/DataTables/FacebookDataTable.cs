@@ -10,10 +10,11 @@ using System.Data;
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997
 {
-    public abstract class FacebookDataTable
+    public abstract class FacebookDataTable : IDisplayable
     {
         public int TotalRows { get; protected set; }
         public DataTable DataTable { get; protected set; }
+        public object ObjectToDisplay { get; set; }
         protected Type m_ObjectTypeRepresentedByRow;
 
         public FacebookDataTable(string i_TableName, Type i_ObjectTypeRepresentedByRow)
@@ -25,9 +26,12 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             InitColumns();
         }
 
-        public abstract void FetchDataTableValues();
+        public string TableName
+        {
+            get { return DataTable.TableName; }
+        }
 
-        public abstract void DisplayObjectDetails(object i_SelectedObject);
+        public abstract void FetchDataTableValues();
 
         protected abstract void InitColumns();
     }
