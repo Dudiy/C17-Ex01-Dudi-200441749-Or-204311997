@@ -5,10 +5,10 @@
  * 204311997 - Or Mantzur
  * 200441749 - Dudi Yecheskel 
 */
-using FacebookWrapper.ObjectModel;
 using System;
-using System.Collections.Generic;
 using System.Text;
+using System.Collections.Generic;
+using FacebookWrapper.ObjectModel;
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
 {
@@ -16,7 +16,8 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
     {
         public FacebookFriendsDataTable()
             : base("Friends", typeof(User))
-        { }
+        {
+        }
 
         public override IEnumerable<Tuple<int, int, object>> FetchDataTableValues()
         {
@@ -32,9 +33,8 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
                     friend,
                     friend.FirstName,
                     friend.LastName,
-                    friend.Gender != null ? friend.Gender.ToString() : String.Empty,
-                    getMostRecentPost(friend)
-                    );
+                    friend.Gender != null ? friend.Gender.ToString() : string.Empty,
+                    getMostRecentPost(friend));
             }
         }
 
@@ -57,7 +57,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
                 mostRecentPostStr.Append(mostRecentPost.CreatedTime);
                 if (!string.IsNullOrEmpty(mostRecentPost.Message))
                 {
-                    mostRecentPostStr.Append(String.Format(" - {0}", mostRecentPost.Message));
+                    mostRecentPostStr.Append(string.Format(" - {0}", mostRecentPost.Message));
                 }
             }
 

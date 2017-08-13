@@ -5,10 +5,10 @@
  * 204311997 - Or Mantzur
  * 200441749 - Dudi Yecheskel 
 */
-using FacebookWrapper.ObjectModel;
 using System;
-using System.Collections.Generic;
 using System.Text;
+using System.Collections.Generic;
+using FacebookWrapper.ObjectModel;
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
 {
@@ -18,7 +18,8 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
 
         public FacebookPhotosDataTable()
             : base("Photos", typeof(Photo))
-        { }
+        {
+        }
 
         public override IEnumerable<Tuple<int, int, object>> FetchDataTableValues()
         {
@@ -30,7 +31,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
             if (AlbumsToLoad.Count > 0)
             {
                 foreach (Album album in AlbumsToLoad)
-                {                
+                {
                     TotalRows += album.Count != null ? (int)album.Count : 0;
                 }
 
@@ -48,9 +49,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
                             photo.CreatedTime,
                             photo.LikedBy != null ? photo.LikedBy.Count : 0,
                             photo.Comments != null ? photo.Comments.Count : 0,
-                            buildTagsString(photo),
-                            photo.URL
-                            );
+                            buildTagsString(photo));
                     }
                 }
             }
@@ -63,7 +62,6 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
             DataTable.Columns.Add("Likes", typeof(int));
             DataTable.Columns.Add("Comments", typeof(int));
             DataTable.Columns.Add("Tags", typeof(string));
-            DataTable.Columns.Add("URL", typeof(string));
         }
 
         private static string buildTagsString(Photo i_Photo)

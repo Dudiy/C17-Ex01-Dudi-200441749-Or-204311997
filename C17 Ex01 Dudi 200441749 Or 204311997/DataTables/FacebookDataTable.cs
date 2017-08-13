@@ -6,8 +6,8 @@
  * 200441749 - Dudi Yecheskel 
 */
 using System;
-using System.Collections.Generic;
 using System.Data;
+using System.Collections.Generic;
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997
 {
@@ -22,7 +22,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         {
             m_ObjectTypeRepresentedByRow = i_ObjectTypeRepresentedByRow;
             DataTable = new DataTable(i_TableName);
-            // all tables initialy have a colum that holds the current row object displayed
+            // all tables initialy have a column that holds the current row object displayed
             DataTable.Columns.Add("ObjectDisplayed", typeof(object));
             InitColumns();
         }
@@ -32,7 +32,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             get { return DataTable.TableName; }
         }
 
-        // using yield, who will use that method know the promoting progress (numbers of done item, numbers of all item, return value)
+        // using yield, the user of this method can know the fetch progression status (numbers of fetched item, total items, return value)
         public abstract IEnumerable<Tuple<int, int, object>> FetchDataTableValues();
 
         protected abstract void InitColumns();

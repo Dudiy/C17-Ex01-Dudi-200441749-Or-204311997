@@ -6,8 +6,8 @@
  * 200441749 - Dudi Yecheskel 
 */
 using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Collections.Generic;
 using FacebookWrapper.ObjectModel;
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997
@@ -26,6 +26,13 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             initAlbumsList();
         }
 
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+            //every time the form is shown, clear the SelectedAlbums property
+            SelectedAlbums = new List<Album>();
+        }
+
         private void initAlbumsList()
         {
             listBoxAlbums.DisplayMember = "Name";
@@ -35,16 +42,9 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             }
         }
 
-        protected override void OnShown(EventArgs e)
-        {
-            base.OnShown(e);
-            SelectedAlbums = new List<Album>();
-        }
-
         public Album[] GetAlbumsSelection()
         {
-            //List<Album> selectedAlbums = new List<Album>();
-            DialogResult dialogResult = this.ShowDialog();
+            this.ShowDialog();
 
             return SelectedAlbums.ToArray();
         }
@@ -75,7 +75,8 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                 listBoxAlbums.SetSelected(i, i_Selected);
             }
         }
-
+        
+        // when an item is selected, update the "check all" combobox accordingly
         private void listBoxAlbums_SelectedValueChanged(object sender, EventArgs e)
         {
             m_IgnoreCheckChangeEvents = true;
