@@ -36,6 +36,9 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
                     friend.Gender != null ? friend.Gender.ToString() : string.Empty,
                     getMostRecentPost(friend));
             }
+
+            // if the user has no friends :(
+            yield return Tuple.Create<int, int, object>(1, 1, null);
         }
 
         protected override void InitColumns()

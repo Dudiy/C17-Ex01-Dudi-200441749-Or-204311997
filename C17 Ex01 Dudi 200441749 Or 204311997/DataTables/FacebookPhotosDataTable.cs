@@ -53,6 +53,9 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
                     }
                 }
             }
+
+            // if the user has no albums
+            yield return Tuple.Create<int, int, object>(1, 1, null);
         }
 
         protected override void InitColumns()

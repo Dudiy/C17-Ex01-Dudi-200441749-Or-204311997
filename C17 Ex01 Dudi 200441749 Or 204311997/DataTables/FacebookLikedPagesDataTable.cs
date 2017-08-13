@@ -36,6 +36,9 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
                     page.Description,
                     page.Website);
             }
+
+            // if the user has no liked pages
+            yield return Tuple.Create<int, int, object>(1, 1, null);
         }
 
         protected override void InitColumns()

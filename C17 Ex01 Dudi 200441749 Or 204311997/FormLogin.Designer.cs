@@ -1,6 +1,6 @@
 ﻿namespace C17_Ex01_Dudi_200441749_Or_204311997
 {
-    partial class FormLogin
+    public partial class FormLogin
     {
         /// <summary>
         /// Required designer variable.
@@ -17,6 +17,7 @@
             {
                 components.Dispose();
             }
+
             base.Dispose(disposing);
         }
 
@@ -101,4 +102,3 @@
         private System.Windows.Forms.CheckBox checkBoxRememberMe;
     }
 }
-
