@@ -378,7 +378,9 @@ comment.Message);
         private void displayDetailsForRowObject(DataGridViewRow i_RowSelected)
         {
             object selectedObject = i_RowSelected.Cells["ObjectDisplayed"].Value;
-            m_DataTableBindedToView.DisplayObjectDetails(selectedObject);
+            m_DataTableBindedToView.ObjectToDisplay = selectedObject;
+            FacebookObjectDisplayer.Display(m_DataTableBindedToView);
+            //m_DataTableBindedToView.DisplayObjectDetails(selectedObject);
         }
 
         private void dataGridView_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)

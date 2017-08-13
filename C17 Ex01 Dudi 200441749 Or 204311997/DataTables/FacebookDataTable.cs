@@ -11,10 +11,11 @@ using System.Data;
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997
 {
-    public abstract class FacebookDataTable
+    public abstract class FacebookDataTable : IDisplayable
     {
         public int TotalRows { get; protected set; }
         public DataTable DataTable { get; protected set; }
+        public object ObjectToDisplay { get; set; }
         protected Type m_ObjectTypeRepresentedByRow;
 
         public FacebookDataTable(string i_TableName, Type i_ObjectTypeRepresentedByRow)
@@ -26,10 +27,13 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             InitColumns();
         }
 
+        public string TableName
+        {
+            get { return DataTable.TableName; }
+        }
+
         // using yield, who will use that method know the promoting progress (numbers of done item, numbers of all item)
         public abstract IEnumerable<KeyValuePair<int, int>> FetchDataTableValues();
-
-        public abstract void DisplayObjectDetails(object i_SelectedObject);
 
         protected abstract void InitColumns();
     }
