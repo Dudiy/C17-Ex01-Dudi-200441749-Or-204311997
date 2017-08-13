@@ -13,6 +13,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
     public class FacebookDataTableManager
     {
         private List<FacebookDataTable> m_DataTables = new List<FacebookDataTable>();
+
         public FacebookDataTableManager()
         {
             m_DataTables.Add(new FacebookFriendsDataTable());

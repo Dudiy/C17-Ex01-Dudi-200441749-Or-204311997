@@ -69,23 +69,21 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
             Dictionary<Album, List<Photo>> photos = new Dictionary<Album, List<Photo>>();
             int photosToSearch = 0;
             AlbumsSelector albumSelector = new AlbumsSelector(i_User);
-            i_ProgressBar.Value = 0;
 
+            i_ProgressBar.Value = 0;
             if (albums.Length > 0)
             {
                 foreach (Album album in albums)
                 {
                     photosToSearch += album.Count != null ? (int)album.Count : 0;
                 }
+
                 i_ProgressBar.Maximum = photosToSearch;
-                //ProgressBarWindow progressBarWindow = new ProgressBarWindow(0, photosToSearch, "photos");
-                //progressBarWindow.Show();
                 foreach (Album album in albums)
                 {
                     List<Photo> photosInAlbum = new List<Photo>();
                     foreach (Photo photo in album.Photos)
                     {
-                        //progressBarWindow.ProgressValue++;
                         i_ProgressBar.Value++;
                         if (photo.Tags != null)
                         {
@@ -99,6 +97,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
                             }
                         }
                     }
+
                     if (photosInAlbum.Count > 0)
                     {
                         photos.Add(album, photosInAlbum);

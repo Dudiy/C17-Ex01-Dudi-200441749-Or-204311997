@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
 {
-    class FacebookLikedPagesDataTable : FacebookDataTable
+    public class FacebookLikedPagesDataTable : FacebookDataTable
     {
         public FacebookLikedPagesDataTable()
             : base("Liked Pages", typeof(Page))
@@ -21,12 +21,13 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
         public override IEnumerable<Tuple<int, int, object>> FetchDataTableValues()
         {
             int currRow = 0;
-            TotalRows = FacebookApplication.LoggedInUser.LikedPages.Count;
 
+            TotalRows = FacebookApplication.LoggedInUser.LikedPages.Count;
             //add rows
             foreach (Page page in FacebookApplication.LoggedInUser.LikedPages)
             {
                 yield return Tuple.Create<int, int, object>(++currRow, TotalRows, null);
+
                 DataTable.Rows.Add(
                     page,
                     page.Name,
@@ -36,7 +37,6 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
                     page.Website
                     );
             }
-            // we don't need to see the progress here, so we do it in one time
         }
 
         protected override void InitColumns()
