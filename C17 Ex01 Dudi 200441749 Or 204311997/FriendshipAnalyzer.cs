@@ -72,57 +72,57 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             return groupedPhotos;
         }
 
-        public Dictionary<Album, List<Photo>> GetPhotosByOwnerAndTags()
-        {
-            Dictionary<Album, List<Photo>> photos = new Dictionary<Album, List<Photo>>();
-            if (Friend != null)
-            {
-                int photosToSearch = 0;
-                AlbumsSelector albumSelector = new AlbumsSelector(FacebookApplication.LoggedInUser);
+        //public Dictionary<Album, List<Photo>> GetPhotosByOwnerAndTags()
+        //{
+        //    Dictionary<Album, List<Photo>> photos = new Dictionary<Album, List<Photo>>();
+        //    if (Friend != null)
+        //    {
+        //        int photosToSearch = 0;
+        //        AlbumsSelector albumSelector = new AlbumsSelector(FacebookApplication.LoggedInUser);
 
-                DialogResult dialogResult = albumSelector.ShowDialog();
+        //        DialogResult dialogResult = albumSelector.ShowDialog();
 
-                if (dialogResult == DialogResult.OK && albumSelector.SelectedAlbums.Count > 0)
-                {
-                    foreach (Album album in albumSelector.SelectedAlbums)
-                    {
-                        photosToSearch += album.Count != null ? (int)album.Count : 0;
-                    }
+        //        if (dialogResult == DialogResult.OK && albumSelector.SelectedAlbums.Count > 0)
+        //        {
+        //            foreach (Album album in albumSelector.SelectedAlbums)
+        //            {
+        //                photosToSearch += album.Count != null ? (int)album.Count : 0;
+        //            }
 
-                    ProgressBarWindow progressBarWindow = new ProgressBarWindow(0, photosToSearch, "photos");
-                    progressBarWindow.Show();
-                    foreach (Album album in albumSelector.SelectedAlbums)
-                    {
-                        List<Photo> photosInAlbum = new List<Photo>();
-                        foreach (Photo photo in album.Photos)
-                        {
-                            progressBarWindow.ProgressValue++;
-                            if (photo.Tags != null)
-                            {
-                                foreach (PhotoTag tag in photo.Tags)
-                                {
-                                    if (tag.User.Id == Friend.Id)
-                                    {
-                                        photosInAlbum.Add(photo);
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                        if (photosInAlbum.Count > 0)
-                        {
-                            photos.Add(album, photosInAlbum);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                throw new ArgumentException("No friend selected");
-            }
+        //            ProgressBarWindow progressBarWindow = new ProgressBarWindow(0, photosToSearch, "photos");
+        //            progressBarWindow.Show();
+        //            foreach (Album album in albumSelector.SelectedAlbums)
+        //            {
+        //                List<Photo> photosInAlbum = new List<Photo>();
+        //                foreach (Photo photo in album.Photos)
+        //                {
+        //                    progressBarWindow.ProgressValue++;
+        //                    if (photo.Tags != null)
+        //                    {
+        //                        foreach (PhotoTag tag in photo.Tags)
+        //                        {
+        //                            if (tag.User.Id == Friend.Id)
+        //                            {
+        //                                photosInAlbum.Add(photo);
+        //                                break;
+        //                            }
+        //                        }
+        //                    }
+        //                }
+        //                if (photosInAlbum.Count > 0)
+        //                {
+        //                    photos.Add(album, photosInAlbum);
+        //                }
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        throw new ArgumentException("No friend selected");
+        //    }
 
-            return photos;
-        }
+        //    return photos;
+        //}
         public Photo GetMostRecentPhotoTaggedTogether()
         {
             List<Photo> photosTaggedTogether = FetchPhotosTaggedTogether(null);
