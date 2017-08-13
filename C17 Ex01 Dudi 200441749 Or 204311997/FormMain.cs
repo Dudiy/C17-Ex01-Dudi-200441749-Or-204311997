@@ -324,23 +324,9 @@ comment.Message);
                     ((FacebookPhotosDataTable)m_DataTableBindedToView).AlbumsToLoad = albumsToLoad;
                 }
 
-                IEnumerator<KeyValuePair<int, int>> progressOfFetchData = m_DataTableBindedToView.FetchDataTableValues().GetEnumerator();
+                //IEnumerator<KeyValuePair<int, int>> progressOfFetchData = m_DataTableBindedToView.FetchDataTableValues().GetEnumerator();
 
-                if (progressOfFetchData.MoveNext())
-                {
-                    KeyValuePair<int, int> progressBarStartValue = progressOfFetchData.Current;
-                    ProgressBarWindow progressBarWindow = new ProgressBarWindow(
-                        progressBarStartValue.Key, progressBarStartValue.Value,
-                        m_DataTableBindedToView.DataTable.TableName);
-                    progressBarWindow.Show();
-
-                    while (progressOfFetchData.MoveNext())
-                    {
-                        progressBarWindow.ProgressValue++;
-                    }
-
-                    progressBarWindow.Close();
-                }
+                fetchDataWithProgressBar(m_DataTableBindedToView.FetchDataTableValues().GetEnumerator(), m_DataTableBindedToView.TableName);
 
                 dataGridView.DataSource = m_DataTableBindedToView.DataTable;
                 if (dataGridView.Columns["ObjectDisplayed"] != null)
@@ -354,6 +340,25 @@ comment.Message);
                 }
             }
         }
+
+        //private void showProgressBarOfDataTable(IEnumerator<Tuple<int, int>> i_ProgressOfFetchData)
+        //{
+        //    if (i_ProgressOfFetchData.MoveNext())
+        //    {
+        //        Tuple<int, int> progressBarStartValue = i_ProgressOfFetchData.Current;
+        //        ProgressBarWindow progressBarWindow = new ProgressBarWindow(
+        //            progressBarStartValue.Item1, progressBarStartValue.Item2,
+        //            m_DataTableBindedToView.DataTable.TableName);
+        //        progressBarWindow.Show();
+
+        //        while (i_ProgressOfFetchData.MoveNext())
+        //        {
+        //            progressBarWindow.ProgressValue++;
+        //        }
+
+        //        progressBarWindow.Close();
+        //    }
+        //}
 
         private List<Album> getAlbumsToLoadFromUser()
         {
@@ -398,8 +403,10 @@ comment.Message);
 
         private void fetchPhotosTaggedTogether()
         {
-            List<Photo> taggedTogether = m_FriendshipAnalyzer.FetchPhotosTaggedTogether(progressBarTaggedTogether);
-            Dictionary<string, List<Photo>> photosGroupedByOwner = m_FriendshipAnalyzer.groupPhotoListByOwner(taggedTogether);
+            //List<Photo> taggedTogether = m_FriendshipAnalyzer.FetchPhotosTaggedTogether(progressBarTaggedTogether);
+            IEnumerator<Tuple<int,int,object>> i_ProgressOfFetchData = m_FriendshipAnalyzer.FetchPhotosTaggedTogether().GetEnumerator();
+            List<Photo> taggedTogether = (List<Photo>)fetchDataWithProgressBar(i_ProgressOfFetchData, "Photos tagged together");
+            Dictionary <string, List<Photo>> photosGroupedByOwner = m_FriendshipAnalyzer.groupPhotoListByOwner(taggedTogether);
 
             foreach (KeyValuePair<string, List<Photo>> UserPhotos in photosGroupedByOwner)
             {
@@ -418,6 +425,30 @@ String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name));
 
                 treeViewTaggedTogether.Nodes.Add(fromNode);
             }
+        }
+
+        private object fetchDataWithProgressBar(IEnumerator<Tuple<int, int, object>> i_ProgressOfFetchData, string i_Title)
+        {
+            object taggedTogether = new List<Photo>();
+
+            if (i_ProgressOfFetchData.MoveNext())
+            {
+                Tuple<int, int, object> progressBarValue = i_ProgressOfFetchData.Current;
+                ProgressBarWindow progressBarWindow = new ProgressBarWindow(
+                    progressBarValue.Item1, progressBarValue.Item2, i_Title);
+                progressBarWindow.Show();
+
+                while (i_ProgressOfFetchData.MoveNext())
+                {
+                    progressBarValue = i_ProgressOfFetchData.Current;
+                    progressBarWindow.ProgressValue++;
+                }
+
+                progressBarWindow.Close();
+                taggedTogether = progressBarValue.Item3;
+            }
+
+            return taggedTogether;
         }
 
         private void fetchPhotosOfFriendInMyPhotos()
@@ -565,17 +596,40 @@ String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name);
             panelGeneralInfo.Visible = false;
             labelAnalyzingFriendship.Text = "Counting likes";
             Refresh();
-            int numPhotosFriendLiked = m_FriendshipAnalyzer.GetNumberOfPhotosFriendLiked(progressBarAnalyzingFriendship);
+
+
+            IEnumerator<Tuple<int, int, object>> i_ProgressOfFetchData = m_FriendshipAnalyzer.GetNumberOfPhotosFriendLiked().GetEnumerator();
+            //List<Photo> taggedTogether = (List<Photo>)showProgressBarOfPhotoAnalyzer(i_ProgressOfFetchData);
+
+            int numPhotosFriendLiked= (int)fetchDataWithProgressBar(i_ProgressOfFetchData, "likes");
+
+            //int numPhotosFriendLiked = m_FriendshipAnalyzer.GetNumberOfPhotosFriendLiked(progressBarAnalyzingFriendship);
+
             labelAnalyzingFriendship.Text = "Counting comments";
             Refresh();
-            int numOfPhotosFriendCommented = m_FriendshipAnalyzer.GetNumberOfPhotosFriendCommented(progressBarAnalyzingFriendship);
+
+
+
+            IEnumerator<Tuple<int, int, object>> i_ProgressOfFetchData3 = m_FriendshipAnalyzer.GetNumberOfPhotosFriendCommented().GetEnumerator();
+            //List<Photo> taggedTogether = (List<Photo>)showProgressBarOfPhotoAnalyzer(i_ProgressOfFetchData);
+
+            int numOfPhotosFriendCommented = (int)fetchDataWithProgressBar(i_ProgressOfFetchData3, "comments");
+
+            //int numOfPhotosFriendCommented = m_FriendshipAnalyzer.GetNumberOfPhotosFriendCommented(progressBarAnalyzingFriendship);
+
+
             labelAnalyzingFriendship.Text = "Searching for most recent photo together";
             Refresh();
             labelFirstName.Text = selectedFriend.FirstName;
             labelLastName.Text = selectedFriend.LastName;
             labelNumLikes.Text = String.Format("Number of times {0} liked my photos: {1}", selectedFriend.FirstName, numPhotosFriendLiked);
             labelNumComments.Text = String.Format("Number of times {0} commented on my photos: {1}", selectedFriend.FirstName, numOfPhotosFriendCommented);
-            Photo mostRecentTaggedTogether = m_FriendshipAnalyzer.GetMostRecentPhotoTaggedTogether();
+
+
+            IEnumerator<Tuple<int, int, object>> i_ProgressOfFetchData2 = m_FriendshipAnalyzer.FetchPhotosTaggedTogether().GetEnumerator();
+            List<Photo> taggedTogether = (List<Photo>)fetchDataWithProgressBar(i_ProgressOfFetchData2, "photos tagged together");
+
+            Photo mostRecentTaggedTogether = m_FriendshipAnalyzer.GetMostRecentPhotoTaggedTogether(taggedTogether);
             if (mostRecentTaggedTogether != null)
             {
                 pictureBoxMostRecentTaggedTogether.LoadAsync(mostRecentTaggedTogether.PictureNormalURL);

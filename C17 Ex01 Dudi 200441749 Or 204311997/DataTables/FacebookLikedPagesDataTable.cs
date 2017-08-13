@@ -6,6 +6,7 @@
  * 200441749 - Dudi Yecheskel 
 */
 using FacebookWrapper.ObjectModel;
+using System;
 using System.Collections.Generic;
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
@@ -17,7 +18,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
         {
         }
 
-        public override IEnumerable<KeyValuePair<int, int>> FetchDataTableValues()
+        public override IEnumerable<Tuple<int, int, object>> FetchDataTableValues()
         {
             int currRow = 0;
             TotalRows = FacebookApplication.LoggedInUser.LikedPages.Count;
@@ -25,7 +26,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
             //add rows
             foreach (Page page in FacebookApplication.LoggedInUser.LikedPages)
             {
-                yield return new KeyValuePair<int, int>(++currRow, TotalRows);
+                yield return Tuple.Create<int, int, object>(++currRow, TotalRows, null);
                 DataTable.Rows.Add(
                     page,
                     page.Name,

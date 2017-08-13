@@ -19,21 +19,24 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         private User m_LoggedInUser = FacebookApplication.LoggedInUser;
         public User Friend { get; set; }
 
-        public List<Photo> FetchPhotosTaggedTogether(ProgressBar i_ProgressBar)
+        public IEnumerable<Tuple<int, int, object>> FetchPhotosTaggedTogether()
         {
             List<Photo> photos = new List<Photo>();
-            if (i_ProgressBar == null)
-            {
-                i_ProgressBar = new ProgressBar();
-            }
+            //if (i_ProgressBar == null)
+            //{
+            //    i_ProgressBar = new ProgressBar();
+            //}
 
-            i_ProgressBar.Maximum = m_LoggedInUser.PhotosTaggedIn.Count;
-            i_ProgressBar.Minimum = 0;
-            i_ProgressBar.Value = 0;
+            //i_ProgressBar.Maximum = m_LoggedInUser.PhotosTaggedIn.Count;
+            //i_ProgressBar.Minimum = 0;
+            //i_ProgressBar.Value = 0;
+            int currTag = 0;
+            int totalTag = m_LoggedInUser.PhotosTaggedIn.Count;
 
             foreach (Photo photo in m_LoggedInUser.PhotosTaggedIn)
             {
-                i_ProgressBar.Value++;
+                //i_ProgressBar.Value++;
+                yield return Tuple.Create(++currTag, totalTag, (object)photos);
                 if (photo.Tags != null)
                 {
                     foreach (PhotoTag tag in photo.Tags)
@@ -48,7 +51,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             }
 
             photos.OrderBy(photo => photo.CreatedTime);
-            return photos;
+            //return photos;
         }
 
         public Dictionary<string, List<Photo>> groupPhotoListByOwner(List<Photo> i_Photos)
@@ -123,13 +126,13 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
 
             return photos;
         }
-        public Photo GetMostRecentPhotoTaggedTogether()
+        public Photo GetMostRecentPhotoTaggedTogether(List<Photo> i_PhotosTaggedTogether)
         {
-            List<Photo> photosTaggedTogether = FetchPhotosTaggedTogether(null);
-            return photosTaggedTogether.Count > 0 ? photosTaggedTogether[0] : null;
+            //List<Photo> photosTaggedTogether = FetchPhotosTaggedTogether(null);
+            return i_PhotosTaggedTogether.Count > 0 ? i_PhotosTaggedTogether[0] : null;
         }
 
-        public int GetNumberOfPhotosFriendLiked(ProgressBar i_ProgressBar)
+        public IEnumerable<Tuple<int, int, object>> GetNumberOfPhotosFriendLiked()
         {
             int numLikes = 0;
             int totalPhotos = 0;
@@ -138,14 +141,18 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                 totalPhotos += Math.Min((int)(album.Count ?? 0), FacebookApplication.k_MaxPhotosInAlbum);
             }
 
-            i_ProgressBar.Maximum = totalPhotos;
-            i_ProgressBar.Minimum = 0;
-            i_ProgressBar.Value = 0;
+            //i_ProgressBar.Maximum = totalPhotos;
+            //i_ProgressBar.Minimum = 0;
+            //i_ProgressBar.Value = 0;
+            int currPhoto = 0;
+
             foreach (Album album in m_LoggedInUser.Albums)
             {
                 foreach (Photo photo in album.Photos)
                 {
-                    i_ProgressBar.Value++;
+                    yield return Tuple.Create(++currPhoto, totalPhotos, (object)numLikes);
+
+                    //i_ProgressBar.Value++;
                     foreach (User user in photo.LikedBy)
                     {
                         if (user.Id == Friend.Id)
@@ -157,10 +164,10 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                 }
             }
 
-            return numLikes;
+            //return numLikes;
         }
 
-        public int GetNumberOfPhotosFriendCommented(ProgressBar i_ProgressBar)
+        public IEnumerable<Tuple<int, int, object>> GetNumberOfPhotosFriendCommented()
         {
             int numComments = 0;
             int totalPhotos = 0;
@@ -170,16 +177,20 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                 totalPhotos += Math.Min((int)(album.Count ?? 0), FacebookApplication.k_MaxPhotosInAlbum);
             }
 
-            i_ProgressBar.Maximum = totalPhotos;
-            i_ProgressBar.Minimum = 0;
-            i_ProgressBar.Value = 0;
+            //i_ProgressBar.Maximum = totalPhotos;
+            //i_ProgressBar.Minimum = 0;
+            //i_ProgressBar.Value = 0;
+            int currPhoto = 0;
+
             foreach (Album album in m_LoggedInUser.Albums)
             {
                 foreach (Photo photo in album.Photos)
                 {
-                    i_ProgressBar.Value++;
+                    //i_ProgressBar.Value++;
                     foreach (Comment comment in photo.Comments)
                     {
+                        yield return Tuple.Create(++currPhoto, totalPhotos, (object)numComments);
+
                         if (comment.From.Id == Friend.Id)
                         {
                             numComments++;
@@ -189,7 +200,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                 }
             }
 
-            return numComments;
+            //return numComments;
         }
     }
 }

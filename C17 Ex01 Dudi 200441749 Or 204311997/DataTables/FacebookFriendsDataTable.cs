@@ -18,7 +18,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
             : base("Friends", typeof(User))
         { }
 
-        public override IEnumerable<KeyValuePair<int, int>> FetchDataTableValues()
+        public override IEnumerable<Tuple<int, int, object>> FetchDataTableValues()
         {
             int currRow = 0;
             TotalRows = FacebookApplication.LoggedInUser.Friends.Count;
@@ -26,7 +26,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
             //add rows
             foreach (User friend in FacebookApplication.LoggedInUser.Friends)
             {
-                yield return new KeyValuePair<int, int>(++currRow, TotalRows);
+                yield return Tuple.Create<int, int, object>(++currRow, TotalRows, null);
                 DataTable.Rows.Add(
                     friend,
                     friend.FirstName,

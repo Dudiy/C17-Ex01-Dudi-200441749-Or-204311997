@@ -33,7 +33,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         }
 
         // using yield, who will use that method know the promoting progress (numbers of done item, numbers of all item)
-        public abstract IEnumerable<KeyValuePair<int, int>> FetchDataTableValues();
+        public abstract IEnumerable<Tuple<int, int, object>> FetchDataTableValues();
 
         protected abstract void InitColumns();
     }
