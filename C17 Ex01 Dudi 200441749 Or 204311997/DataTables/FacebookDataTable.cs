@@ -32,7 +32,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             get { return DataTable.TableName; }
         }
 
-        // using yield, who will use that method know the promoting progress (numbers of done item, numbers of all item)
+        // using yield, who will use that method know the promoting progress (numbers of done item, numbers of all item, return value)
         public abstract IEnumerable<Tuple<int, int, object>> FetchDataTableValues();
 
         protected abstract void InitColumns();

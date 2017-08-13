@@ -12,7 +12,7 @@ using System.Text;
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
 {
-    class FacebookPhotosDataTable : FacebookDataTable
+    public class FacebookPhotosDataTable : FacebookDataTable
     {
         public List<Album> AlbumsToLoad { get; set; }
 
@@ -22,9 +22,10 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
 
         public override IEnumerable<Tuple<int, int, object>> FetchDataTableValues()
         {
+            int currRow = 0;
+
             DataTable.Clear();
             TotalRows = 0;
-
             //add rows
             if (AlbumsToLoad.Count > 0)
             {
@@ -32,11 +33,6 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
                 {                
                     TotalRows += album.Count != null ? (int)album.Count : 0;
                 }
-
-                //ProgressBarWindow progressBarWindow = new ProgressBarWindow(0, TotalRows, "photos");
-                //progressBarWindow.Show();
-                int currRow = 0;
-                //yield return new KeyValuePair<int, int>(cuurRow, TotalRows);
 
                 foreach (Album album in AlbumsToLoad)
                 {
@@ -55,8 +51,6 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
                             buildTagsString(photo),
                             photo.URL
                             );
-
-                        //progressBarWindow.ProgressValue++;
                     }
                 }
             }
@@ -83,11 +77,11 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
                     photoTags.Append(tag.User.Name);
                     photoTags.Append(", ");
                 }
+
                 photoTags.Remove(photoTags.Length - 2, 2);
             }
 
             return photoTags.ToString();
         }
-
     }
 }

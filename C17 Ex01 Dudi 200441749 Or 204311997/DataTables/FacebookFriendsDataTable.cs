@@ -12,7 +12,7 @@ using System.Text;
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
 {
-    class FacebookFriendsDataTable : FacebookDataTable
+    public class FacebookFriendsDataTable : FacebookDataTable
     {
         public FacebookFriendsDataTable()
             : base("Friends", typeof(User))
@@ -21,12 +21,13 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
         public override IEnumerable<Tuple<int, int, object>> FetchDataTableValues()
         {
             int currRow = 0;
+
             TotalRows = FacebookApplication.LoggedInUser.Friends.Count;
-            
             //add rows
             foreach (User friend in FacebookApplication.LoggedInUser.Friends)
             {
                 yield return Tuple.Create<int, int, object>(++currRow, TotalRows, null);
+
                 DataTable.Rows.Add(
                     friend,
                     friend.FirstName,
@@ -35,8 +36,6 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
                     getMostRecentPost(friend)
                     );
             }
-            // we don't need to see the progress here, so we do it in one time
-            //yield return new KeyValuePair<int, int>(1, 1);
         }
 
         protected override void InitColumns()
@@ -54,6 +53,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
             if (i_User != null && i_User.Posts.Count > 0)
             {
                 Post mostRecentPost = i_User.Posts[0];
+
                 mostRecentPostStr.Append(mostRecentPost.CreatedTime);
                 if (!string.IsNullOrEmpty(mostRecentPost.Message))
                 {
