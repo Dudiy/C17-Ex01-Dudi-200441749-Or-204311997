@@ -436,6 +436,7 @@ String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name));
                 Tuple<int, int, object> progressBarValue = i_ProgressOfFetchData.Current;
                 ProgressBarWindow progressBarWindow = new ProgressBarWindow(
                     progressBarValue.Item1, progressBarValue.Item2, i_Title);
+                progressBarWindow.StartPosition = FormStartPosition.CenterParent;
                 progressBarWindow.Show();
 
                 while (i_ProgressOfFetchData.MoveNext())

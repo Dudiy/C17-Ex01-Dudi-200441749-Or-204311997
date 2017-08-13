@@ -126,7 +126,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
 
         //    return photos;
         //}
-        public Photo GetMostRecentPhotoTaggedTogether()
+        public Photo GetMostRecentPhotoTaggedTogether(List<Photo> i_PhotosTaggedTogether)
         {
             //List<Photo> photosTaggedTogether = FetchPhotosTaggedTogether(null);
             return i_PhotosTaggedTogether.Count > 0 ? i_PhotosTaggedTogether[0] : null;
