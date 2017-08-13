@@ -5,15 +5,9 @@
  * 204311997 - Or Mantzur
  * 200441749 - Dudi Yecheskel 
 */
-using FacebookWrapper.ObjectModel;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
+using FacebookWrapper.ObjectModel;
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997
 {
@@ -34,12 +28,13 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             labelLikedPage.Text = string.Format(
 @"Pages that {0} liked",
 m_Friend.FirstName);
-            if (labelBirthday.Text == "")
+            if (!string.IsNullOrEmpty(labelBirthday.Text))
             {
                 labelBirthdayTitle.Visible = false;
                 labelBirthday.Visible = false;
             }
         }
+
         private void listBoxLikedPage_SelectedIndexChanged(object sender, EventArgs e)
         {
             likedPagesBindingSource.DataSource = ((ListBox)sender).SelectedItem as Page;

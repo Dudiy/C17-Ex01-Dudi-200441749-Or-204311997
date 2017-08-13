@@ -47,16 +47,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                     labelLoadedPercent.Text = String.Format("{0:P0}", (float)value / progressBar.Maximum);
                     //TODO is the refresh needed?
                     Refresh();
-
                 }
-                //else if (value == progressBar.Maximum)
-                //{
-                //    progressBar.Value = value;
-                //    labelLoadedPercent.Text = String.Format("{0:P0}", 100);
-                //    Finished = true;
-                //    //TODO is the refresh needed?
-                //    this.Close();
-                //}
                 else
                 {
                     throw new ArgumentOutOfRangeException(string.Format(@"

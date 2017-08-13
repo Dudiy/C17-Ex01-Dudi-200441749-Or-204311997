@@ -5,12 +5,10 @@
  * 204311997 - Or Mantzur
  * 200441749 - Dudi Yecheskel 
 */
-using FacebookWrapper.ObjectModel;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Windows.Forms;
+using System.Collections.Generic;
+using FacebookWrapper.ObjectModel;
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997
 {
@@ -43,9 +41,13 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             }
 
             photos.OrderBy(photo => photo.CreatedTime);
+            if (photos.Count == 0)
+            {
+                yield return Tuple.Create(1, 1, (object)photos);
+            }
         }
 
-        public Dictionary<string, List<Photo>> groupPhotoListByOwner(List<Photo> i_Photos)
+        public Dictionary<string, List<Photo>> GroupPhotoListByOwner(List<Photo> i_Photos)
         {
             Dictionary<string, List<Photo>> groupedPhotos = new Dictionary<string, List<Photo>>();
 
@@ -66,84 +68,29 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             return groupedPhotos;
         }
 
-        //public Dictionary<Album, List<Photo>> GetPhotosByOwnerAndTags()
-        //{
-        //    Dictionary<Album, List<Photo>> photos = new Dictionary<Album, List<Photo>>();
-        //    if (Friend != null)
-        //    {
-        //        int photosToSearch = 0;
-        //        AlbumsSelector albumSelector = new AlbumsSelector(FacebookApplication.LoggedInUser);
-
-        //        DialogResult dialogResult = albumSelector.ShowDialog();
-
-        //        if (dialogResult == DialogResult.OK && albumSelector.SelectedAlbums.Count > 0)
-        //        {
-        //            foreach (Album album in albumSelector.SelectedAlbums)
-        //            {
-        //                photosToSearch += album.Count != null ? (int)album.Count : 0;
-        //            }
-
-        //            ProgressBarWindow progressBarWindow = new ProgressBarWindow(0, photosToSearch, "photos");
-        //            progressBarWindow.Show();
-        //            foreach (Album album in albumSelector.SelectedAlbums)
-        //            {
-        //                List<Photo> photosInAlbum = new List<Photo>();
-        //                foreach (Photo photo in album.Photos)
-        //                {
-        //                    progressBarWindow.ProgressValue++;
-        //                    if (photo.Tags != null)
-        //                    {
-        //                        foreach (PhotoTag tag in photo.Tags)
-        //                        {
-        //                            if (tag.User.Id == Friend.Id)
-        //                            {
-        //                                photosInAlbum.Add(photo);
-        //                                break;
-        //                            }
-        //                        }
-        //                    }
-        //                }
-        //                if (photosInAlbum.Count > 0)
-        //                {
-        //                    photos.Add(album, photosInAlbum);
-        //                }
-        //            }
-        //        }
-        //    }
-        //    else
-        //    {
-        //        throw new ArgumentException("No friend selected");
-        //    }
-
-        //    return photos;
-        //}
         public Photo GetMostRecentPhotoTaggedTogether(List<Photo> i_PhotosTaggedTogether)
         {
-            //List<Photo> photosTaggedTogether = FetchPhotosTaggedTogether(null);
             return i_PhotosTaggedTogether.Count > 0 ? i_PhotosTaggedTogether[0] : null;
         }
 
         public IEnumerable<Tuple<int, int, object>> GetNumberOfPhotosFriendLiked()
         {
             int numLikes = 0;
-            int totalPhotos = 0;
-            foreach (Album album in m_LoggedInUser.Albums)
-            {
-                totalPhotos += Math.Min((int)(album.Count ?? 0), FacebookApplication.k_MaxPhotosInAlbum);
-            }
-
-            //i_ProgressBar.Maximum = totalPhotos;
-            //i_ProgressBar.Minimum = 0;
-            //i_ProgressBar.Value = 0;
             int currPhoto = 0;
+            Album[] allUserAlbums = FacebookPhotoUtils.GetAllUserAlbumsAsArray();
+            int totalPhotos = FacebookPhotoUtils.GetTotalPhotosInAlbumArray(allUserAlbums);
 
-            foreach (Album album in m_LoggedInUser.Albums)
+            //foreach (Album album in m_LoggedInUser.Albums)
+            //{
+            //    totalPhotos += Math.Min((int)(album.Count ?? 0), FacebookApplication.k_MaxPhotosInAlbum);
+            //}
+
+            foreach (Album album in allUserAlbums)
             {
                 foreach (Photo photo in album.Photos)
                 {
                     yield return Tuple.Create(++currPhoto, totalPhotos, (object)numLikes);
 
-                    //i_ProgressBar.Value++;
                     foreach (User user in photo.LikedBy)
                     {
                         if (user.Id == Friend.Id)
@@ -155,7 +102,11 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                 }
             }
 
-            //return numLikes;
+            // in case the user has no albums
+            if (allUserAlbums.Length == 0)
+            {
+                yield return Tuple.Create(1, 1, (object)numLikes);
+            }
         }
 
         public IEnumerable<Tuple<int, int, object>> GetNumberOfPhotosFriendCommented()
@@ -168,9 +119,6 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                 totalPhotos += Math.Min((int)(album.Count ?? 0), FacebookApplication.k_MaxPhotosInAlbum);
             }
 
-            //i_ProgressBar.Maximum = totalPhotos;
-            //i_ProgressBar.Minimum = 0;
-            //i_ProgressBar.Value = 0;
             int currPhoto = 0;
 
             foreach (Album album in m_LoggedInUser.Albums)
@@ -191,7 +139,11 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                 }
             }
 
-            //return numComments;
+            // if no comments are found
+            if (numComments == 0 && m_LoggedInUser.Albums.Count == 0)
+            {
+                yield return Tuple.Create(1, 1, (object)numComments);
+            }
         }
     }
 }

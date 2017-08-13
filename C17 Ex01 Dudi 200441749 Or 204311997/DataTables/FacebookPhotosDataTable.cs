@@ -30,10 +30,12 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
             //add rows
             if (AlbumsToLoad.Count > 0)
             {
-                foreach (Album album in AlbumsToLoad)
-                {
-                    TotalRows += album.Count != null ? (int)album.Count : 0;
-                }
+                TotalRows = FacebookPhotoUtils.GetTotalPhotosInAlbumArray(AlbumsToLoad.ToArray());
+                // TODO delete
+                //foreach (Album album in AlbumsToLoad)
+                //{
+                //    TotalRows += album.Count != null ? (int)album.Count : 0;
+                //}
 
                 foreach (Album album in AlbumsToLoad)
                 {

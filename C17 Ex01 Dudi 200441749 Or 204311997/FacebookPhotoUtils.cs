@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using FacebookWrapper.ObjectModel;
 
-namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
+namespace C17_Ex01_Dudi_200441749_Or_204311997
 {
     public static class FacebookPhotoUtils
     {
@@ -50,6 +50,18 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
             return photoCounter;
         }
 
+        public static Album[] GetAllUserAlbumsAsArray()
+        {
+            List<Album> albums = new List<Album>();
+
+            foreach (Album album in FacebookApplication.LoggedInUser.Albums)
+            {
+                albums.Add(album);
+            }
+
+            return albums.ToArray();
+        }
+
         //public static List<Photo> GetAllUserPhotos(User i_User, ref int i_ProgressValue)
         //{
         //    List<Photo> photos = new List<Photo>(GetTotalPhotosUploadedByUser(i_User));
@@ -80,7 +92,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
                     List<Photo> photosInAlbum = new List<Photo>();
                     foreach (Photo photo in album.Photos)
                     {
-                        yield return Tuple.Create<int, int, object>(currPhoto, photosToSearch, null);
+                        yield return Tuple.Create<int, int, object>(currPhoto, photosToSearch, photos);
 
                         if (photo.Tags != null)
                         {
@@ -102,7 +114,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
                 }
             }
 
-            yield return Tuple.Create<int, int, object>(1, 1, null);
+            yield return Tuple.Create<int, int, object>(1, 1, photos);
         }
     }
 }
