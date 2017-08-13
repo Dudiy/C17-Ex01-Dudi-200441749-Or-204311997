@@ -64,13 +64,15 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
         //    return photos;
         //}
 
-        public static Dictionary<Album, List<Photo>> GetPhotosByOwnerAndTags(User i_User, User i_Tagged, Album[] albums, ProgressBar i_ProgressBar)
+
+        //Dictionary<Album, List<Photo>>
+        public static IEnumerable<Tuple<int, int, object>> GetPhotosByOwnerAndTags(User i_User, User i_Tagged, Album[] albums, ProgressBar i_ProgressBar)
         {
             Dictionary<Album, List<Photo>> photos = new Dictionary<Album, List<Photo>>();
             int photosToSearch = 0;
-            AlbumsSelector albumSelector = new AlbumsSelector(i_User);
+            //AlbumsSelector albumSelector = new AlbumsSelector(i_User);
 
-            i_ProgressBar.Value = 0;
+            //i_ProgressBar.Value = 0;
             if (albums.Length > 0)
             {
                 foreach (Album album in albums)
@@ -78,13 +80,15 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
                     photosToSearch += album.Count != null ? (int)album.Count : 0;
                 }
 
-                i_ProgressBar.Maximum = photosToSearch;
+                //i_ProgressBar.Maximum = photosToSearch;
                 foreach (Album album in albums)
                 {
                     List<Photo> photosInAlbum = new List<Photo>();
+
                     foreach (Photo photo in album.Photos)
                     {
-                        i_ProgressBar.Value++;
+                        yield return Tuple
+                        //i_ProgressBar.Value++;
                         if (photo.Tags != null)
                         {
                             foreach (PhotoTag tag in photo.Tags)
@@ -105,7 +109,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
                 }
             }
 
-            return photos;
+            //return photos;
         }
     }
 }
