@@ -317,6 +317,7 @@ comment.Message);
             {
                 dataGridView.DataSource = null;
                 m_DataTableBindedToView = (FacebookDataTable)comboBoxDataTableBindingSelection.SelectedItem;
+                m_DataTableBindedToView.DataTable.Rows.Clear();
                 if (m_DataTableBindedToView is FacebookPhotosDataTable)
                 {
                     List<Album> albumsToLoad = getAlbumsToLoadFromUser();

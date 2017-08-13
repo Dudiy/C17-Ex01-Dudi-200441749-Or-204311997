@@ -19,11 +19,13 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
 
         public override IEnumerable<KeyValuePair<int, int>> FetchDataTableValues()
         {
+            int currRow = 0;
             TotalRows = FacebookApplication.LoggedInUser.LikedPages.Count;
 
             //add rows
             foreach (Page page in FacebookApplication.LoggedInUser.LikedPages)
             {
+                yield return new KeyValuePair<int, int>(++currRow, TotalRows);
                 DataTable.Rows.Add(
                     page,
                     page.Name,
@@ -34,7 +36,6 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
                     );
             }
             // we don't need to see the progress here, so we do it in one time
-            yield return new KeyValuePair<int, int>(1, 1);
         }
 
         protected override void InitColumns()

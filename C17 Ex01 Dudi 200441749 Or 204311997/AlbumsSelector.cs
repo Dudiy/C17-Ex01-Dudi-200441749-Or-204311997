@@ -35,9 +35,16 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             }
         }
 
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+            SelectedAlbums = new List<Album>();
+        }
+
         public Album[] GetAlbumsSelection()
         {
-            List<Album> selectedAlbums = new List<Album>();
+            //List<Album> selectedAlbums = new List<Album>();
+
             DialogResult dialogResult = this.ShowDialog();
 
             return SelectedAlbums.ToArray();

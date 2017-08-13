@@ -35,13 +35,15 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
 
                 //ProgressBarWindow progressBarWindow = new ProgressBarWindow(0, TotalRows, "photos");
                 //progressBarWindow.Show();
-                int cuurRow = 0;
-                yield return new KeyValuePair<int, int>(cuurRow, TotalRows);
+                int currRow = 0;
+                //yield return new KeyValuePair<int, int>(cuurRow, TotalRows);
 
                 foreach (Album album in AlbumsToLoad)
                 {
                     foreach (Photo photo in album.Photos)
                     {
+                        yield return new KeyValuePair<int, int>(++currRow, TotalRows);
+
                         string photoTags = buildTagsString(photo);
 
                         DataTable.Rows.Add(
@@ -53,7 +55,6 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
                             buildTagsString(photo),
                             photo.URL
                             );
-                        yield return new KeyValuePair<int, int>(cuurRow, TotalRows);
 
                         //progressBarWindow.ProgressValue++;
                     }
