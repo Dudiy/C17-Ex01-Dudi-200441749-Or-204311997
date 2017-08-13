@@ -41,10 +41,11 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             }
 
             photos.OrderBy(photo => photo.CreatedTime);
-            if (photos.Count == 0)
-            {
-                yield return Tuple.Create(1, 1, (object)photos);
-            }
+            //if (photos.Count == 0)
+            //{
+            //    yield return Tuple.Create(1, 1, (object)photos);
+            //}
+            yield return Tuple.Create(1, 1, (object)photos);
         }
 
         public Dictionary<string, List<Photo>> GroupPhotoListByOwner(List<Photo> i_Photos)
@@ -103,10 +104,11 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             }
 
             // in case the user has no albums
-            if (allUserAlbums.Length == 0)
-            {
-                yield return Tuple.Create(1, 1, (object)numLikes);
-            }
+            //if (allUserAlbums.Length == 0)
+            //{
+            //    yield return Tuple.Create(1, 1, (object)numLikes);
+            //}
+            yield return Tuple.Create(1, 1, (object)numLikes);
         }
 
         public IEnumerable<Tuple<int, int, object>> GetNumberOfPhotosFriendCommented()
@@ -140,10 +142,11 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             }
 
             // if no comments are found
-            if (numComments == 0 && m_LoggedInUser.Albums.Count == 0)
-            {
-                yield return Tuple.Create(1, 1, (object)numComments);
-            }
+            //if (numComments == 0 && m_LoggedInUser.Albums.Count == 0)
+            //{
+            //    yield return Tuple.Create(1, 1, (object)numComments);
+            //}
+            yield return Tuple.Create(1, 1, (object)numComments);
         }
     }
 }
