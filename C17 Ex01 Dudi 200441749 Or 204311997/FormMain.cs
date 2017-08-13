@@ -460,8 +460,15 @@ String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name));
             Album[] selectedAlbums = albumSelector.GetAlbumsSelection();
             progressBarPhotosOfFriendInMine.Visible = true;
             Refresh();
-            Dictionary<Album, List<Photo>> photos = FacebookPhotoUtils.GetPhotosByOwnerAndTags(
-                FacebookApplication.LoggedInUser, m_FriendshipAnalyzer.Friend, selectedAlbums, progressBarPhotosOfFriendInMine);
+
+
+
+            IEnumerator<Tuple<int, int, object>> progressOfFetchData = FacebookPhotoUtils.GetPhotosByOwnerAndTags(
+                FacebookApplication.LoggedInUser, m_FriendshipAnalyzer.Friend, selectedAlbums, 
+                progressBarPhotosOfFriendInMine).GetEnumerator();
+            Dictionary<Album, List<Photo>> photos = (Dictionary<Album, List<Photo>>)
+                fetchDataWithProgressBar(progressOfFetchData, "photos by owner and tags");
+
             progressBarPhotosOfFriendInMine.Visible = false;
             Refresh();
             foreach (Album album in photos.Keys)
@@ -489,8 +496,18 @@ String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name);
             AlbumsSelector albumSelector = new AlbumsSelector(m_FriendshipAnalyzer.Friend);
             Album[] selectedAlbums = albumSelector.GetAlbumsSelection();
             progressBarPhotosOfMeInFriendsPhotos.Visible = true;
-            Dictionary<Album, List<Photo>> photos =
-                FacebookPhotoUtils.GetPhotosByOwnerAndTags(m_FriendshipAnalyzer.Friend, FacebookApplication.LoggedInUser, selectedAlbums, progressBarPhotosOfMeInFriendsPhotos);
+            //Refresh();
+
+
+
+            IEnumerator<Tuple<int, int, object>> progressOfFetchData = FacebookPhotoUtils.GetPhotosByOwnerAndTags(
+                m_FriendshipAnalyzer.Friend, FacebookApplication.LoggedInUser, 
+                selectedAlbums, progressBarPhotosOfMeInFriendsPhotos).GetEnumerator();
+            Dictionary<Album, List<Photo>> photos = (Dictionary<Album, List<Photo>>)
+                fetchDataWithProgressBar(progressOfFetchData, "photos by owner and tags");
+
+            //Dictionary<Album, List<Photo>> photos =
+            //    FacebookPhotoUtils.GetPhotosByOwnerAndTags(m_FriendshipAnalyzer.Friend, FacebookApplication.LoggedInUser, selectedAlbums, progressBarPhotosOfMeInFriendsPhotos);
             progressBarPhotosOfMeInFriendsPhotos.Visible = false;
 
             treeViewPhotosOfFriendIAmTaggedIn.Nodes.Clear();
