@@ -6,6 +6,7 @@
  * 200441749 - Dudi Yecheskel 
 */
 using FacebookWrapper.ObjectModel;
+using System.Collections.Generic;
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
 {
@@ -16,7 +17,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
         {
         }
 
-        public override void FetchDataTableValues()
+        public override IEnumerable<KeyValuePair<int, int>> FetchDataTableValues()
         {
             TotalRows = FacebookApplication.LoggedInUser.LikedPages.Count;
 
@@ -32,6 +33,8 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
                     page.Website
                     );
             }
+            // we don't need to see the progress here, so we do it in one time
+            yield return new KeyValuePair<int, int>(1, 1);
         }
 
         public override void DisplayObjectDetails(object i_SelectedObject)

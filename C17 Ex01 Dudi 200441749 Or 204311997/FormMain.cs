@@ -322,7 +322,24 @@ comment.Message);
                     List<Album> albumsToLoad = getAlbumsToLoadFromUser();
                     ((FacebookPhotosDataTable)m_DataTableBindedToView).AlbumsToLoad = albumsToLoad;
                 }
-                m_DataTableBindedToView.FetchDataTableValues();
+
+                IEnumerator<KeyValuePair<int, int>> progressOfFetchData = m_DataTableBindedToView.FetchDataTableValues().GetEnumerator();
+
+                if (progressOfFetchData.MoveNext())
+                {
+                    KeyValuePair<int, int> progressBarStartValue = progressOfFetchData.Current;
+                    ProgressBarWindow progressBarWindow = new ProgressBarWindow(
+                        progressBarStartValue.Key, progressBarStartValue.Value,
+                        m_DataTableBindedToView.DataTable.TableName);
+                    progressBarWindow.Show();
+
+                    while (progressOfFetchData.MoveNext())
+                    {
+                        progressBarWindow.ProgressValue++;
+                    }
+
+                    progressBarWindow.Close();
+                }
 
                 dataGridView.DataSource = m_DataTableBindedToView.DataTable;
                 if (dataGridView.Columns["ObjectDisplayed"] != null)

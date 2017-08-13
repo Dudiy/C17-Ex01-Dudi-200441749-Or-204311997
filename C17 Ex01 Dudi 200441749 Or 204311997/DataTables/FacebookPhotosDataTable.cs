@@ -20,7 +20,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
             : base("Photos", typeof(Photo))
         { }
 
-        public override void FetchDataTableValues()
+        public override IEnumerable<KeyValuePair<int, int>> FetchDataTableValues()
         {
             DataTable.Clear();
             TotalRows = 0;
@@ -33,8 +33,11 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
                     TotalRows += album.Count != null ? (int)album.Count : 0;
                 }
 
-                ProgressBarWindow progressBarWindow = new ProgressBarWindow(0, TotalRows, "photos");
-                progressBarWindow.Show();
+                //ProgressBarWindow progressBarWindow = new ProgressBarWindow(0, TotalRows, "photos");
+                //progressBarWindow.Show();
+                int cuurRow = 0;
+                yield return new KeyValuePair<int, int>(cuurRow, TotalRows);
+
                 foreach (Album album in AlbumsToLoad)
                 {
                     foreach (Photo photo in album.Photos)
@@ -50,7 +53,9 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
                             buildTagsString(photo),
                             photo.URL
                             );
-                        progressBarWindow.ProgressValue++;
+                        yield return new KeyValuePair<int, int>(cuurRow, TotalRows);
+
+                        //progressBarWindow.ProgressValue++;
                     }
                 }
             }
