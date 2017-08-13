@@ -13,6 +13,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
     public partial class FormMain : Form
     {
         private const byte k_PictureBoxIncreaseSizeOnMouseHover = 20;
+        private static readonly Size sr_FriendProfilePicSize = new Size(90, 90);
         private FacebookDataTableManager m_DataTableManager;
         private FacebookDataTable m_DataTableBindedToView;
         private FriendshipAnalyzer m_FriendshipAnalyzer;
@@ -104,7 +105,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                     PictureBox friendProfile = new PictureBox()
                     {
                         Image = friend.ImageLarge,
-                        Size = new Size(90, 90),
+                        Size = sr_FriendProfilePicSize,
                         SizeMode = PictureBoxSizeMode.Zoom,
                         Tag = friend
                     };
@@ -368,11 +369,6 @@ i_Comment.Message);
             comboBoxDataTableBindingSelection.DataSource = m_DataTableManager.GetDataTables();
         }
 
-        private void buttonFetchData_Click(object sender, EventArgs e)
-        {
-            fetchDataForDataTablesTab();
-        }
-
         private void fetchDataForDataTablesTab()
         {
             if (comboBoxDataTableBindingSelection.SelectedItem != null)
@@ -382,14 +378,13 @@ i_Comment.Message);
                 m_DataTableBindedToView.DataTable.Rows.Clear();
                 if (m_DataTableBindedToView is FacebookPhotosDataTable)
                 {
-                    List<Album> albumsToLoad = getAlbumsToLoadFromUser();
+                    AlbumsSelector albumSelector = new AlbumsSelector(FacebookApplication.LoggedInUser);
+                    Album[] albumsToLoad = albumSelector.GetAlbumsSelection();
+
                     ((FacebookPhotosDataTable)m_DataTableBindedToView).AlbumsToLoad = albumsToLoad;
                 }
 
-                //IEnumerator<KeyValuePair<int, int>> progressOfFetchData = m_DataTableBindedToView.FetchDataTableValues().GetEnumerator();
-
-                fetchDataWithProgressBar(m_DataTableBindedToView.FetchDataTableValues().GetEnumerator(), m_DataTableBindedToView.TableName);
-
+                FacebookDataFetcher.FetchDataWithProgressBar(m_DataTableBindedToView.FetchDataTableValues().GetEnumerator(), m_DataTableBindedToView.TableName);
                 dataGridView.DataSource = m_DataTableBindedToView.DataTable;
                 if (dataGridView.Columns["ObjectDisplayed"] != null)
                 {
@@ -401,39 +396,6 @@ i_Comment.Message);
                     MessageBox.Show("The requested table could not be loaded, please try again");
                 }
             }
-        }
-
-        //private void showProgressBarOfDataTable(IEnumerator<Tuple<int, int>> i_ProgressOfFetchData)
-        //{
-        //    if (i_ProgressOfFetchData.MoveNext())
-        //    {
-        //        Tuple<int, int> progressBarStartValue = i_ProgressOfFetchData.Current;
-        //        ProgressBarWindow progressBarWindow = new ProgressBarWindow(
-        //            progressBarStartValue.Item1, progressBarStartValue.Item2,
-        //            m_DataTableBindedToView.DataTable.TableName);
-        //        progressBarWindow.Show();
-
-        //        while (i_ProgressOfFetchData.MoveNext())
-        //        {
-        //            progressBarWindow.ProgressValue++;
-        //        }
-
-        //        progressBarWindow.Close();
-        //    }
-        //}
-
-        private List<Album> getAlbumsToLoadFromUser()
-        {
-            AlbumsSelector albumsSelector = new AlbumsSelector(FacebookApplication.LoggedInUser);
-            List<Album> selectedAlbums = new List<Album>();
-
-            DialogResult albumsSelected = albumsSelector.ShowDialog();
-            if (albumsSelected == DialogResult.Yes)
-            {
-                selectedAlbums = albumsSelector.SelectedAlbums;
-            }
-
-            return selectedAlbums;
         }
 
         private void dataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -455,6 +417,11 @@ i_Comment.Message);
             ((DataGridView)sender).SelectedCells[0].OwningRow.Selected = true;
         }
 
+        private void buttonFetchData_Click(object sender, EventArgs e)
+        {
+            fetchDataForDataTablesTab();
+        }
+
         // ================================================ Friendship analyzer Tab ==============================================
         private void initFriendshipAnalyzerTab()
         {
@@ -462,11 +429,36 @@ i_Comment.Message);
             initFriendsPhotosBar();
         }
 
+        private void initFriendsPhotosBar()
+        {
+            try
+            {
+                foreach (User friend in FacebookApplication.LoggedInUser.Friends)
+                {
+                    PictureBox friendshipAnalyzerFriendsDockPhoto = new PictureBox()
+                    {
+                        Image = friend.ImageLarge,
+                        Size = sr_FriendProfilePicSize,
+                        SizeMode = PictureBoxSizeMode.Zoom,
+                        Tag = friend
+                    };
+
+                    friendshipAnalyzerFriendsDockPhoto.MouseEnter += friendshipAnalyzerFriendsDockPhoto_MouseEnter;
+                    friendshipAnalyzerFriendsDockPhoto.MouseLeave += friendshipAnalyzerFriendsDockPhoto_MouseLeave;
+                    friendshipAnalyzerFriendsDockPhoto.MouseClick += friendshipAnalyzerFriendsDockPhoto_MouseClick;
+                    flowLayoutPanelFriendshipAnalyzer.Controls.Add(friendshipAnalyzerFriendsDockPhoto);
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Error getting list of friends");
+            }
+        }
+
         private void fetchPhotosTaggedTogether()
         {
-            //List<Photo> taggedTogether = m_FriendshipAnalyzer.FetchPhotosTaggedTogether(progressBarTaggedTogether);
             IEnumerator<Tuple<int, int, object>> i_ProgressOfFetchData = m_FriendshipAnalyzer.FetchPhotosTaggedTogether().GetEnumerator();
-            List<Photo> taggedTogether = (List<Photo>)fetchDataWithProgressBar(i_ProgressOfFetchData, "Photos tagged together");
+            List<Photo> taggedTogether = (List<Photo>)FacebookDataFetcher.FetchDataWithProgressBar(i_ProgressOfFetchData, "Photos tagged together");
             Dictionary<string, List<Photo>> photosGroupedByOwner = m_FriendshipAnalyzer.GroupPhotoListByOwner(taggedTogether);
 
             treeViewTaggedTogether.Nodes.Clear();
@@ -489,33 +481,6 @@ String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name));
             }
         }
 
-        private object fetchDataWithProgressBar(IEnumerator<Tuple<int, int, object>> i_ProgressOfFetchData, string i_Title)
-        {
-            object returnedObject = new object();
-
-            if (i_ProgressOfFetchData.MoveNext())
-            {
-                Tuple<int, int, object> progressBarValue = i_ProgressOfFetchData.Current;
-                ProgressBarWindow progressBarWindow = new ProgressBarWindow(progressBarValue.Item1, progressBarValue.Item2, i_Title);
-                progressBarWindow.StartPosition = FormStartPosition.CenterScreen;
-                progressBarWindow.Show();
-
-                while (i_ProgressOfFetchData.MoveNext())
-                {
-                    progressBarValue = i_ProgressOfFetchData.Current;
-                    if (progressBarValue.Item1 < progressBarValue.Item2)
-                    {
-                        progressBarWindow.ProgressValue++;
-                    }
-                }
-
-                progressBarWindow.Close();
-                returnedObject = progressBarValue.Item3;
-            }
-
-            return returnedObject;
-        }
-
         private void fetchPhotosOfFriendInMyPhotos()
         {
             treeViewPhotosOfFriendInMyPhotos.Nodes.Clear();
@@ -525,7 +490,7 @@ String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name));
             IEnumerator<Tuple<int, int, object>> progressOfFetchData = FacebookPhotoUtils.GetPhotosByOwnerAndTags(
                 FacebookApplication.LoggedInUser, m_FriendshipAnalyzer.Friend, selectedAlbums).GetEnumerator();
             Dictionary<Album, List<Photo>> photos = (Dictionary<Album, List<Photo>>)
-                fetchDataWithProgressBar(progressOfFetchData, "photos");
+                FacebookDataFetcher.FetchDataWithProgressBar(progressOfFetchData, "photos");
 
             if (photos == null || photos.Count == 0)
             {
@@ -562,7 +527,7 @@ String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name));
             IEnumerator<Tuple<int, int, object>> progressOfFetchData = FacebookPhotoUtils.GetPhotosByOwnerAndTags(
                 m_FriendshipAnalyzer.Friend, FacebookApplication.LoggedInUser, selectedAlbums).GetEnumerator();
             Dictionary<Album, List<Photo>> photos = (Dictionary<Album, List<Photo>>)
-                fetchDataWithProgressBar(progressOfFetchData, "photos by owner and tags");
+                FacebookDataFetcher.FetchDataWithProgressBar(progressOfFetchData, "photos by owner and tags");
 
             //Dictionary<Album, List<Photo>> photos =
             //    FacebookPhotoUtils.GetPhotosByOwnerAndTags(m_FriendshipAnalyzer.Friend, FacebookApplication.LoggedInUser, selectedAlbums, progressBarPhotosOfMeInFriendsPhotos);
@@ -623,25 +588,6 @@ String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name));
         private void treeViewTaggedTogether_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             photoTreeViewDoubleClicked(e.Node);
-        }
-
-        private void initFriendsPhotosBar()
-        {
-            flowLayoutPanelFriendshipAnalyzer.Width = 110;
-            flowLayoutPanelFriendshipAnalyzer.Padding = new Padding(0, 0, 20, 0);
-
-            foreach (User friend in FacebookApplication.LoggedInUser.Friends)
-            {
-                PictureBox friendshipAnalyzerFriendsDockPhoto = new PictureBox();
-                friendshipAnalyzerFriendsDockPhoto.Image = friend.ImageLarge;
-                friendshipAnalyzerFriendsDockPhoto.Size = new Size(90, 90);
-                friendshipAnalyzerFriendsDockPhoto.SizeMode = PictureBoxSizeMode.Zoom;
-                friendshipAnalyzerFriendsDockPhoto.Tag = friend;
-                friendshipAnalyzerFriendsDockPhoto.MouseEnter += friendshipAnalyzerFriendsDockPhoto_MouseEnter;
-                friendshipAnalyzerFriendsDockPhoto.MouseLeave += friendshipAnalyzerFriendsDockPhoto_MouseLeave;
-                friendshipAnalyzerFriendsDockPhoto.MouseClick += friendshipAnalyzerFriendsDockPhoto_MouseClick;
-                flowLayoutPanelFriendshipAnalyzer.Controls.Add(friendshipAnalyzerFriendsDockPhoto);
-            }
         }
 
         private void friendshipAnalyzerFriendsDockPhoto_MouseLeave(object sender, EventArgs e)
@@ -787,15 +733,15 @@ String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name));
         private void buttonFetchGeneralData_Click(object sender, EventArgs e)
         {
             IEnumerator<Tuple<int, int, object>> i_ProgressOfFetchData = m_FriendshipAnalyzer.GetNumberOfPhotosFriendLiked().GetEnumerator();
-            int numPhotosFriendLiked = (int)fetchDataWithProgressBar(i_ProgressOfFetchData, "likes");
+            int numPhotosFriendLiked = (int)FacebookDataFetcher.FetchDataWithProgressBar(i_ProgressOfFetchData, "likes");
             IEnumerator<Tuple<int, int, object>> i_ProgressOfFetchData3 = m_FriendshipAnalyzer.GetNumberOfPhotosFriendCommented().GetEnumerator();
-            int numOfPhotosFriendCommented = (int)fetchDataWithProgressBar(i_ProgressOfFetchData3, "comments");
+            int numOfPhotosFriendCommented = (int)FacebookDataFetcher.FetchDataWithProgressBar(i_ProgressOfFetchData3, "comments");
 
             labelNumLikes.Text = String.Format("Number of times {0} liked my photos: {1}", m_FriendshipAnalyzer.Friend.FirstName, numPhotosFriendLiked);
             labelNumComments.Text = String.Format("Number of times {0} commented on my photos: {1}", m_FriendshipAnalyzer.Friend.FirstName, numOfPhotosFriendCommented);
 
             IEnumerator<Tuple<int, int, object>> i_ProgressOfFetchData2 = m_FriendshipAnalyzer.FetchPhotosTaggedTogether().GetEnumerator();
-            List<Photo> taggedTogether = (List<Photo>)fetchDataWithProgressBar(i_ProgressOfFetchData2, "photos tagged together");
+            List<Photo> taggedTogether = (List<Photo>)FacebookDataFetcher.FetchDataWithProgressBar(i_ProgressOfFetchData2, "photos tagged together");
 
             Photo mostRecentTaggedTogether = m_FriendshipAnalyzer.GetMostRecentPhotoTaggedTogether(taggedTogether);
             if (mostRecentTaggedTogether != null)

@@ -14,7 +14,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
 {
     public class FacebookPhotosDataTable : FacebookDataTable
     {
-        public List<Album> AlbumsToLoad { get; set; }
+        public Album[] AlbumsToLoad { get; set; }
 
         public FacebookPhotosDataTable()
             : base("Photos", typeof(Photo))
@@ -28,14 +28,9 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
             DataTable.Clear();
             TotalRows = 0;
             //add rows
-            if (AlbumsToLoad.Count > 0)
+            if (AlbumsToLoad.Length > 0)
             {
-                TotalRows = FacebookPhotoUtils.GetTotalPhotosInAlbumArray(AlbumsToLoad.ToArray());
-                // TODO delete
-                //foreach (Album album in AlbumsToLoad)
-                //{
-                //    TotalRows += album.Count != null ? (int)album.Count : 0;
-                //}
+                TotalRows = FacebookPhotoUtils.GetTotalPhotosInAlbumArray(AlbumsToLoad);
 
                 foreach (Album album in AlbumsToLoad)
                 {
