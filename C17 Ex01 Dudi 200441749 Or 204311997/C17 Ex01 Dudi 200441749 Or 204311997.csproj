@@ -131,6 +131,7 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="C17 Ex01 Dudi 200441749 Or 204311997.docx" />
     <None Include="Properties\DataSources\FacebookWrapper.ObjectModel.User.datasource" />
     <None Include="Properties\DataSources\FriendshipAnalyzer.datasource" />
     <None Include="Properties\Settings.settings">
@@ -165,6 +166,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\CoverLoading1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Exercise Checking Report.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
