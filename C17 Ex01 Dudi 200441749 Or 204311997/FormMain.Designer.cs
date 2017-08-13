@@ -61,9 +61,6 @@
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.buttonFetchData = new System.Windows.Forms.Button();
             this.comboBoxDataTableBindingSelection = new System.Windows.Forms.ComboBox();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripLabelMessage = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.tabPageAboutMe = new System.Windows.Forms.TabPage();
             this.panelPostPhoto = new System.Windows.Forms.Panel();
             this.labelPhotoPreview = new System.Windows.Forms.Label();
@@ -111,7 +108,6 @@
             this.panelGeneralInfo.SuspendLayout();
             this.tabPageDataTables.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
-            this.toolStrip1.SuspendLayout();
             this.tabPageAboutMe.SuspendLayout();
             this.panelPostPhoto.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPostPhoto)).BeginInit();
@@ -418,7 +414,6 @@
             this.tabPageDataTables.Controls.Add(this.dataGridView);
             this.tabPageDataTables.Controls.Add(this.buttonFetchData);
             this.tabPageDataTables.Controls.Add(this.comboBoxDataTableBindingSelection);
-            this.tabPageDataTables.Controls.Add(this.toolStrip1);
             this.tabPageDataTables.Location = new System.Drawing.Point(4, 29);
             this.tabPageDataTables.Name = "tabPageDataTables";
             this.tabPageDataTables.Padding = new System.Windows.Forms.Padding(3);
@@ -431,19 +426,17 @@
             // 
             this.dataGridView.AllowUserToAddRows = false;
             this.dataGridView.AllowUserToDeleteRows = false;
-            this.dataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView.Location = new System.Drawing.Point(3, 40);
+            this.dataGridView.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.dataGridView.Location = new System.Drawing.Point(3, 39);
             this.dataGridView.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridView.MultiSelect = false;
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.ReadOnly = true;
             this.dataGridView.RowHeadersVisible = false;
             this.dataGridView.RowTemplate.Height = 28;
-            this.dataGridView.Size = new System.Drawing.Size(1151, 476);
+            this.dataGridView.Size = new System.Drawing.Size(1158, 507);
             this.dataGridView.TabIndex = 0;
             this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellDoubleClick);
             this.dataGridView.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseClick);
@@ -468,30 +461,6 @@
             this.comboBoxDataTableBindingSelection.Name = "comboBoxDataTableBindingSelection";
             this.comboBoxDataTableBindingSelection.Size = new System.Drawing.Size(149, 21);
             this.comboBoxDataTableBindingSelection.TabIndex = 1;
-            // 
-            // toolStrip1
-            // 
-            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripLabelMessage,
-            this.toolStripProgressBar});
-            this.toolStrip1.Location = new System.Drawing.Point(3, 518);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1158, 28);
-            this.toolStrip1.TabIndex = 3;
-            this.toolStrip1.Text = "toolStrip1";
-            // 
-            // toolStripLabelMessage
-            // 
-            this.toolStripLabelMessage.Name = "toolStripLabelMessage";
-            this.toolStripLabelMessage.Size = new System.Drawing.Size(80, 25);
-            this.toolStripLabelMessage.Text = "toolStripLabel";
-            // 
-            // toolStripProgressBar
-            // 
-            this.toolStripProgressBar.Name = "toolStripProgressBar";
-            this.toolStripProgressBar.Size = new System.Drawing.Size(67, 25);
             // 
             // tabPageAboutMe
             // 
@@ -949,10 +918,7 @@
             this.panelGeneralInfo.ResumeLayout(false);
             this.panelGeneralInfo.PerformLayout();
             this.tabPageDataTables.ResumeLayout(false);
-            this.tabPageDataTables.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
             this.tabPageAboutMe.ResumeLayout(false);
             this.tabPageAboutMe.PerformLayout();
             this.panelPostPhoto.ResumeLayout(false);
@@ -988,9 +954,6 @@
         private System.Windows.Forms.DataGridView dataGridView;
         private System.Windows.Forms.Button buttonFetchData;
         private System.Windows.Forms.ComboBox comboBoxDataTableBindingSelection;
-        private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripLabel toolStripLabelMessage;
-        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar;
         private System.Windows.Forms.TabPage tabPageAboutMe;
         private System.Windows.Forms.Panel panelFriends;
         private System.Windows.Forms.Label labelFriendTitle;
