@@ -68,7 +68,6 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
         {
             Dictionary<Album, List<Photo>> photos = new Dictionary<Album, List<Photo>>();
             int photosToSearch = 0;
-            AlbumsSelector albumSelector = new AlbumsSelector(i_User);
             i_ProgressBar.Value = 0;
 
             if (albums.Length > 0)

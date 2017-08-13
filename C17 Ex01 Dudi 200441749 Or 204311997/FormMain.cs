@@ -408,6 +408,7 @@ comment.Message);
             List<Photo> taggedTogether = (List<Photo>)fetchDataWithProgressBar(i_ProgressOfFetchData, "Photos tagged together");
             Dictionary <string, List<Photo>> photosGroupedByOwner = m_FriendshipAnalyzer.groupPhotoListByOwner(taggedTogether);
 
+            treeViewTaggedTogether.Nodes.Clear();
             foreach (KeyValuePair<string, List<Photo>> UserPhotos in photosGroupedByOwner)
             {
                 TreeNode fromNode = new TreeNode(String.Format("Photos by {0}", UserPhotos.Value[0].From.Name));
@@ -548,12 +549,6 @@ String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name);
             photoTreeViewDoubleClicked(e.Node);
         }
 
-        private void buttonAnalyzeFriendship_Click(object sender, EventArgs e)
-        {
-            fetchPhotosOfFriendInMyPhotos();
-            fetchPhotosTaggedTogether();
-        }
-
         private void initFriendsPhotosBar()
         {
             flowLayoutPanelFriendshipAnalyzer.Width = 110;
@@ -593,54 +588,28 @@ String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name);
         private void friendSelectionChanged()
         {
             User selectedFriend = m_FriendshipAnalyzer.Friend;
-            panelAnalyzingFriendship.Visible = true;
             panelGeneralInfo.Visible = false;
-            labelAnalyzingFriendship.Text = "Counting likes";
-            Refresh();
-
-
-            IEnumerator<Tuple<int, int, object>> i_ProgressOfFetchData = m_FriendshipAnalyzer.GetNumberOfPhotosFriendLiked().GetEnumerator();
+            clearAllTreeViews();
+            
             //List<Photo> taggedTogether = (List<Photo>)showProgressBarOfPhotoAnalyzer(i_ProgressOfFetchData);
-
-            int numPhotosFriendLiked= (int)fetchDataWithProgressBar(i_ProgressOfFetchData, "likes");
-
             //int numPhotosFriendLiked = m_FriendshipAnalyzer.GetNumberOfPhotosFriendLiked(progressBarAnalyzingFriendship);
-
-            labelAnalyzingFriendship.Text = "Counting comments";
-            Refresh();
-
-
-
-            IEnumerator<Tuple<int, int, object>> i_ProgressOfFetchData3 = m_FriendshipAnalyzer.GetNumberOfPhotosFriendCommented().GetEnumerator();
             //List<Photo> taggedTogether = (List<Photo>)showProgressBarOfPhotoAnalyzer(i_ProgressOfFetchData);
-
-            int numOfPhotosFriendCommented = (int)fetchDataWithProgressBar(i_ProgressOfFetchData3, "comments");
-
             //int numOfPhotosFriendCommented = m_FriendshipAnalyzer.GetNumberOfPhotosFriendCommented(progressBarAnalyzingFriendship);
 
-
-            labelAnalyzingFriendship.Text = "Searching for most recent photo together";
-            Refresh();
             labelFirstName.Text = selectedFriend.FirstName;
             labelLastName.Text = selectedFriend.LastName;
-            labelNumLikes.Text = String.Format("Number of times {0} liked my photos: {1}", selectedFriend.FirstName, numPhotosFriendLiked);
-            labelNumComments.Text = String.Format("Number of times {0} commented on my photos: {1}", selectedFriend.FirstName, numOfPhotosFriendCommented);
-
-
-            IEnumerator<Tuple<int, int, object>> i_ProgressOfFetchData2 = m_FriendshipAnalyzer.FetchPhotosTaggedTogether().GetEnumerator();
-            List<Photo> taggedTogether = (List<Photo>)fetchDataWithProgressBar(i_ProgressOfFetchData2, "photos tagged together");
-
-            Photo mostRecentTaggedTogether = m_FriendshipAnalyzer.GetMostRecentPhotoTaggedTogether(taggedTogether);
-            if (mostRecentTaggedTogether != null)
-            {
-                pictureBoxMostRecentTaggedTogether.LoadAsync(mostRecentTaggedTogether.PictureNormalURL);
-                pictureBoxMostRecentTaggedTogether.Tag = mostRecentTaggedTogether;
-            }
+            labelNumLikes.Text = String.Format("Number of times {0} liked my photos: {1}", selectedFriend.FirstName, "[no data fetched]");
+            labelNumComments.Text = String.Format("Number of times {0} commented on my photos: {1}", selectedFriend.FirstName, "[no data fetched]");
             buttonFetchMyPhotosFriendIsIn.Text = String.Format("Fetch photos of mine {0} is in", selectedFriend.FirstName);
             buttonFetchPhotosOfFriendIAmTaggedIn.Text = String.Format("Fetch {0}'s Photos I am Tagged in", selectedFriend.FirstName);
             panelGeneralInfo.Visible = true;
-            panelAnalyzingFriendship.Visible = false;
-            Refresh();
+        }
+
+        private void clearAllTreeViews()
+        {
+            treeViewPhotosOfFriendIAmTaggedIn.Nodes.Clear();
+            treeViewPhotosOfFriendInMyPhotos.Nodes.Clear();
+            treeViewTaggedTogether.Nodes.Clear();
         }
 
         private void increasePictureBoxSize(PictureBox i_PictureBox, int i_Size)
@@ -737,6 +706,27 @@ String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name);
         private void pictureBoxMostRecentTaggedTogether_MouseLeave(object sender, EventArgs e)
         {
             increasePictureBoxSize(sender as PictureBox, -k_PictureBoxIncreaseSizeOnMouseHover);
+        }
+
+        private void buttonFetchGeneralData_Click(object sender, EventArgs e)
+        {
+            IEnumerator<Tuple<int, int, object>> i_ProgressOfFetchData = m_FriendshipAnalyzer.GetNumberOfPhotosFriendLiked().GetEnumerator();
+            int numPhotosFriendLiked = (int)fetchDataWithProgressBar(i_ProgressOfFetchData, "likes");
+            IEnumerator<Tuple<int, int, object>> i_ProgressOfFetchData3 = m_FriendshipAnalyzer.GetNumberOfPhotosFriendCommented().GetEnumerator();
+            int numOfPhotosFriendCommented = (int)fetchDataWithProgressBar(i_ProgressOfFetchData3, "comments");
+
+            labelNumLikes.Text = String.Format("Number of times {0} liked my photos: {1}", m_FriendshipAnalyzer.Friend.FirstName, numPhotosFriendLiked);
+            labelNumComments.Text = String.Format("Number of times {0} commented on my photos: {1}", m_FriendshipAnalyzer.Friend.FirstName, numOfPhotosFriendCommented);
+
+            IEnumerator<Tuple<int, int, object>> i_ProgressOfFetchData2 = m_FriendshipAnalyzer.FetchPhotosTaggedTogether().GetEnumerator();
+            List<Photo> taggedTogether = (List<Photo>)fetchDataWithProgressBar(i_ProgressOfFetchData2, "photos tagged together");
+
+            Photo mostRecentTaggedTogether = m_FriendshipAnalyzer.GetMostRecentPhotoTaggedTogether(taggedTogether);
+            if (mostRecentTaggedTogether != null)
+            {
+                pictureBoxMostRecentTaggedTogether.LoadAsync(mostRecentTaggedTogether.PictureNormalURL);
+                pictureBoxMostRecentTaggedTogether.Tag = mostRecentTaggedTogether;
+            }
         }
     }
 }
