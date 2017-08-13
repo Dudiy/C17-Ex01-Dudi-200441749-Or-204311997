@@ -32,8 +32,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
         {
             base.OnLoad(e);
             labelLikedPage.Text = string.Format(
-@"Look about pages that
-{0} liked",
+@"Pages that {0} liked",
 m_Friend.FirstName);
             if (labelBirthday.Text == "")
             {
