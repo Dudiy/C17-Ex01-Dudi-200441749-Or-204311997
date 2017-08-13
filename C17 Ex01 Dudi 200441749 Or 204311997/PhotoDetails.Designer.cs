@@ -1,6 +1,6 @@
 ﻿namespace C17_Ex01_Dudi_200441749_Or_204311997
 {
-    partial class PhotoDetails
+    public partial class PhotoDetails
     {
         /// <summary>
         /// Required designer variable.
@@ -17,6 +17,7 @@
             {
                 components.Dispose();
             }
+
             base.Dispose(disposing);
         }
 
@@ -34,8 +35,8 @@
             this.labelLikes = new System.Windows.Forms.Label();
             this.labelAlbum = new System.Windows.Forms.Label();
             this.labelName = new System.Windows.Forms.Label();
-            this.treeViewComments = new System.Windows.Forms.TreeView();
             this.pictureBox = new System.Windows.Forms.PictureBox();
+            this.treeViewComments = new System.Windows.Forms.TreeView();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -47,6 +48,7 @@
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -60,19 +62,19 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.treeViewComments);
-            this.splitContainer1.Size = new System.Drawing.Size(668, 601);
-            this.splitContainer1.SplitterDistance = 326;
+            this.splitContainer1.Size = new System.Drawing.Size(445, 391);
+            this.splitContainer1.SplitterDistance = 217;
+            this.splitContainer1.SplitterWidth = 3;
             this.splitContainer1.TabIndex = 1;
             // 
             // listBoxLikes
             // 
-            this.listBoxLikes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listBoxLikes.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.listBoxLikes.FormattingEnabled = true;
-            this.listBoxLikes.ItemHeight = 20;
-            this.listBoxLikes.Location = new System.Drawing.Point(12, 387);
+            this.listBoxLikes.Location = new System.Drawing.Point(0, 257);
+            this.listBoxLikes.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.listBoxLikes.Name = "listBoxLikes";
-            this.listBoxLikes.Size = new System.Drawing.Size(311, 204);
+            this.listBoxLikes.Size = new System.Drawing.Size(217, 134);
             this.listBoxLikes.TabIndex = 3;
             this.listBoxLikes.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxLikes_MouseDoubleClick);
             // 
@@ -81,9 +83,10 @@
             this.labelLikes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelLikes.AutoSize = true;
-            this.labelLikes.Location = new System.Drawing.Point(12, 359);
+            this.labelLikes.Location = new System.Drawing.Point(8, 233);
+            this.labelLikes.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelLikes.Name = "labelLikes";
-            this.labelLikes.Size = new System.Drawing.Size(54, 20);
+            this.labelLikes.Size = new System.Drawing.Size(38, 13);
             this.labelLikes.TabIndex = 1;
             this.labelLikes.Text = "Likes: ";
             // 
@@ -92,9 +95,10 @@
             this.labelAlbum.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelAlbum.AutoSize = true;
-            this.labelAlbum.Location = new System.Drawing.Point(12, 331);
+            this.labelAlbum.Location = new System.Drawing.Point(8, 215);
+            this.labelAlbum.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelAlbum.Name = "labelAlbum";
-            this.labelAlbum.Size = new System.Drawing.Size(62, 20);
+            this.labelAlbum.Size = new System.Drawing.Size(42, 13);
             this.labelAlbum.TabIndex = 1;
             this.labelAlbum.Text = "Album: ";
             // 
@@ -103,42 +107,42 @@
             this.labelName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelName.AutoSize = true;
-            this.labelName.Location = new System.Drawing.Point(12, 303);
+            this.labelName.Location = new System.Drawing.Point(8, 197);
+            this.labelName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelName.Name = "labelName";
-            this.labelName.Size = new System.Drawing.Size(59, 20);
+            this.labelName.Size = new System.Drawing.Size(41, 13);
             this.labelName.TabIndex = 1;
             this.labelName.Text = "Name: ";
             // 
-            // treeViewComments
-            // 
-            this.treeViewComments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.treeViewComments.Location = new System.Drawing.Point(4, 4);
-            this.treeViewComments.Name = "treeViewComments";
-            this.treeViewComments.Size = new System.Drawing.Size(322, 585);
-            this.treeViewComments.TabIndex = 0;
-            // 
             // pictureBox
             // 
-            this.pictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox.Dock = System.Windows.Forms.DockStyle.Top;
             this.pictureBox.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox.Image")));
             this.pictureBox.InitialImage = ((System.Drawing.Image)(resources.GetObject("pictureBox.InitialImage")));
             this.pictureBox.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(326, 296);
+            this.pictureBox.Size = new System.Drawing.Size(217, 192);
             this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox.TabIndex = 0;
             this.pictureBox.TabStop = false;
             // 
+            // treeViewComments
+            // 
+            this.treeViewComments.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeViewComments.Location = new System.Drawing.Point(0, 0);
+            this.treeViewComments.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.treeViewComments.Name = "treeViewComments";
+            this.treeViewComments.Size = new System.Drawing.Size(225, 391);
+            this.treeViewComments.TabIndex = 0;
+            // 
             // PhotoDetails
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(668, 601);
+            this.ClientSize = new System.Drawing.Size(445, 391);
             this.Controls.Add(this.splitContainer1);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "PhotoDetails";
             this.Text = "PhotoDetails";
             this.splitContainer1.Panel1.ResumeLayout(false);

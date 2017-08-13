@@ -5,49 +5,33 @@ using FacebookWrapper.ObjectModel;
 using C17_Ex01_Dudi_200441749_Or_204311997.DataTables;
 using System.Drawing;
 using System.ComponentModel;
-using System.Threading;
 using System.IO;
+using System.Text;
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997
 {
     public partial class FormMain : Form
     {
+        private const byte k_PictureBoxIncreaseSizeOnMouseHover = 20;
         private FacebookDataTableManager m_DataTableManager;
         private FacebookDataTable m_DataTableBindedToView;
         private FriendshipAnalyzer m_FriendshipAnalyzer;
+        private static readonly Size sr_MinimumWindowSize = new Size(AppSettings.k_DefaultMainFormWidth, AppSettings.k_DefaultMainFormHeight);
         private string m_PostPicturePath;
-        //TODO set value once we are done with the design
-        private static readonly Size sr_MinimumWindowSize = new Size(800, 600);
         private bool m_LogoutClicked = false;
-        private const byte k_PictureBoxIncreaseSizeOnMouseHover = 20;
 
         public FormMain()
         {
             InitializeComponent();
         }
 
+        // ================================================ general form methods ================================================
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
             initMainForm();
             fetchProfileAndCoverPhotos();
-            // init tabs
-            initAboutMeTab();
-            initDataTablesTab();
-            initFriendshipAnalyzerTab();
-        }
-
-        protected override void OnClosing(CancelEventArgs e)
-        {
-            base.OnClosing(e);
-            if (!m_LogoutClicked)
-            {
-                //exitSelected is set here in case where user hits the X button or alt+F4
-                FacebookApplication.ExitSelected = true;
-                FacebookApplication.AppSettings.LastFormStartPosition = FormStartPosition.Manual;
-                FacebookApplication.AppSettings.LastWindowLocation = Location;
-                FacebookApplication.AppSettings.LastWindowsSize = Size;
-            }
+            initTabs();
         }
 
         private void initMainForm()
@@ -70,42 +54,46 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             }
         }
 
+        private void initTabs()
+        {
+            initAboutMeTab();
+            initDataTablesTab();
+            initFriendshipAnalyzerTab();
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            base.OnClosing(e);
+            if (!m_LogoutClicked)
+            {
+                //exitSelected is set here in case the user hits the X button or alt+F4
+                FacebookApplication.ExitSelected = true;
+                FacebookApplication.AppSettings.LastFormStartPosition = FormStartPosition.Manual;
+                FacebookApplication.AppSettings.LastWindowLocation = Location;
+                FacebookApplication.AppSettings.LastWindowsSize = Size;
+            }
+        }
+
         // ================================================ About Me Tab ==============================================
         private void initAboutMeTab()
         {
-            updateAboutMeFriends();
-            likedPagesBindingSource.DataSource = FacebookApplication.LoggedInUser.LikedPages;
-            initLastPost();
+            // fetch and bind data from Facebook server
+            try
+            {
+                likedPagesBindingSource.DataSource = FacebookApplication.LoggedInUser.LikedPages;
+                friendsBindingSource.DataSource = FacebookApplication.LoggedInUser.Friends;
+                updateAboutMeFriends();
+                initLastPost();
+            }
+            catch
+            {
+                MessageBox.Show("Error while fetching data from the Facebook server");
+            }
+
             listBoxPostLiked.MouseDoubleClick += ListBoxPostLiked_MouseDoubleClick;
             listBoxPostComment.MouseDoubleClick += ListBoxPostComment_MouseDoubleClick;
-            friendsBindingSource.DataSource = FacebookApplication.LoggedInUser.Friends;
             listBoxPostTags.ClearSelected();
         }
-        private void ListBoxPostLiked_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            User friend = ((ListBox)sender).SelectedItem as User;
-
-            if (friend != null)
-            {
-                MessageBox.Show(friend.Name + " Liked your post!");
-            }
-        }
-
-        private void ListBoxPostComment_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            Comment comment = ((ListBox)sender).SelectedItem as Comment;
-
-            if (comment != null)
-            {
-                User friendWhoCommented = comment.From;
-                string message = string.Format(
-@"{0} commented: {1}",
-friendWhoCommented.Name,
-comment.Message);
-                MessageBox.Show(message);
-            }
-        }
-
 
         private void updateAboutMeFriends()
         {
@@ -136,22 +124,24 @@ comment.Message);
         private void initLastPost()
         {
             Post myLastPosts = FacebookApplication.LoggedInUser.Posts[0];
-            if (myLastPosts.Message != null)
+
+            // clear pervious data
+            listBoxPostLiked.Items.Clear();
+            listBoxPostComment.Items.Clear();
+            pictureBoxLastPost.Image = null;
+            // get new data
+            if (myLastPosts != null && myLastPosts.Message != null)
             {
                 textBoxLastPostMessage.Text = myLastPosts.Message;
             }
             else
             {
-                textBoxLastPostMessage.Text = "";
+                textBoxLastPostMessage.Text = "[No post message]";
             }
 
-            pictureBoxLastPost.Hide();
-            listBoxPostLiked.Items.Clear();
-            listBoxPostComment.Items.Clear();
-            if (myLastPosts.PictureURL != null)
+            if (myLastPosts != null && myLastPosts.PictureURL != null)
             {
                 pictureBoxLastPost.LoadAsync(myLastPosts.PictureURL);
-                pictureBoxLastPost.Show();
                 listBoxPostLiked.DisplayMember = "Name";
                 foreach (User friendWhoLiked in myLastPosts.LikedBy)
                 {
@@ -166,27 +156,73 @@ comment.Message);
             }
         }
 
+        private void ListBoxPostLiked_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            User friend = ((ListBox)sender).SelectedItem as User;
+
+            if (friend != null)
+            {
+                MessageBox.Show(friend.Name + " Liked your post!");
+            }
+        }
+
+        private void ListBoxPostComment_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            expandPostComment(((ListBox)sender).SelectedItem as Comment);
+        }
+
+        private static void expandPostComment(Comment i_Comment)
+        {
+            if (i_Comment != null)
+            {
+                User friendWhoCommented = i_Comment.From;
+                string message = string.Format(
+@"{0} commented:
+{1}",
+friendWhoCommented.Name,
+i_Comment.Message);
+                MessageBox.Show(message);
+            }
+        }
+
         private void FriendProfile_MouseEnter(object sender, EventArgs e)
         {
-            PictureBox me = sender as PictureBox;
+            PictureBox pictureBoxSelected = sender as PictureBox;
 
-            increasePictureBoxSize(me, 20);
+            if (pictureBoxSelected != null)
+            {
+                increasePictureBoxSize(pictureBoxSelected, k_PictureBoxIncreaseSizeOnMouseHover);
+            }
         }
 
         private void FriendProfile_MouseLeave(object sender, EventArgs e)
         {
-            PictureBox me = sender as PictureBox;
+            PictureBox pictureBoxSelected = sender as PictureBox;
 
-            increasePictureBoxSize(me, -20);
+            if (pictureBoxSelected != null)
+            {
+                increasePictureBoxSize(pictureBoxSelected, -k_PictureBoxIncreaseSizeOnMouseHover);
+            }
         }
 
         private void FriendProfile_MouseClick(object sender, MouseEventArgs e)
         {
-            User friend = ((PictureBox)sender).Tag as User;
-            m_FriendshipAnalyzer.Friend = friend;
-            //friendSelectionChanged();
-            FriendDetails friendDetails = new FriendDetails(friend);
-            friendDetails.ShowDialog();
+            displayFriendDetailsInAboutMeTab(sender as PictureBox);
+        }
+
+        private static void displayFriendDetailsInAboutMeTab(PictureBox i_PictureBoxSelected)
+        {
+            if (i_PictureBoxSelected != null)
+            {
+                User friendSelected = i_PictureBoxSelected.Tag as User;
+
+                if (friendSelected != null)
+                {
+                    FriendDetails friendDetails = new FriendDetails(friendSelected);
+
+                    friendDetails.ShowDialog();
+                }
+            }
         }
 
         private void buttonRefreshFriends_Click(object sender, EventArgs e)
@@ -213,25 +249,19 @@ comment.Message);
 
         private void buttonPost_Click(object sender, EventArgs e)
         {
+            postStatus();
+        }
+
+        private void postStatus()
+        {
             try
             {
-                if (richTextBoxStatusPost.Text != "")
+                if (!string.IsNullOrEmpty(richTextBoxStatusPost.Text))
                 {
-                    string friendID = string.Empty;
-                    foreach (User friend in listBoxPostTags.SelectedItems)
-                    {
-                        friendID += friend.Id + ",";
-                    }
-                    friendID = friendID != "" ?
-                        friendID.Remove(friendID.Length - 1) :
-                        null;
+                    string friendID = createFriendsToTagStr();
+                    Status postedStatus = FacebookApplication.LoggedInUser.PostStatus(richTextBoxStatusPost.Text, i_TaggedFriendIDs: friendID);
+                    string successPostMessage = string.Format("The Status: \"{0}\" was succefully posted!", postedStatus.Message);
 
-                    Status postedStatus = FacebookApplication.LoggedInUser.PostStatus(
-                        richTextBoxStatusPost.Text, i_TaggedFriendIDs: friendID);
-
-                    string successPostMessage = string.Format(
-    "The Status: \"{0}\" is post !",
-    postedStatus.Message);
                     MessageBox.Show(successPostMessage);
                     richTextBoxStatusPost.Clear();
                     listBoxPostTags.ClearSelected();
@@ -248,10 +278,23 @@ comment.Message);
             }
         }
 
+        private string createFriendsToTagStr()
+        {
+            StringBuilder friendIDStringBuilder = new StringBuilder();
+
+            foreach (User friend in listBoxPostTags.SelectedItems)
+            {
+                friendIDStringBuilder.Append(friend.Id + ",");
+            }
+
+            string friendID = friendIDStringBuilder.ToString();
+
+            return !string.IsNullOrEmpty(friendID) ? friendID.Remove(friendID.Length - 1) : null;
+        }
+
         private void buttonRefreshTagFriends_Click(object sender, EventArgs e)
         {
             FacebookApplication.LoggedInUser.ReFetch();
-            //listBoxPostTags.DataSource = FacebookApplication.LoggedInUser.Friends;
             friendsBindingSource.DataSource = FacebookApplication.LoggedInUser.Friends;
             listBoxPostTags.ClearSelected();
         }
@@ -263,23 +306,41 @@ comment.Message);
 
         private void buttonAddPicture_Click(object sender, EventArgs e)
         {
-            OpenFileDialog file = new OpenFileDialog();
+            openPhotoForPost();
+        }
 
-            if (file.ShowDialog() == DialogResult.OK)
+        private void openPhotoForPost()
+        {
+            try
             {
-                m_PostPicturePath = Path.GetFullPath(file.FileName);
-                pictureBoxPostPhoto.Image = Image.FromFile(file.FileName);
+                OpenFileDialog file = new OpenFileDialog();
+
+                if (file.ShowDialog() == DialogResult.OK)
+                {
+                    m_PostPicturePath = Path.GetFullPath(file.FileName);
+                    pictureBoxPostPhoto.Image = Image.FromFile(file.FileName);
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Error while trying to open file, try again");
             }
         }
 
         private void buttonPostPhoto_Click(object sender, EventArgs e)
         {
+            postPhoto();
+        }
+
+        private void postPhoto()
+        {
             try
             {
-                if (m_PostPicturePath != null)
+                if (!string.IsNullOrEmpty(m_PostPicturePath))
                 {
                     Post postedItem = FacebookApplication.LoggedInUser.PostPhoto(m_PostPicturePath, i_Title: richTextBoxPostPhoto.Text);
-                    MessageBox.Show("Photo Post !");
+
+                    MessageBox.Show("The photo was succesfully posted!");
                     richTextBoxPostPhoto.Clear();
                     refreshLastPost();
                 }
@@ -290,7 +351,7 @@ comment.Message);
             }
             catch
             {
-                throw new Exception("Post photo failed");
+                throw new Exception("Error while trying to post the photo, try again");
             }
         }
 

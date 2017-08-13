@@ -41,10 +41,6 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             }
 
             photos.OrderBy(photo => photo.CreatedTime);
-            //if (photos.Count == 0)
-            //{
-            //    yield return Tuple.Create(1, 1, (object)photos);
-            //}
             yield return Tuple.Create(1, 1, (object)photos);
         }
 
@@ -81,11 +77,6 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             Album[] allUserAlbums = FacebookPhotoUtils.GetAllUserAlbumsAsArray();
             int totalPhotos = FacebookPhotoUtils.GetTotalPhotosInAlbumArray(allUserAlbums);
 
-            //foreach (Album album in m_LoggedInUser.Albums)
-            //{
-            //    totalPhotos += Math.Min((int)(album.Count ?? 0), FacebookApplication.k_MaxPhotosInAlbum);
-            //}
-
             foreach (Album album in allUserAlbums)
             {
                 foreach (Photo photo in album.Photos)
@@ -103,31 +94,20 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                 }
             }
 
-            // in case the user has no albums
-            //if (allUserAlbums.Length == 0)
-            //{
-            //    yield return Tuple.Create(1, 1, (object)numLikes);
-            //}
             yield return Tuple.Create(1, 1, (object)numLikes);
         }
 
         public IEnumerable<Tuple<int, int, object>> GetNumberOfPhotosFriendCommented()
         {
-            int numComments = 0;
-            int totalPhotos = 0;
-
-            foreach (Album album in m_LoggedInUser.Albums)
-            {
-                totalPhotos += Math.Min((int)(album.Count ?? 0), FacebookApplication.k_MaxPhotosInAlbum);
-            }
-
+            Album[] allUserAlbums = FacebookPhotoUtils.GetAllUserAlbumsAsArray();
+            int totalPhotos = FacebookPhotoUtils.GetTotalPhotosInAlbumArray(allUserAlbums);
             int currPhoto = 0;
+            int numComments = 0;
 
             foreach (Album album in m_LoggedInUser.Albums)
             {
                 foreach (Photo photo in album.Photos)
                 {
-                    //i_ProgressBar.Value++;
                     foreach (Comment comment in photo.Comments)
                     {
                         yield return Tuple.Create(++currPhoto, totalPhotos, (object)numComments);
@@ -142,10 +122,6 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             }
 
             // if no comments are found
-            //if (numComments == 0 && m_LoggedInUser.Albums.Count == 0)
-            //{
-            //    yield return Tuple.Create(1, 1, (object)numComments);
-            //}
             yield return Tuple.Create(1, 1, (object)numComments);
         }
     }

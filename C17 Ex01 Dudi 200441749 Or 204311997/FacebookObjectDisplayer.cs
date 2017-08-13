@@ -1,4 +1,13 @@
-﻿using System;
+﻿/*
+ * C17_Ex01: FacebookObjectDisplayer.cs
+ * 
+ * Visitor class to enable displaying objects (connector between logic and UI)
+ * 
+ * Written by:
+ * 204311997 - Or Mantzur
+ * 200441749 - Dudi Yecheskel 
+*/
+using System;
 using System.Windows.Forms;
 using FacebookWrapper.ObjectModel;
 

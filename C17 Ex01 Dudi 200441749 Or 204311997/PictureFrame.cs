@@ -6,12 +6,6 @@
  * 200441749 - Dudi Yecheskel 
 */
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997
@@ -19,8 +13,9 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
     public partial class PictureFrame : Form
     {
         public PictureFrame(string i_ImageUrl)
-            : this(i_ImageUrl, String.Empty)
-        { }
+            : this(i_ImageUrl, string.Empty)
+        {
+        }
 
         public PictureFrame(string i_ImageUrl, string i_ImageTitle)
         {

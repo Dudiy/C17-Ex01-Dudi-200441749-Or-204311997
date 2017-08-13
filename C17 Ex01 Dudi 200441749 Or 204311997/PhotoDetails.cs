@@ -5,21 +5,17 @@
  * 204311997 - Or Mantzur
  * 200441749 - Dudi Yecheskel 
 */
-using FacebookWrapper.ObjectModel;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
+using FacebookWrapper.ObjectModel;
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997
 {
     public partial class PhotoDetails : Form
     {
-        Photo m_Photo;
+        private const byte k_MinNumOfCommentsForProgressBar = 5;
+        private Photo m_Photo;
+
         public PhotoDetails(Photo i_Photo)
         {
             InitializeComponent();
@@ -30,9 +26,9 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
 
         private void initDetailsPane()
         {
-            labelName.Text = String.Format("Name: {0}", m_Photo.Name);
-            labelAlbum.Text = String.Format("Album: {0}", m_Photo.Album != null ? m_Photo.Album.Name : "No Album Name");
-            labelLikes.Text = String.Format("Likes ({0}):", m_Photo.LikedBy.Count);
+            labelName.Text = string.Format("Name: {0}", m_Photo.Name ?? "No photo name");
+            labelAlbum.Text = string.Format("Album: {0}", m_Photo.Album != null ? m_Photo.Album.Name : "No Album Name");
+            labelLikes.Text = string.Format("Likes ({0}):", m_Photo.LikedBy.Count);
             initLikes();
             initComments();
         }
@@ -51,8 +47,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             int numOfComments = m_Photo.Comments.Count;
             ProgressBarWindow commentsProgressBar = null;
 
-            // TODO modify min num of comments to show progress bar
-            if (numOfComments > 5)
+            if (numOfComments > k_MinNumOfCommentsForProgressBar)
             {
                 commentsProgressBar = new ProgressBarWindow(0, numOfComments, "comments");
                 commentsProgressBar.Show();
@@ -61,6 +56,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             foreach (Comment comment in m_Photo.Comments)
             {
                 TreeNode node = new TreeNode(comment.From.Name + ": " + comment.Message + " (" + comment.LikedBy.Count.ToString() + " Likes)");
+
                 node.Tag = comment;
                 foreach (Comment innerComment in comment.Comments)
                 {
@@ -68,21 +64,19 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
                     child.Tag = innerComment;
                     node.Nodes.Add(child);
                 }
+
                 treeViewComments.Nodes.Add(node);
                 if (commentsProgressBar != null)
                 {
                     commentsProgressBar.ProgressValue++;
                 }
             }
-
-            treeViewComments.Show();
-            //TODO is refresh needed?
-            treeViewComments.Refresh();
         }
 
         private void listBoxLikes_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             User selectedUser = listBoxLikes.SelectedItem as User;
+
             if (selectedUser != null)
             {
                 PictureFrame profilePic = new PictureFrame(selectedUser.PictureLargeURL);
