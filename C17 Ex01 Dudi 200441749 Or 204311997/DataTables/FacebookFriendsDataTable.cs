@@ -33,23 +33,6 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
             }
         }
 
-        private string getMostRecentPost(User i_User)
-        {
-            StringBuilder mostRecentPostStr = new StringBuilder();
-
-            if (i_User != null && i_User.Posts.Count > 0)
-            {
-                Post mostRecentPost = i_User.Posts[0];
-                mostRecentPostStr.Append(mostRecentPost.CreatedTime);
-                if (!string.IsNullOrEmpty(mostRecentPost.Message))
-                {
-                    mostRecentPostStr.Append(String.Format(" - {0}", mostRecentPost.Message));
-                }
-            }
-
-            return mostRecentPostStr.ToString();
-        }
-
         public override void DisplayObjectDetails(object i_SelectedObject)
         {
             User friendSelected = i_SelectedObject as User;
@@ -68,5 +51,23 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
             DataTable.Columns.Add("Gender", typeof(string));
             DataTable.Columns.Add("Most Recent Post", typeof(string));
         }
+
+        private string getMostRecentPost(User i_User)
+        {
+            StringBuilder mostRecentPostStr = new StringBuilder();
+
+            if (i_User != null && i_User.Posts.Count > 0)
+            {
+                Post mostRecentPost = i_User.Posts[0];
+                mostRecentPostStr.Append(mostRecentPost.CreatedTime);
+                if (!string.IsNullOrEmpty(mostRecentPost.Message))
+                {
+                    mostRecentPostStr.Append(String.Format(" - {0}", mostRecentPost.Message));
+                }
+            }
+
+            return mostRecentPostStr.ToString();
+        }
+
     }
 }

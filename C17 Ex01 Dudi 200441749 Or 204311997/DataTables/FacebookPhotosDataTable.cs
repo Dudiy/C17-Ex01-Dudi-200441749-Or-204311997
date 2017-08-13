@@ -8,7 +8,6 @@
 using FacebookWrapper.ObjectModel;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
@@ -57,23 +56,6 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
             }
         }
 
-        private static string buildTagsString(Photo i_Photo)
-        {
-            StringBuilder photoTags = new StringBuilder();
-
-            if (i_Photo.Tags != null)
-            {
-                foreach (PhotoTag tag in i_Photo.Tags)
-                {
-                    photoTags.Append(tag.User.Name);
-                    photoTags.Append(", ");
-                }
-                photoTags.Remove(photoTags.Length - 2, 2);
-            }
-
-            return photoTags.ToString();
-        }
-
         public override void DisplayObjectDetails(object i_SelectedObject)
         {
             Photo photoSelected = i_SelectedObject as Photo;
@@ -94,5 +76,23 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997.DataTables
             DataTable.Columns.Add("Tags", typeof(string));
             DataTable.Columns.Add("URL", typeof(string));
         }
+
+        private static string buildTagsString(Photo i_Photo)
+        {
+            StringBuilder photoTags = new StringBuilder();
+
+            if (i_Photo.Tags != null)
+            {
+                foreach (PhotoTag tag in i_Photo.Tags)
+                {
+                    photoTags.Append(tag.User.Name);
+                    photoTags.Append(", ");
+                }
+                photoTags.Remove(photoTags.Length - 2, 2);
+            }
+
+            return photoTags.ToString();
+        }
+
     }
 }

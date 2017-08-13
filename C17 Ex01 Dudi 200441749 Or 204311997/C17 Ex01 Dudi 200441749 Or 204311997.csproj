@@ -63,6 +63,7 @@
     <Compile Include="DataTables\FacebookFriendsDataTable.cs" />
     <Compile Include="DataTables\FacebookLikedPagesDataTable.cs" />
     <Compile Include="DataTables\FacebookPhotosDataTable.cs" />
+    <Compile Include="FacebookObjectDisplayer.cs" />
     <Compile Include="FormLogin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -82,6 +83,7 @@
       <DependentUpon>FriendDetails.cs</DependentUpon>
     </Compile>
     <Compile Include="FriendshipAnalyzer.cs" />
+    <Compile Include="IDisplayable.cs" />
     <Compile Include="PhotoDetails.cs">
       <SubType>Form</SubType>
     </Compile>
