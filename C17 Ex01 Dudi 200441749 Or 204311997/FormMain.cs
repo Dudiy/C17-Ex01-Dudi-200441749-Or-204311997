@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using FacebookWrapper.ObjectModel;
-using C17_Ex01_Dudi_200441749_Or_204311997.DataTables;
-using System.Drawing;
-using System.ComponentModel;
 using System.IO;
 using System.Text;
+using System.Drawing;
+using System.Windows.Forms;
+using System.ComponentModel;
+using System.Collections.Generic;
+using FacebookWrapper.ObjectModel;
+using C17_Ex01_Dudi_200441749_Or_204311997.DataTables;
 
 namespace C17_Ex01_Dudi_200441749_Or_204311997
 {
@@ -14,10 +14,10 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
     {
         private const byte k_PictureBoxIncreaseSizeOnMouseHover = 20;
         private static readonly Size sr_FriendProfilePicSize = new Size(90, 90);
+        private static readonly Size sr_MinimumWindowSize = new Size(AppSettings.k_DefaultMainFormWidth, AppSettings.k_DefaultMainFormHeight);
         private FacebookDataTableManager m_DataTableManager;
         private FacebookDataTable m_DataTableBindedToView;
         private FriendshipAnalyzer m_FriendshipAnalyzer;
-        private static readonly Size sr_MinimumWindowSize = new Size(AppSettings.k_DefaultMainFormWidth, AppSettings.k_DefaultMainFormHeight);
         private string m_PostPicturePath;
         private bool m_LogoutClicked = false;
 
@@ -67,12 +67,24 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             base.OnClosing(e);
             if (!m_LogoutClicked)
             {
-                //exitSelected is set here in case the user hits the X button or alt+F4
+                // exitSelected is set here in case the user hits the X button or alt+F4
                 FacebookApplication.ExitSelected = true;
                 FacebookApplication.AppSettings.LastFormStartPosition = FormStartPosition.Manual;
                 FacebookApplication.AppSettings.LastWindowLocation = Location;
                 FacebookApplication.AppSettings.LastWindowsSize = Size;
             }
+        }
+
+        private void buttonExit_Click(object sender, EventArgs e)
+        {
+            FacebookApplication.ExitSelected = true;
+            Close();
+        }
+
+        private void buttonLogout_Click(object sender, EventArgs e)
+        {
+            m_LogoutClicked = true;
+            FacebookApplication.Logout();
         }
 
         // ================================================ About Me Tab ==============================================
@@ -118,41 +130,48 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             }
             catch
             {
-                throw new Exception("Error when loading user's friend");
+                MessageBox.Show("Error while loading user's friend");
             }
         }
 
         private void initLastPost()
         {
-            Post myLastPosts = FacebookApplication.LoggedInUser.Posts[0];
-
-            // clear pervious data
-            listBoxPostLiked.Items.Clear();
-            listBoxPostComment.Items.Clear();
-            pictureBoxLastPost.Image = null;
-            // get new data
-            if (myLastPosts != null && myLastPosts.Message != null)
+            if (FacebookApplication.LoggedInUser.Posts.Count == 0)
             {
-                textBoxLastPostMessage.Text = myLastPosts.Message;
+                MessageBox.Show("No available posts");
             }
             else
             {
-                textBoxLastPostMessage.Text = "[No post message]";
-            }
+                Post myLastPosts = FacebookApplication.LoggedInUser.Posts[0];
 
-            if (myLastPosts != null && myLastPosts.PictureURL != null)
-            {
-                pictureBoxLastPost.LoadAsync(myLastPosts.PictureURL);
-                listBoxPostLiked.DisplayMember = "Name";
-                foreach (User friendWhoLiked in myLastPosts.LikedBy)
+                // clear pervious data
+                listBoxPostLiked.Items.Clear();
+                listBoxPostComment.Items.Clear();
+                pictureBoxLastPost.Image = null;
+                // get new data
+                if (myLastPosts != null && myLastPosts.Message != null)
                 {
-                    listBoxPostLiked.Items.Add(friendWhoLiked);
+                    textBoxLastPostMessage.Text = myLastPosts.Message;
+                }
+                else
+                {
+                    textBoxLastPostMessage.Text = "[No post message]";
                 }
 
-                listBoxPostComment.DisplayMember = "Message";
-                foreach (Comment comment in myLastPosts.Comments)
+                if (myLastPosts != null && myLastPosts.PictureURL != null)
                 {
-                    listBoxPostComment.Items.Add(comment);
+                    pictureBoxLastPost.LoadAsync(myLastPosts.PictureURL);
+                    listBoxPostLiked.DisplayMember = "Name";
+                    foreach (User friendWhoLiked in myLastPosts.LikedBy)
+                    {
+                        listBoxPostLiked.Items.Add(friendWhoLiked);
+                    }
+
+                    listBoxPostComment.DisplayMember = "Message";
+                    foreach (Comment comment in myLastPosts.Comments)
+                    {
+                        listBoxPostComment.Items.Add(comment);
+                    }
                 }
             }
         }
@@ -172,7 +191,7 @@ namespace C17_Ex01_Dudi_200441749_Or_204311997
             expandPostComment(((ListBox)sender).SelectedItem as Comment);
         }
 
-        private static void expandPostComment(Comment i_Comment)
+        private void expandPostComment(Comment i_Comment)
         {
             if (i_Comment != null)
             {
@@ -211,7 +230,7 @@ i_Comment.Message);
             displayFriendDetailsInAboutMeTab(sender as PictureBox);
         }
 
-        private static void displayFriendDetailsInAboutMeTab(PictureBox i_PictureBoxSelected)
+        private void displayFriendDetailsInAboutMeTab(PictureBox i_PictureBoxSelected)
         {
             if (i_PictureBoxSelected != null)
             {
@@ -275,7 +294,7 @@ i_Comment.Message);
             }
             catch
             {
-                throw new Exception("Post status failed");
+                MessageBox.Show("Error posting status");
             }
         }
 
@@ -352,7 +371,29 @@ i_Comment.Message);
             }
             catch
             {
-                throw new Exception("Error while trying to post the photo, try again");
+                MessageBox.Show("Error while trying to post the photo, try again");
+            }
+        }
+
+        private void buttonRefreshLastPost_Click(object sender, EventArgs e)
+        {
+            refreshLastPost();
+        }
+
+        private void refreshLastPost()
+        {
+            FacebookApplication.LoggedInUser.ReFetch();
+            initLastPost();
+        }
+
+        private void pictureBoxLastPost_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            Photo photo = ((PictureBox)sender).Tag as Photo;
+
+            if (photo != null)
+            {
+                PhotoDetails photoDetails = new PhotoDetails(photo);
+                photoDetails.Show();
             }
         }
 
@@ -464,15 +505,16 @@ i_Comment.Message);
             treeViewTaggedTogether.Nodes.Clear();
             foreach (KeyValuePair<string, List<Photo>> UserPhotos in photosGroupedByOwner)
             {
-                TreeNode fromNode = new TreeNode(String.Format("Photos by {0}", UserPhotos.Value[0].From.Name));
+                TreeNode fromNode = new TreeNode(string.Format("Photos by {0}", UserPhotos.Value[0].From.Name));
 
                 fromNode.Tag = UserPhotos.Value[0].From;
                 foreach (Photo photo in UserPhotos.Value)
                 {
-                    TreeNode photoNode = new TreeNode(String.Format(
+                    TreeNode photoNode = new TreeNode(string.Format(
 @"{0} - {1}",
 photo.CreatedTime.ToString(),
-String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name));
+string.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name));
+
                     photoNode.Tag = photo;
                     fromNode.Nodes.Add(photoNode);
                 }
@@ -483,15 +525,14 @@ String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name));
 
         private void fetchPhotosOfFriendInMyPhotos()
         {
-            treeViewPhotosOfFriendInMyPhotos.Nodes.Clear();
             AlbumsSelector albumSelector = new AlbumsSelector(FacebookApplication.LoggedInUser);
             Album[] selectedAlbums = albumSelector.GetAlbumsSelection();
-
             IEnumerator<Tuple<int, int, object>> progressOfFetchData = FacebookPhotoUtils.GetPhotosByOwnerAndTags(
                 FacebookApplication.LoggedInUser, m_FriendshipAnalyzer.Friend, selectedAlbums).GetEnumerator();
             Dictionary<Album, List<Photo>> photos = (Dictionary<Album, List<Photo>>)
                 FacebookDataFetcher.FetchDataWithProgressBar(progressOfFetchData, "photos");
 
+            treeViewPhotosOfFriendInMyPhotos.Nodes.Clear();
             if (photos == null || photos.Count == 0)
             {
                 MessageBox.Show("No photos found");
@@ -500,17 +541,16 @@ String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name));
             {
                 foreach (Album album in photos.Keys)
                 {
-                    TreeNode albumNode = new TreeNode(album.Name);
-                    albumNode.Tag = album;
+                    TreeNode albumNode = new TreeNode(album.Name) { Tag = album };
 
                     foreach (Photo photo in photos[album])
                     {
-                        string photoDescription = String.Format(@"
-{0} - {1}",
-    photo.CreatedTime.ToString(),
-    String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name);
-                        TreeNode photoNode = new TreeNode(photoDescription);
-                        photoNode.Tag = photo;
+                        string photoDescription = string.Format(
+@"{0} - {1}",
+photo.CreatedTime.ToString(),
+string.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name);
+                        TreeNode photoNode = new TreeNode(photoDescription) { Tag = photo };
+
                         albumNode.Nodes.Add(photoNode);
                     }
 
@@ -523,14 +563,10 @@ String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name));
         {
             AlbumsSelector albumSelector = new AlbumsSelector(m_FriendshipAnalyzer.Friend);
             Album[] selectedAlbums = albumSelector.GetAlbumsSelection();
-
             IEnumerator<Tuple<int, int, object>> progressOfFetchData = FacebookPhotoUtils.GetPhotosByOwnerAndTags(
                 m_FriendshipAnalyzer.Friend, FacebookApplication.LoggedInUser, selectedAlbums).GetEnumerator();
             Dictionary<Album, List<Photo>> photos = (Dictionary<Album, List<Photo>>)
                 FacebookDataFetcher.FetchDataWithProgressBar(progressOfFetchData, "photos by owner and tags");
-
-            //Dictionary<Album, List<Photo>> photos =
-            //    FacebookPhotoUtils.GetPhotosByOwnerAndTags(m_FriendshipAnalyzer.Friend, FacebookApplication.LoggedInUser, selectedAlbums, progressBarPhotosOfMeInFriendsPhotos);
 
             treeViewPhotosOfFriendIAmTaggedIn.Nodes.Clear();
             if (photos == null || photos.Count == 0)
@@ -545,19 +581,18 @@ String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name));
 
                     foreach (Photo photo in photos[album])
                     {
-                        string photoDescription = String.Format(@"
-{0} - {1}",
-    photo.CreatedTime.ToString(),
-    String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name);
-                        TreeNode photoNode = new TreeNode(photoDescription);
-                        photoNode.Tag = photo;
+                        string photoDescription = string.Format(
+@"{0} - {1}",
+photo.CreatedTime.ToString(),
+string.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name);
+                        TreeNode photoNode = new TreeNode(photoDescription) { Tag = photo };
+
                         albumNode.Nodes.Add(photoNode);
                     }
 
                     treeViewPhotosOfFriendIAmTaggedIn.Nodes.Add(albumNode);
                 }
             }
-
         }
 
         private void treeViewPhotosOfFriendInMyPhotos_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -579,10 +614,6 @@ String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name));
                 PhotoDetails photoDetails = new PhotoDetails(selectedPhoto);
                 photoDetails.Show();
             }
-            else
-            {
-                //Do nothing
-            }
         }
 
         private void treeViewTaggedTogether_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -592,38 +623,47 @@ String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name));
 
         private void friendshipAnalyzerFriendsDockPhoto_MouseLeave(object sender, EventArgs e)
         {
-            increasePictureBoxSize(sender as PictureBox, -k_PictureBoxIncreaseSizeOnMouseHover);
+            PictureBox pictureBoxSelected = sender as PictureBox;
+
+            if (pictureBoxSelected != null)
+            {
+                increasePictureBoxSize(pictureBoxSelected, -k_PictureBoxIncreaseSizeOnMouseHover);
+            }
         }
 
         private void friendshipAnalyzerFriendsDockPhoto_MouseEnter(object sender, EventArgs e)
         {
-            increasePictureBoxSize(sender as PictureBox, k_PictureBoxIncreaseSizeOnMouseHover);
+            PictureBox pictureBoxSelected = sender as PictureBox;
+
+            if (pictureBoxSelected != null)
+            {
+                increasePictureBoxSize(pictureBoxSelected, k_PictureBoxIncreaseSizeOnMouseHover);
+            }
         }
 
         private void friendshipAnalyzerFriendsDockPhoto_MouseClick(object sender, MouseEventArgs e)
         {
             User friend = ((PictureBox)sender).Tag as User;
-            m_FriendshipAnalyzer.Friend = friend;
-            friendSelectionChanged();
+
+            if (friend != null)
+            {
+                m_FriendshipAnalyzer.Friend = friend;
+                friendSelectionChanged();
+            }
         }
 
         private void friendSelectionChanged()
         {
             User selectedFriend = m_FriendshipAnalyzer.Friend;
+
             panelGeneralInfo.Visible = false;
             clearAllTreeViews();
-
-            //List<Photo> taggedTogether = (List<Photo>)showProgressBarOfPhotoAnalyzer(i_ProgressOfFetchData);
-            //int numPhotosFriendLiked = m_FriendshipAnalyzer.GetNumberOfPhotosFriendLiked(progressBarAnalyzingFriendship);
-            //List<Photo> taggedTogether = (List<Photo>)showProgressBarOfPhotoAnalyzer(i_ProgressOfFetchData);
-            //int numOfPhotosFriendCommented = m_FriendshipAnalyzer.GetNumberOfPhotosFriendCommented(progressBarAnalyzingFriendship);
-
             labelFirstName.Text = selectedFriend.FirstName;
             labelLastName.Text = selectedFriend.LastName;
-            labelNumLikes.Text = String.Format("Number of times {0} liked my photos: {1}", selectedFriend.FirstName, "[no data fetched]");
-            labelNumComments.Text = String.Format("Number of times {0} commented on my photos: {1}", selectedFriend.FirstName, "[no data fetched]");
-            buttonFetchMyPhotosFriendIsIn.Text = String.Format("Fetch photos of mine {0} is in", selectedFriend.FirstName);
-            buttonFetchPhotosOfFriendIAmTaggedIn.Text = String.Format("Fetch {0}'s Photos I am Tagged in", selectedFriend.FirstName);
+            labelNumLikes.Text = string.Format("Number of times {0} liked my photos: {1}", selectedFriend.FirstName, "[no data fetched]");
+            labelNumComments.Text = string.Format("Number of times {0} commented on my photos: {1}", selectedFriend.FirstName, "[no data fetched]");
+            buttonFetchMyPhotosFriendIsIn.Text = string.Format("Fetch photos of mine {0} is in", selectedFriend.FirstName);
+            buttonFetchPhotosOfFriendIAmTaggedIn.Text = string.Format("Fetch {0}'s Photos I am Tagged in", selectedFriend.FirstName);
             panelGeneralInfo.Visible = true;
         }
 
@@ -642,25 +682,11 @@ String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name));
             i_PictureBox.Size = new Size(newWidth, newHeight);
         }
 
-        // ====================================== Buttons ==================================
         private void buttonFetchPhotosOfFriendIAmTaggedIn_Click(object sender, EventArgs e)
         {
             fetchPhotosOfMeInFriendsPhotos();
         }
 
-        private void buttonExit_Click(object sender, EventArgs e)
-        {
-            FacebookApplication.ExitSelected = true;
-            Close();
-        }
-
-        private void buttonLogout_Click(object sender, EventArgs e)
-        {
-            m_LogoutClicked = true;
-            FacebookApplication.Logout();
-        }
-
-        // ====================================== Event handlers ======================================
         private void buttonFetchTaggedTogether_Click(object sender, EventArgs e)
         {
             fetchPhotosTaggedTogether();
@@ -671,37 +697,16 @@ String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name));
             fetchPhotosOfFriendInMyPhotos();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Post lastPost = FacebookApplication.LoggedInUser.Posts[0];
-            //PhotoDetails photoDetailsForm = new PhotoDetails(lastPost.Pho);
-
-        }
-
-        private void buttonRefreshLastPost_Click(object sender, EventArgs e)
-        {
-            refreshLastPost();
-        }
-
-        private void refreshLastPost()
-        {
-            FacebookApplication.LoggedInUser.ReFetch();
-            initLastPost();
-        }
-
         private void pictureBoxMostRecentTaggedTogether_MouseClick(object sender, MouseEventArgs e)
         {
             Photo photo = ((PictureBox)sender).Tag as Photo;
+
             if (photo != null)
             {
                 PhotoDetails photoDetails = new PhotoDetails(photo);
+
                 photoDetails.Show();
             }
-        }
-
-        private void tabPageAboutMe_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void treeViewPhotosOfFriendIAmTaggedIn_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -709,40 +714,43 @@ String.IsNullOrEmpty(photo.Name) ? "[No Name]" : photo.Name));
             photoTreeViewDoubleClicked(e.Node);
         }
 
-        private void pictureBoxLastPost_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            Photo photo = ((PictureBox)sender).Tag as Photo;
-
-            if (photo != null)
-            {
-                PhotoDetails photoDetails = new PhotoDetails(photo);
-                photoDetails.Show();
-            }
-        }
-
         private void pictureBoxMostRecentTaggedTogether_MouseHover(object sender, EventArgs e)
         {
-            increasePictureBoxSize(sender as PictureBox, k_PictureBoxIncreaseSizeOnMouseHover);
+            if (sender is PictureBox)
+            {
+                increasePictureBoxSize(sender as PictureBox, k_PictureBoxIncreaseSizeOnMouseHover);
+            }
         }
 
         private void pictureBoxMostRecentTaggedTogether_MouseLeave(object sender, EventArgs e)
         {
-            increasePictureBoxSize(sender as PictureBox, -k_PictureBoxIncreaseSizeOnMouseHover);
+            if (sender is PictureBox)
+            {
+                increasePictureBoxSize(sender as PictureBox, -k_PictureBoxIncreaseSizeOnMouseHover);
+            }
         }
 
         private void buttonFetchGeneralData_Click(object sender, EventArgs e)
         {
-            IEnumerator<Tuple<int, int, object>> i_ProgressOfFetchData = m_FriendshipAnalyzer.GetNumberOfPhotosFriendLiked().GetEnumerator();
-            int numPhotosFriendLiked = (int)FacebookDataFetcher.FetchDataWithProgressBar(i_ProgressOfFetchData, "likes");
-            IEnumerator<Tuple<int, int, object>> i_ProgressOfFetchData3 = m_FriendshipAnalyzer.GetNumberOfPhotosFriendCommented().GetEnumerator();
-            int numOfPhotosFriendCommented = (int)FacebookDataFetcher.FetchDataWithProgressBar(i_ProgressOfFetchData3, "comments");
+            friendshipAnalyzerFetchGeneralData();
+        }
 
-            labelNumLikes.Text = String.Format("Number of times {0} liked my photos: {1}", m_FriendshipAnalyzer.Friend.FirstName, numPhotosFriendLiked);
-            labelNumComments.Text = String.Format("Number of times {0} commented on my photos: {1}", m_FriendshipAnalyzer.Friend.FirstName, numOfPhotosFriendCommented);
+        private void friendshipAnalyzerFetchGeneralData()
+        {
+            IEnumerator<Tuple<int, int, object>> progressOfFetchData;
+            int numPhotosFriendLiked, numOfPhotosFriendCommented;
 
-            IEnumerator<Tuple<int, int, object>> i_ProgressOfFetchData2 = m_FriendshipAnalyzer.FetchPhotosTaggedTogether().GetEnumerator();
-            List<Photo> taggedTogether = (List<Photo>)FacebookDataFetcher.FetchDataWithProgressBar(i_ProgressOfFetchData2, "photos tagged together");
-
+            // count likes
+            progressOfFetchData = m_FriendshipAnalyzer.GetNumberOfPhotosFriendLiked().GetEnumerator();
+            numPhotosFriendLiked = (int)FacebookDataFetcher.FetchDataWithProgressBar(progressOfFetchData, "likes");
+            labelNumLikes.Text = string.Format("Number of times {0} liked my photos: {1}", m_FriendshipAnalyzer.Friend.FirstName, numPhotosFriendLiked);
+            // count comments
+            progressOfFetchData = m_FriendshipAnalyzer.GetNumberOfPhotosFriendCommented().GetEnumerator();
+            numOfPhotosFriendCommented = (int)FacebookDataFetcher.FetchDataWithProgressBar(progressOfFetchData, "comments");
+            labelNumComments.Text = string.Format("Number of times {0} commented on my photos: {1}", m_FriendshipAnalyzer.Friend.FirstName, numOfPhotosFriendCommented);
+            // get most recent tagged together
+            progressOfFetchData = m_FriendshipAnalyzer.FetchPhotosTaggedTogether().GetEnumerator();
+            List<Photo> taggedTogether = (List<Photo>)FacebookDataFetcher.FetchDataWithProgressBar(progressOfFetchData, "photos tagged together");
             Photo mostRecentTaggedTogether = m_FriendshipAnalyzer.GetMostRecentPhotoTaggedTogether(taggedTogether);
             if (mostRecentTaggedTogether != null)
             {
